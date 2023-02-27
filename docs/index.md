@@ -110,3 +110,7 @@ def producer_task(conn):
 任何命令行输入或输出都写成如下：
 
 **`$celery –A tasks –Q sqrt_queue,fibo_queue,webcrawler_queue worker --loglevel=info`**
+
+## 英文原文
+
+参考: [Parallel Programming with Python](./files/Parallel%20Programming%20with%20Python.pdf){target="_blank"}

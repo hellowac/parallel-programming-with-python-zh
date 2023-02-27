@@ -12,6 +12,7 @@ theme:
     # - navigation.tabs # 顶部导航
     # - navigation.sections # 全部展开(非折叠状态)
     # - navigation.expand # 子目录展开
+    - navigation.indexes # 带章节索引页
     - navigation.top  # 返回顶部按钮
     - toc.follow
 
@@ -62,4 +63,62 @@ extra_javascript:
 
 # 页面导航
 nav:
-  - 首页: index.md
+  - python并发编程: index.md
+  - 第一章 并行、并发以及分布式编程的对比分析:
+    - chapter1/index.md
+    - 为什么使用并行编程: chapter1/why_use_parallel_programming.md
+    - 探索并行化的几种方式: chapter1/exploring_common_forms_of_parallelization.md
+    - 并行编程间的通信: chapter1/communicating_in_parallel_programming.md
+    - 识别并行编程的问题: chapter1/identifying_parallel_programming_problems.md
+    - 发现Python并行编程的工具: chapter1/discovering_Pythons_parallel_programming_tools.md
+    - 小心PythonGIL: chapter1/the_parallel_python_module.md
+    - 小结: chapter1/summary.md
+  - 第二章 设计并行算法:
+    - chapter2/index.md
+    - 分治技术: chapter2/分治技术.md
+    - 使用数据分解: chapter2/使用数据分解.md
+    - 用管道分解任务: chapter2/用管道分解任务.md
+    - 处理和映射: chapter2/处理和映射.md
+    - 小结: chapter2/总结.md
+  - 第三章 设计并行算法:
+    - chapter2/index.md
+    - 识别一个并行化的问题: chapter3/识别一个并行化的问题.md
+    - 从多个输入中得到斐波那契最大的值: chapter3/从多个输入中得到斐波那契最大的值.md
+    - 爬取网页: chapter3/爬取网页.md
+    - 小结: chapter3/总结.md
+  - 第四章 使用threading和concurrent.futures模块:
+    - chapter4/index.md
+    - 什么是线程: chapter4/什么是线程.md
+    - 使用threading模块来为多个输入同时计算Fibonacci序列: chapter4/使用threading模块解决斐波那契序列多输入问题.md
+    - 使用concurrent.futures模块爬取web信息: chapter4/使用concurrent_futures模块爬取web信息.md
+    - 小结: chapter4/总结.md
+  - 第五章 使用多进程和进程池:
+    - chapter5/index.md
+    - 理解进程的概念: chapter5/理解进程的定义.md
+    - 理解多进程通信: chapter5/实现多进程间通信.md
+    - 使用多进程解决斐波那契数列多输入问题: chapter5/使用多进程解决斐波那契序列多输入问题.md
+    - 使用ProcessPoolExecutor模块设计网络爬虫: chapter5/使用进程池实现网络爬虫.md
+    - 小结: chapter5/总结.md
+  - 第六章 使用并行 Python:
+    - chapter6/index.md
+    - 理解进程间通信: chapter6/理解进程间通信.md
+    - 了解Parallel Python(PP): chapter6/了解pp模块.md
+    - 在SMP架构上使用PP计算斐波那契序列: chapter6/在SMP架构上使用pp模块计算斐波那契序列.md
+    - 使用PP创建分布式的网络爬虫: chapter6/使用pp模块创建分布式网络爬虫.md
+    - 小结: chapter6/总结.md
+  - 第七章 使用Celery分发任务:
+    - chapter7/index.md
+    - 理解 Celery: chapter7/理解Celery.md
+    - 理解 Celery 的架构: chapter7/理解Celery架构.md
+    - 建立环境: chapter7/建立环境.md
+    - 分派一个简单的任务: chapter7/分发简单任务.md
+    - 使用 Celery 获取斐波那契数列项: chapter7/用Celery来获得斐波那契数列的项.md
+    - 根据任务类型定义队列: chapter7/根据任务类型定义队列.md
+    - 使用 Celery 制作分布式网络爬虫: chapter7/用Celery来构建一个分布式网络爬虫系统.md
+    - 小结: chapter7/总结.md
+  - 第八章 异步编程:
+    - chapter8/index.md
+    - 理解阻塞非阻塞和异步操作: chapter8/理解阻塞非阻塞和异步操作.md
+    - 理解事件循环: chapter8/理解事件循环.md
+    - 使用asyncio: chapter8/使用asyncio.md
+    - 小结: chapter8/总结.md

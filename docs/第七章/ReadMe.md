@@ -1,1 +1,0 @@
-##Distributing Tasks with Celery
