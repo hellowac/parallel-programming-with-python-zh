@@ -10,4 +10,4 @@
 
 ## 在线阅读
 
-阅读: [https://hellowac.](https://hellowac.github.io/parallel-programming-with-python-zh/)
+阅读: [python并发编程-zh](https://hellowac.github.io/parallel-programming-with-python-zh/)
