@@ -1,4 +1,6 @@
 site_name: python并发编程-中文版
+repo_url: https://github.com/hellowac/parallel-programming-with-python-zh/tree/docs
+repo_name: hellowac/parallel-programming-with-python-zh
 
 # 配置主题，在mkdocs.yml文件下
 theme:
@@ -81,8 +83,7 @@ nav:
     - 处理和映射: chapter2/处理和映射.md
     - 小结: chapter2/总结.md
   - 第三章 设计并行算法:
-    - chapter2/index.md
-    - 识别一个并行化的问题: chapter3/识别一个并行化的问题.md
+    - chapter3/index.md
     - 从多个输入中得到斐波那契最大的值: chapter3/从多个输入中得到斐波那契最大的值.md
     - 爬取网页: chapter3/爬取网页.md
     - 小结: chapter3/总结.md

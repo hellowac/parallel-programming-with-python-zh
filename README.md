@@ -1,17 +1,12 @@
-# Parallel-Programming-with-Python
+# 使用python并发编程
 
-Parallel Programming with Python,a book about parallel in python,We will translate it  into Chinese.
+这是我在学习python的路上，在github上淘到的一本电子书，虽然出版时间有点久了，但知识是无价的，并且较新的技术或理念也是在原有知识基础上发展起来的。
 
-话说在ICT实习的时期，因感兴趣于Python，于是和两位朋友 [@tanghaodong25](https://github.com/tanghaodong25) 以及 [@gorlf](https://github.com/gorlf) 商量翻译一本Python相关的书籍，挑来选去感觉Parallel Programming with Python比较赞，于是拍板翻译之，另外感谢[@lujun9972](https://github.com/lujun9972)的加入，由于平时开发比较忙加上比较懒，耗时几个月才完成~  
+在参考原文的基础上，完善了原仓库中部分对python编程术语的描述，以及补充了部分图表截图等等，主要如下：
 
-## Contributors
-
-* [@尐鱼](https://github.com/Voidly)
-* [@tanghaodong25](https://github.com/tanghaodong25)
-* [@gorlf](https://github.com/gorlf)
-* [@lujun9972](https://github.com/lujun9972)
-
-另外因水平有限，翻译中难免有所疏漏与瑕疵，欢迎指出，欢迎吐槽~若要进行转载请注明作者，毕竟翻译也是很花费时间与精力的不是，所以请尊重我们的劳动成果~
+1. 完善了部分章节的翻译描述。
+2. 补充了部分章节的截图。
+3. 使用python的mkdocs工具文档化了电子书，并且利用github pages 发布出来方便复习和分享。
 
 ## 在线阅读
 
