@@ -7,9 +7,9 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="../%E4%BD%BF%E7%94%A8asyncio/" rel="prev"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
 <title>小结 - python并发编程-中文版</title>
-<link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -210,7 +210,7 @@
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter2/">第三章 设计并行算法</a>
+<a href="../../chapter3/">第三章 设计并行算法</a>
 <label for="__nav_4">
 <span class="md-nav__icon md-icon"></span>
 </label>
@@ -476,10 +476,11 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="_1">小结</h1>
-<p>在本章节，我们学习了异步、阻塞、非阻塞编程。为了了解这些行为，我们使用asyncio模块的基本机制写了一些例子。</p>
-<p><code>asyncio</code>模块是对python异步编程进行革命的一个尝试。吉多范罗苏姆在探索性选择和提取基本机制为这些选择提供清晰的API方面非常成功。<code>yield from</code>语法产生是为了增强一些使用协程的程序的表现力，使程序员免去写回调函数的负担。除此之外，<code>asyncio</code>模块拥有与其它应用程序集成的能力。</p>
+<p>在本章节，我们学习了异步、阻塞、非阻塞编程。为了了解这些行为，我们使用<code>asyncio</code>模块的基本机制写了一些例子。</p>
+<p><code>asyncio</code>模块是对<code>python</code>异步编程进行革命的一个尝试。Guido Van Rossum 在探索性选择和提取基本机制为这些选择提供清晰的API方面非常成功。<code>yield from</code>语法产生是为了增强一些使用协程的程序的表现力，使程序员免去写回调函数的负担。除此之外，<code>asyncio</code>模块拥有与其它应用程序集成的能力。</p>
 <p>快到本书的结束了，写这本书还是很有挑战性的，希望它对你有所帮助。本书中有很多东西没有介绍，比如 <code>IPython</code>, <code>mpi4py</code>, <code>Greenlets</code>, <code>Eventlets</code>, 等等。</p>
 <p>基于本书提供的内容，你可以自己做实验比较不同的工具。几乎在本书的每一个章节都用了两个相关例子来介绍，这也说明了Python可以在不改变核心代码的基础上灵活的替换不同的工具。</p>
+<p>我们已经学习了一些全局解释器锁 (<strong>GIL</strong>) 和一些绕过 <strong>GIL</strong> 副作用的变通方法。 相信主要的 Python 实现（<strong>CPython</strong>）不会解决与 <strong>GIL</strong> 相关的问题； 只有未来才能揭示这一点。 <strong>GIL</strong> 是 <strong>Python</strong> 社区中一个困难且反复出现的话题。 另一方面，我们有 <strong>PyPy</strong> 实现，它带来了 <strong>JIT</strong> 和其他性能改进。 如今，<strong>PyPy</strong> 团队正在尝试将软件事务内存 (<strong>STM</strong>) 用于 <strong>PyPy</strong>，旨在移除 <strong>GIL</strong>。</p>
 <hr/>
 <div class="md-source-file">
 <small>

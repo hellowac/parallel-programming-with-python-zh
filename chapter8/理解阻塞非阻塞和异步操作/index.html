@@ -8,9 +8,9 @@
 <link href="../" rel="prev"/>
 <link href="../%E7%90%86%E8%A7%A3%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
 <title>理解阻塞非阻塞和异步操作 - python并发编程-中文版</title>
-<link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -211,7 +211,7 @@
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter2/">第三章 设计并行算法</a>
+<a href="../../chapter3/">第三章 设计并行算法</a>
 <label for="__nav_4">
 <span class="md-nav__icon md-icon"></span>
 </label>
@@ -525,18 +525,22 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="_1">理解阻塞非阻塞和异步操作</h1>
-<p>理解任务执行的不同方式对于构建一个可伸缩的解决方案非常重要。正确的运用异步、阻塞和非阻塞操作能大大改善系统的响应时间。</p>
+<p>了解任务执行的不同方法对于建模和构思可扩展的解决方案极为重要。 了解何时使用<strong>异步</strong>、<strong>阻塞</strong>和<strong>非阻塞</strong>操作可以对系统的响应时间产生巨大的影响。</p>
 <h2 id="_2">理解阻塞操作</h2>
-<p>可以用银行职员服务客户的例子来看阻塞操作。当轮到客户的号码时，银行职员就只为该客户服务直到服务完成。银行职员不能同时为多个客户办理业务。当只有2名银行职员但是每小时来100名顾客时，进度就会很缓慢。这个例子就描述了阻塞操作，当一个任务要等待另一个任务结束时，阻塞其对资源的访问。</p>
-<h2 id="_3">理解非阻塞操作</h2>
-<p>非阻塞操作和异步操作很容易混淆，它们是不同的概念。用一个现实的场景来说明，比如你去银行咨询一个业务，银行职员说现在还没有结果，你稍后再来或者过几天再来。这就是非阻塞操作。</p>
+<p>在阻塞操作的情况下，我们用在银行柜台接待客户的情境来举例子。 当呼叫特定客户的号码时，收银员的所有注意力都集中在这个特定的客户身上。 在满足当前特定客户的需求之前，收银员不能同时接待另一个客户。 现在，考虑到这一点，想象一家只有两名收银员的银行机构，当每小时有 100 名顾客涌入时； 然后我们就会面临一个处理流程的问题。 这个例子说明了处理的阻塞操作，当一个任务需要等待另一个任务结束时，阻塞了其对资源的访问。</p>
 <div class="admonition info">
-<p>非阻塞和阻塞的概念相对应，指在不能立刻得到结果之前，该函数不会阻塞当前线程，而会立刻返回，之后再<code>retry</code>。</p>
+<p>在处理阻塞操作时，请求者阻塞结果直到它的请求被完成。</p>
+</div>
+<h2 id="_3">理解非阻塞操作</h2>
+<p>一般情况下很容易将非阻塞操作与异步操作混淆； 但是，它们是不同的概念，但他们却可以很好地协同工作，并且经常以这种方式使用。 让我们再用一个现实世界的情境来说明这种情况。 回到银行情境中，想象一下，在等待服务的客户中，有一个客户X需要提取一笔收益，但是暂时没有收益。 同时收银员不会拒绝对其他客户的服务，直到可以提取收益为止，而只是向客户 X 发出信号，让他在另一个时间或另一个日期再来。</p>
+<div class="admonition info">
+<p>非阻塞操作是这样一种操作，它在出现<strong>最小阻塞信号</strong>时返回一个<strong>控制代码</strong>或<strong>异常</strong>，告诉请求者稍后重试。</p>
 </div>
 <h2 id="_4">理解异步操作</h2>
-<p>假设有两个银行职员，每个职员有10个助理。这时，如果来了一个客户，他需要办理的业务耗时比较长，那么就请一个助理到后台单独为该客户服务。这样就不会阻塞其他客户。</p>
+<p>回到银行机构的例子，设想每个出职员有10个助手来执行需要较长时间的任务；现在考虑我们的机构有两个职员，每个人有10个助手。随着客户的到来，如果客户X有一个可能无限期阻塞队列的请求，这个请求就会被派给一个助理，这个助理会在后台做这个工作，当客户X的答案准备好了，就会直接找他，这样职员就可以腾出手来处理后面客户的请求，而不必阻塞前面的客户的需求了。</p>
 <div class="admonition info">
-<p>注册一个回调函数，当条件满足时会触发该函数。</p>
+<p>异步操作通过<strong>回调</strong>、<strong>协程</strong>等机制通知请求结束。</p>
+<p><strong>回调函数</strong>是在特定条件发生时调用的函数。它通常用于处理异步执行的结果。</p>
 </div>
 <hr/>
 <div class="md-source-file">

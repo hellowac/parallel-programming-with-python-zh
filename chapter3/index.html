@@ -5,16 +5,18 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
-<title>ReadMe - python并发编程-中文版</title>
-<link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
-<link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
+<link href="../chapter2/%E6%80%BB%E7%BB%93/" rel="prev"/>
+<link href="%E4%BB%8E%E5%A4%9A%E4%B8%AA%E8%BE%93%E5%85%A5%E4%B8%AD%E5%BE%97%E5%88%B0%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%9C%80%E5%A4%A7%E7%9A%84%E5%80%BC/" rel="next"/>
+<link href="../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
+<title>识别一个可并行的问题 - python并发编程-中文版</title>
+<link href="../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
 <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-<link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -25,13 +27,13 @@
                 body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
                 body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
                 body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-                </style><script src="../../assets/javascripts/glightbox.min.js"></script></head>
+                </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
 <body data-md-color-accent="red" data-md-color-primary="default" data-md-color-scheme="default" dir="ltr">
 <input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#identifying-a-parallelizable-problem">
+<a class="md-skip" href="#_1">
           跳转至
         </a>
 </div>
@@ -39,7 +41,7 @@
 </div>
 <header class="md-header" data-md-component="header">
 <nav aria-label="页眉" class="md-header__inner md-grid">
-<a aria-label="python并发编程-中文版" class="md-header__button md-logo" data-md-component="logo" href="../.." title="python并发编程-中文版">
+<a aria-label="python并发编程-中文版" class="md-header__button md-logo" data-md-component="logo" href=".." title="python并发编程-中文版">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
 </a>
 <label class="md-header__button md-icon" for="__drawer">
@@ -55,7 +57,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              ReadMe
+              识别一个可并行的问题
             
           </span>
 </div>
@@ -101,21 +103,21 @@
 <div class="md-sidebar__inner">
 <nav aria-label="导航栏" class="md-nav md-nav--primary" data-md-level="0">
 <label class="md-nav__title" for="__drawer">
-<a aria-label="python并发编程-中文版" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="python并发编程-中文版">
+<a aria-label="python并发编程-中文版" class="md-nav__button md-logo" data-md-component="logo" href=".." title="python并发编程-中文版">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
 </a>
     python并发编程-中文版
   </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../..">
+<a class="md-nav__link" href="..">
         python并发编程
       </a>
 </li>
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter1/">第一章 并行、并发以及分布式编程的对比分析</a>
+<a href="../chapter1/">第一章 并行、并发以及分布式编程的对比分析</a>
 <label for="__nav_2">
 <span class="md-nav__icon md-icon"></span>
 </label>
@@ -127,37 +129,37 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/why_use_parallel_programming/">
+<a class="md-nav__link" href="../chapter1/why_use_parallel_programming/">
         为什么使用并行编程
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/exploring_common_forms_of_parallelization/">
+<a class="md-nav__link" href="../chapter1/exploring_common_forms_of_parallelization/">
         探索并行化的几种方式
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/communicating_in_parallel_programming/">
+<a class="md-nav__link" href="../chapter1/communicating_in_parallel_programming/">
         并行编程间的通信
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/identifying_parallel_programming_problems/">
+<a class="md-nav__link" href="../chapter1/identifying_parallel_programming_problems/">
         识别并行编程的问题
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/discovering_Pythons_parallel_programming_tools/">
+<a class="md-nav__link" href="../chapter1/discovering_Pythons_parallel_programming_tools/">
         发现Python并行编程的工具
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/the_parallel_python_module/">
+<a class="md-nav__link" href="../chapter1/the_parallel_python_module/">
         小心PythonGIL
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/summary/">
+<a class="md-nav__link" href="../chapter1/summary/">
         小结
       </a>
 </li>
@@ -167,7 +169,7 @@
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter2/">第二章 设计并行算法</a>
+<a href="../chapter2/">第二章 设计并行算法</a>
 <label for="__nav_3">
 <span class="md-nav__icon md-icon"></span>
 </label>
@@ -179,64 +181,64 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter2/%E5%88%86%E6%B2%BB%E6%8A%80%E6%9C%AF/">
+<a class="md-nav__link" href="../chapter2/%E5%88%86%E6%B2%BB%E6%8A%80%E6%9C%AF/">
         分治技术
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter2/%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%88%86%E8%A7%A3/">
+<a class="md-nav__link" href="../chapter2/%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%88%86%E8%A7%A3/">
         使用数据分解
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter2/%E7%94%A8%E7%AE%A1%E9%81%93%E5%88%86%E8%A7%A3%E4%BB%BB%E5%8A%A1/">
+<a class="md-nav__link" href="../chapter2/%E7%94%A8%E7%AE%A1%E9%81%93%E5%88%86%E8%A7%A3%E4%BB%BB%E5%8A%A1/">
         用管道分解任务
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter2/%E5%A4%84%E7%90%86%E5%92%8C%E6%98%A0%E5%B0%84/">
+<a class="md-nav__link" href="../chapter2/%E5%A4%84%E7%90%86%E5%92%8C%E6%98%A0%E5%B0%84/">
         处理和映射
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter2/%E6%80%BB%E7%BB%93/">
+<a class="md-nav__link" href="../chapter2/%E6%80%BB%E7%BB%93/">
         小结
       </a>
 </li>
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
-<div class="md-nav__link md-nav__link--index">
-<a href="../../chapter2/">第三章 设计并行算法</a>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__link--index md-nav__link--active">
+<a href="./">第三章 设计并行算法</a>
 <label for="__nav_4">
 <span class="md-nav__icon md-icon"></span>
 </label>
 </div>
-<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="true" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_4">
 <span class="md-nav__icon md-icon"></span>
           第三章 设计并行算法
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../识别一个并行化的问题.md">
+<a class="md-nav__link" href="识别一个并行化的问题.md">
         识别一个并行化的问题
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E4%BB%8E%E5%A4%9A%E4%B8%AA%E8%BE%93%E5%85%A5%E4%B8%AD%E5%BE%97%E5%88%B0%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%9C%80%E5%A4%A7%E7%9A%84%E5%80%BC/">
+<a class="md-nav__link" href="%E4%BB%8E%E5%A4%9A%E4%B8%AA%E8%BE%93%E5%85%A5%E4%B8%AD%E5%BE%97%E5%88%B0%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%9C%80%E5%A4%A7%E7%9A%84%E5%80%BC/">
         从多个输入中得到斐波那契最大的值
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%88%AC%E5%8F%96%E7%BD%91%E9%A1%B5/">
+<a class="md-nav__link" href="%E7%88%AC%E5%8F%96%E7%BD%91%E9%A1%B5/">
         爬取网页
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E6%80%BB%E7%BB%93/">
+<a class="md-nav__link" href="%E6%80%BB%E7%BB%93/">
         小结
       </a>
 </li>
@@ -246,7 +248,7 @@
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter4/">第四章 使用threading和concurrent.futures模块</a>
+<a href="../chapter4/">第四章 使用threading和concurrent.futures模块</a>
 <label for="__nav_5">
 <span class="md-nav__icon md-icon"></span>
 </label>
@@ -258,22 +260,22 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter4/%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%BF%E7%A8%8B/">
+<a class="md-nav__link" href="../chapter4/%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%BF%E7%A8%8B/">
         什么是线程
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter4/%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E8%A7%A3%E5%86%B3%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97%E5%A4%9A%E8%BE%93%E5%85%A5%E9%97%AE%E9%A2%98/">
+<a class="md-nav__link" href="../chapter4/%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E8%A7%A3%E5%86%B3%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97%E5%A4%9A%E8%BE%93%E5%85%A5%E9%97%AE%E9%A2%98/">
         使用threading模块来为多个输入同时计算Fibonacci序列
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter4/%E4%BD%BF%E7%94%A8concurrent_futures%E6%A8%A1%E5%9D%97%E7%88%AC%E5%8F%96web%E4%BF%A1%E6%81%AF/">
+<a class="md-nav__link" href="../chapter4/%E4%BD%BF%E7%94%A8concurrent_futures%E6%A8%A1%E5%9D%97%E7%88%AC%E5%8F%96web%E4%BF%A1%E6%81%AF/">
         使用concurrent.futures模块爬取web信息
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter4/%E6%80%BB%E7%BB%93/">
+<a class="md-nav__link" href="../chapter4/%E6%80%BB%E7%BB%93/">
         小结
       </a>
 </li>
@@ -283,7 +285,7 @@
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter5/">第五章 使用多进程和进程池</a>
+<a href="../chapter5/">第五章 使用多进程和进程池</a>
 <label for="__nav_6">
 <span class="md-nav__icon md-icon"></span>
 </label>
@@ -295,27 +297,27 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter5/%E7%90%86%E8%A7%A3%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%AE%9A%E4%B9%89/">
+<a class="md-nav__link" href="../chapter5/%E7%90%86%E8%A7%A3%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%AE%9A%E4%B9%89/">
         理解进程的概念
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter5/%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">
+<a class="md-nav__link" href="../chapter5/%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">
         理解多进程通信
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter5/%E4%BD%BF%E7%94%A8%E5%A4%9A%E8%BF%9B%E7%A8%8B%E8%A7%A3%E5%86%B3%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97%E5%A4%9A%E8%BE%93%E5%85%A5%E9%97%AE%E9%A2%98/">
+<a class="md-nav__link" href="../chapter5/%E4%BD%BF%E7%94%A8%E5%A4%9A%E8%BF%9B%E7%A8%8B%E8%A7%A3%E5%86%B3%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97%E5%A4%9A%E8%BE%93%E5%85%A5%E9%97%AE%E9%A2%98/">
         使用多进程解决斐波那契数列多输入问题
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter5/%E4%BD%BF%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/">
+<a class="md-nav__link" href="../chapter5/%E4%BD%BF%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/">
         使用ProcessPoolExecutor模块设计网络爬虫
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter5/%E6%80%BB%E7%BB%93/">
+<a class="md-nav__link" href="../chapter5/%E6%80%BB%E7%BB%93/">
         小结
       </a>
 </li>
@@ -325,7 +327,7 @@
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter6/">第六章 使用并行 Python</a>
+<a href="../chapter6/">第六章 使用并行 Python</a>
 <label for="__nav_7">
 <span class="md-nav__icon md-icon"></span>
 </label>
@@ -337,27 +339,27 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/%E7%90%86%E8%A7%A3%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">
+<a class="md-nav__link" href="../chapter6/%E7%90%86%E8%A7%A3%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">
         理解进程间通信
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/%E4%BA%86%E8%A7%A3pp%E6%A8%A1%E5%9D%97/">
+<a class="md-nav__link" href="../chapter6/%E4%BA%86%E8%A7%A3pp%E6%A8%A1%E5%9D%97/">
         了解Parallel Python(PP)
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/%E5%9C%A8SMP%E6%9E%B6%E6%9E%84%E4%B8%8A%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E8%AE%A1%E7%AE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97/">
+<a class="md-nav__link" href="../chapter6/%E5%9C%A8SMP%E6%9E%B6%E6%9E%84%E4%B8%8A%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E8%AE%A1%E7%AE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97/">
         在SMP架构上使用PP计算斐波那契序列
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E5%88%9B%E5%BB%BA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/">
+<a class="md-nav__link" href="../chapter6/%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E5%88%9B%E5%BB%BA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/">
         使用PP创建分布式的网络爬虫
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/%E6%80%BB%E7%BB%93/">
+<a class="md-nav__link" href="../chapter6/%E6%80%BB%E7%BB%93/">
         小结
       </a>
 </li>
@@ -367,7 +369,7 @@
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter7/">第七章 使用Celery分发任务</a>
+<a href="../chapter7/">第七章 使用Celery分发任务</a>
 <label for="__nav_8">
 <span class="md-nav__icon md-icon"></span>
 </label>
@@ -379,42 +381,42 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E7%90%86%E8%A7%A3Celery/">
+<a class="md-nav__link" href="../chapter7/%E7%90%86%E8%A7%A3Celery/">
         理解 Celery
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E7%90%86%E8%A7%A3Celery%E6%9E%B6%E6%9E%84/">
+<a class="md-nav__link" href="../chapter7/%E7%90%86%E8%A7%A3Celery%E6%9E%B6%E6%9E%84/">
         理解 Celery 的架构
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E5%BB%BA%E7%AB%8B%E7%8E%AF%E5%A2%83/">
+<a class="md-nav__link" href="../chapter7/%E5%BB%BA%E7%AB%8B%E7%8E%AF%E5%A2%83/">
         建立环境
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E5%88%86%E5%8F%91%E7%AE%80%E5%8D%95%E4%BB%BB%E5%8A%A1/">
+<a class="md-nav__link" href="../chapter7/%E5%88%86%E5%8F%91%E7%AE%80%E5%8D%95%E4%BB%BB%E5%8A%A1/">
         分派一个简单的任务
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E7%94%A8Celery%E6%9D%A5%E8%8E%B7%E5%BE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%9A%84%E9%A1%B9/">
+<a class="md-nav__link" href="../chapter7/%E7%94%A8Celery%E6%9D%A5%E8%8E%B7%E5%BE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%9A%84%E9%A1%B9/">
         使用 Celery 获取斐波那契数列项
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E6%A0%B9%E6%8D%AE%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E9%98%9F%E5%88%97/">
+<a class="md-nav__link" href="../chapter7/%E6%A0%B9%E6%8D%AE%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E9%98%9F%E5%88%97/">
         根据任务类型定义队列
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E7%94%A8Celery%E6%9D%A5%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%B3%BB%E7%BB%9F/">
+<a class="md-nav__link" href="../chapter7/%E7%94%A8Celery%E6%9D%A5%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%B3%BB%E7%BB%9F/">
         使用 Celery 制作分布式网络爬虫
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E6%80%BB%E7%BB%93/">
+<a class="md-nav__link" href="../chapter7/%E6%80%BB%E7%BB%93/">
         小结
       </a>
 </li>
@@ -424,7 +426,7 @@
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_9" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter8/">第八章 异步编程</a>
+<a href="../chapter8/">第八章 异步编程</a>
 <label for="__nav_9">
 <span class="md-nav__icon md-icon"></span>
 </label>
@@ -436,22 +438,22 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter8/%E7%90%86%E8%A7%A3%E9%98%BB%E5%A1%9E%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%92%8C%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C/">
+<a class="md-nav__link" href="../chapter8/%E7%90%86%E8%A7%A3%E9%98%BB%E5%A1%9E%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%92%8C%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C/">
         理解阻塞非阻塞和异步操作
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter8/%E7%90%86%E8%A7%A3%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/">
+<a class="md-nav__link" href="../chapter8/%E7%90%86%E8%A7%A3%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/">
         理解事件循环
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter8/%E4%BD%BF%E7%94%A8asyncio/">
+<a class="md-nav__link" href="../chapter8/%E4%BD%BF%E7%94%A8asyncio/">
         使用asyncio
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter8/%E6%80%BB%E7%BB%93/">
+<a class="md-nav__link" href="../chapter8/%E6%80%BB%E7%BB%93/">
         小结
       </a>
 </li>
@@ -467,30 +469,18 @@
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
 <nav aria-label="目录" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#identifying-a-parallelizable-problem">
-    Identifying a Parallelizable Problem
-  </a>
-</li>
-</ul>
 </nav>
 </div>
 </div>
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1>ReadMe</h1>
-<h2 id="identifying-a-parallelizable-problem">Identifying a Parallelizable Problem</h2>
+<h1 id="_1">识别一个可并行的问题</h1>
+<p>前一章我们从不同角度探讨了并行方面的一些问题。现在我们将分析一些具体的问题，这些将在具体实现时自始至终会对我们有指导的作用。</p>
+<p>这个章节包含以下的议题：</p>
 <ul>
-<li>识别一个并行化的问题</li>
-<li>从多个输入中得到斐波那契最大的值</li>
-<li>爬取网页</li>
-<li>小结</li>
+<li>获得有多个输入的斐波那契最高的值</li>
+<li>网页爬虫</li>
 </ul>
 <hr/>
 <div class="md-source-file">
@@ -500,7 +490,7 @@
       <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2015年1月31日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
 </small>
 </div>
 </article>
@@ -529,9 +519,9 @@
 <div class="md-dialog" data-md-component="dialog">
 <div class="md-dialog__inner md-typeset"></div>
 </div>
-<script id="__config" type="application/json">{"base": "../..", "features": ["navigation.indexes", "navigation.top", "toc.follow"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
-<script src="../../assets/javascripts/bundle.2a6f1dda.min.js"></script>
-<script src="../../javascripts/mathjax.js"></script>
+<script id="__config" type="application/json">{"base": "..", "features": ["navigation.indexes", "navigation.top", "toc.follow"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+<script src="../assets/javascripts/bundle.2a6f1dda.min.js"></script>
+<script src="../javascripts/mathjax.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <script src="https://unpkg.com/mermaid@9.4.0/dist/mermaid.min.js"></script>

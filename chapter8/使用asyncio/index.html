@@ -8,9 +8,9 @@
 <link href="../%E7%90%86%E8%A7%A3%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" rel="prev"/>
 <link href="../%E6%80%BB%E7%BB%93/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
 <title>使用asyncio - python并发编程-中文版</title>
-<link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -211,7 +211,7 @@
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter2/">第三章 设计并行算法</a>
+<a href="../../chapter3/">第三章 设计并行算法</a>
 <label for="__nav_4">
 <span class="md-nav__icon md-icon"></span>
 </label>
@@ -463,11 +463,10 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#coroutinesrutures">
-    理解coroutines和rutures
+<a class="md-nav__link" href="#coroutinesfutures">
+    理解coroutines和futures
   </a>
-<nav aria-label="理解coroutines和rutures" class="md-nav">
-<ul class="md-nav__list">
+</li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#coroutineasynciofuture">
     使用coroutine和asyncio.Future
@@ -480,11 +479,8 @@
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#asyncio_1">
-    使用和asyncio不兼容的库
+    使用与asyncio不兼容的库
   </a>
-</li>
-</ul>
-</nav>
 </li>
 </ul>
 </nav>
@@ -512,11 +508,10 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#coroutinesrutures">
-    理解coroutines和rutures
+<a class="md-nav__link" href="#coroutinesfutures">
+    理解coroutines和futures
   </a>
-<nav aria-label="理解coroutines和rutures" class="md-nav">
-<ul class="md-nav__list">
+</li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#coroutineasynciofuture">
     使用coroutine和asyncio.Future
@@ -529,11 +524,8 @@
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#asyncio_1">
-    使用和asyncio不兼容的库
+    使用与asyncio不兼容的库
   </a>
-</li>
-</ul>
-</nav>
 </li>
 </ul>
 </nav>
@@ -543,22 +535,25 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="asyncio">使用asyncio</h1>
-<p>我们可以定义<code>asyncio</code>是一个Python中驱动异步编程的模块。ayncio模块使用下列组合来实现异步编程：</p>
+<p>我们可以将 <code>asyncio</code> 定义为一个模块，用于重启 Python 中的异步编程。 <code>asyncio</code> 模块允许使用以下元素的组合来实现异步编程：</p>
 <ul>
-<li><strong>Event loop</strong>: asyncio模块允许每个进程一个事件循环。</li>
-<li><strong>Coroutines(协程)</strong>: asyncio的官方文档中指出，<code>coroutine</code>是遵循一定规则的发生器。它最吸引人的特点是在执行的时候能够暂停等待外部处理，当外部处理完成后又可以从原来的位置恢复执行。</li>
-<li><strong>Futures</strong>: Futures代表尚未完成的processing。</li>
-<li><strong>Tasks</strong>: 是asyncio.Future的子类，用于管理coroutines。</li>
+<li><strong>Event loop</strong>: 这已在上一节中定义。 <code>asyncio</code> 模块允许每个进程有一个事件循环。</li>
+<li><strong>Coroutines(协程)</strong>: 正如<code>asyncio</code>官方文档中所说，“<strong>协程是一种遵循一定约定的生成器</strong>”。 它最有趣的特性是它可以<strong>在执行期间挂起</strong>以等待外部处理（I/O 中的某些例程）完成, 并在外部处理完成后又可以从原来的位置恢复执行。</li>
+<li><strong>Futures</strong>: <code>asyncio</code> 模块定义了自己的对象 <code>Future</code>。 <code>Futures</code> 代表一个尚未完成的处理过程。</li>
+<li><strong>Tasks</strong>: 这是 <code>asyncio.Future</code> 的子类，用于<strong>封装</strong>和<strong>管理</strong>协程。</li>
 </ul>
-<p>除了这些机制，asyncio还为应用开发提供了很多其他机制，比如传输和协议，可以使用TCP、SSL、UDP和管道进行通信。关于asyncio更多的信息请查看 <a href="https://docs.python.org/3.4/library/asyncio.html">https://docs.python.org/3.4/library/asyncio.html</a>。</p>
-<h2 id="coroutinesrutures">理解coroutines和rutures</h2>
-<p>为了在asyncio中定义coroutine，我们使用@asyncio.coroutine装饰器。为了执行一个操作I/O或者其他可能阻塞循环事件的计算，我们必须使用<code>yield from</code>语法来暂停coroutine。但是暂停和恢复的机制怎样工作？Coroutine和asyncio.Future对象一起工作。我们可以总结操作如下：</p>
+<p>除了这些机制之外，<code>asyncio</code> 还为应用程序的开发提供了一系列其他功能，例如传输和协议，它们允许使用 <code>TCP</code>、<code>SSL</code>、<code>UDP</code> 和<code>管道</code>等通过通道进行通信。 有关 <code>asyncio</code> 的更多信息，请访问 <a href="https://docs.python.org/3.4/library/asyncio.html" target="_blank">https://docs.python.org/3.4/library/asyncio.html</a>。</p>
+<h2 id="coroutinesfutures">理解coroutines和futures</h2>
+<p>为了能够在<code>asyncio</code>中定义一个<code>coroutine</code>，我们使用<code>@asyncio.coroutine</code>装饰器，并且我们必须利用<code>yield from</code>语法来暂停<code>coroutine</code>，以便执行一个I/O操作或者其他可能阻塞<strong>事件循环</strong>的计算。但是这种暂停和恢复的机制是如何工作的呢？<code>Coroutine</code>与<code>asyncio.Future</code>对象一起工作。我们可以把这个操作总结如下:</p>
 <ul>
-<li>Coroutine初始化，asyncio.Future在内部实例化或者作为参数传给coroutine。</li>
-<li>到达coroutine使用yield from的地方，coroutine暂停来等待yield from引发的计算。yield from实例等待yield from\&lt;coroutine or asyncio.Future or asyncio Task&gt;构建。</li>
-<li>当yield from引发的计算结束，coroutine执行与coroutine关联的asyncio.Future对象的set_result(\&lt;result&gt;)方法，通知事件循环coroutine可以被恢复。</li>
+<li>初始化协程，并在内部实例化一个 <code>asyncio.Future</code> 对象或将其作为参数传递给协程。</li>
+<li>在到达使用 <code>yield from</code> 的协程点时，协程将暂停以等待在 <code>yield from</code> 中引发的计算。 <code>yield from instance</code> 等待 <code>yield from</code> &lt;coroutine 或 asyncio.Future 或 asyncio.Task&gt; 的构造。</li>
+<li>当 <code>yield from</code> 中引发的计算结束后，协程执行协程相关的 <code>asyncio.Future</code> 对象的 <code>set_result(&lt;result&gt;)</code> 方法，告诉事件循环可以恢复协程。</li>
 </ul>
-<h3 id="coroutineasynciofuture">使用coroutine和asyncio.Future</h3>
+<div class="admonition info">
+<p>当我们使用 <code>asyncio.Task</code> 对象封装协程时，我们不需要显式使用 <code>asyncio.Future</code> 对象，因为 <code>asyncio.Task</code> 对象已经是 <code>asyncio.Future</code> 的子类。</p>
+</div>
+<h2 id="coroutineasynciofuture">使用coroutine和asyncio.Future</h2>
 <p>下面是使用<code>coroutine</code>和<code>asyncio.Future</code>对象的一些例子：</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">asyncio</span>
 
@@ -567,42 +562,68 @@
     <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">f</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="s2">"Done!"</span><span class="p">)</span>
 </code></pre></div>
-<p>在上述代码中，定义了一个协程<code>sleep_coroutine</code>，它接收一个<code>asyncio.Future</code>对象作为参数。在<code>sleep_coroutine</code>中，<code>asyncio.sleep(2)</code>会让协程睡眠2秒，<code>asyncio.sleep</code>已经和<code>asyncio</code>兼容。
-在主函数中创建<code>asyncio.Future</code>对象，创建<code>event loop</code>对象。</p>
+<p>在上述代码中，我们定义了名为 <code>sleep_coroutine</code> 的协程，它接收一个 <code>asyncio.Future</code>对象 作为参数。 在<code>sleep_coroutine</code>中，我们的协程将运行 <code>asyncio.sleep(2)</code> 导致暂停执行并休眠 2 秒； 我们必须观察到 <code>asyncio.sleep</code> 函数已经与 <code>asyncio</code> 兼容。 因此，它作为未来返回； 然而，由于教学原因，我们包含了作为参数传递的 <code>asyncio.Future</code> 对象，以说明如何通过 <code>asyncio.Future.set_result(&lt;result&gt;)</code> 在协程中显式完成恢复。</p>
+<p>最终，我们有了我们的主函数，我们在其中创建了我们的 <code>asyncio.Future</code> 对象，并在 <code>loop = asyncio.get_event_loop()</code> 行中，我们从 <code>asyncio</code> 创建了一个事件循环实例来执行我们的协程，如下代码所示：</p>
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
     <span class="n">future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>
     <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
     <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">sleep_coroutine</span><span class="p">(</span><span class="n">future</span><span class="p">))</span>
 </code></pre></div>
 <div class="admonition info">
-<p><code>event loop</code>执行的时候，任务和协程才会执行。</p>
+<p>任务和协程仅在<strong>事件循环</strong>(event loop)执行时执行。</p>
 </div>
-<p>在最后一行，<code>loop.run_until_complete(sleep_coroutine(future))</code>，很明显就是运行直到<code>sleep_coroutine</code>结束。</p>
-<h3 id="asynciotask">使用asyncio.Task</h3>
-<p><code>asyncio.Task</code>是<code>asyncio.Future</code>的子类，目的是管理协程。以下是一个例子，多个<code>asyncio.Task</code>将会在事件循环中被创建和分派。</p>
+<p>在最后一行，<code>loop.run_until_complete(sleep_coroutine(future))</code>，我们要求我们的事件循环一直运行直到我们的协程完成它的执行。 这是通过 <code>BaseEventLoop</code> 类中提供的 <code>BaseEventLoop.run_until_complete</code> 方法完成的。</p>
+<div class="admonition info">
+<p>在 <code>asyncio</code> 中恢复协程的魔法在于 <code>asyncio.Future</code> 对象的 <code>set_result</code> 方法。 所有要恢复的协程都需要等待<code>asyncio.Future</code>执行<code>set_result</code>方法。 所以，<code>asyncio</code> 的事件循环会知道计算已经结束，它可以恢复协程。</p>
+</div>
+<h2 id="asynciotask">使用asyncio.Task</h2>
+<p>如前所述，<code>asyncio.Task</code> 类是 <code>asyncio.Future</code> 的子类，旨在管理协程。 让我们检查一个名为 <code>asyncio_task_sample.py</code> 的示例代码，其中将创建多个 <code>asyncio.Task</code> 对象并在 <code>asyncio</code> 的事件循环中分派以执行：</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">asyncio</span>
 
 <span class="nd">@asyncio</span><span class="o">.</span><span class="n">coroutine</span>
 <span class="k">def</span> <span class="nf">sleep_coro</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"[</span><span class="si">%s</span><span class="s2">] coroutine will sleep for </span><span class="si">%d</span><span class="s2"> second(s)…"</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">seconds</span><span class="p">))</span>
-    <span class="k">yield</span> <span class="n">yfrom</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+    <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"[</span><span class="si">%s</span><span class="s2">] done!"</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
 </code></pre></div>
-<p><code>sleep_coro</code>协程会接收两个参数，<code>name</code>用来标识协程，<code>seconds</code>用来定义睡眠时间。</p>
-<p>在主函数中，定义了一个包含三个<code>asyncio.Task</code>对象的列表：</p>
+<p>我们的协程称为 <code>sleep_coro</code>，将接收两个参数：<code>name</code>，它将用作我们协程的标识符，以及标准值为 1 的<code>seconds</code>，它将指示协程将暂停多少秒。</p>
+<p>在主函数中，我们定义了一个列表，其中包含三个类型为 <code>asyncio.Task</code> 的对象，名为 <code>Task-A</code>，它将休眠 <code>10</code> 秒，以及 <code>Task-B</code> 和 <code>Task-C</code>，它们将分别休眠 <code>1</code> 秒。 请参见以下代码：</p>
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
     <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">(</span><span class="n">sleep_coro</span><span class="p">(</span><span class="s1">'Task-A'</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span>
-    <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">(</span><span class="n">sleep_coro</span><span class="p">(</span><span class="s1">'Task-B'</span><span class="p">)),</span>
-    <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">(</span><span class="n">sleep_coro</span><span class="p">(</span><span class="s1">'Task-C'</span><span class="p">))]</span>
+             <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">(</span><span class="n">sleep_coro</span><span class="p">(</span><span class="s1">'Task-B'</span><span class="p">)),</span>
+             <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">(</span><span class="n">sleep_coro</span><span class="p">(</span><span class="s1">'Task-C'</span><span class="p">))</span>
+            <span class="p">]</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
     <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">))</span>
 </code></pre></div>
-<p>程序的运行结果如下：</p>
+<div class="admonition info">
+<p class="admonition-title">由于学习时，python 3已更新到3.10.2 固如下写法也可以</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># python3.10.2 版如下, 使用async、await 关键字</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">sleep_coro</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"[</span><span class="si">%s</span><span class="s2">] coroutine will sleep for </span><span class="si">%d</span><span class="s2"> second(s)…"</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">seconds</span><span class="p">))</span>
+    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"[</span><span class="si">%s</span><span class="s2">] done!"</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">(</span><span class="n">sleep_coro</span><span class="p">(</span><span class="s2">"Task-A"</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span>
+        <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">(</span><span class="n">sleep_coro</span><span class="p">(</span><span class="s2">"Task-B"</span><span class="p">)),</span>
+        <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">(</span><span class="n">sleep_coro</span><span class="p">(</span><span class="s2">"Task-C"</span><span class="p">)),</span>
+    <span class="p">]</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">))</span>
+</code></pre></div>
+</div>
+<p>仍然在主函数中，我们使用 <code>BaseEventLoop</code> 定义事件循环。 <code>run_until_complete</code> 函数； 然而，这个函数接收的参数不超过一个协程，而是一个对 <code>asyncio.gather</code> 的调用，它是作为未来返回的函数，附加接收到的协程或未来列表的结果作为参数。 <code>asyncio_task_sample.py</code> 程序的输出如以下屏幕截图所示：</p>
 <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-15.png"><img alt="1" src="../../imgs/7-15.png"/></a></p>
-<p>值得注意的是，程序的输出表明任务执行的顺序和申明的顺序一致，它们都不能阻塞event loop。</p>
-<h3 id="asyncio_1">使用和asyncio不兼容的库</h3>
-<p><code>asyncio</code>是<code>python</code>新加入的模块，一些库还不能很好的兼容。我们重新实现之前章节的例子<code>asyncio_task_sample.py</code>，用<code>time.sleep</code>替换<code>asyncio.sleep</code>。运行结果如下：</p>
+<p>值得注意的是，程序的输出按照声明的顺序显示正在执行的任务； 但是，它们都不能阻止事件循环。 这是因为 <code>Task-B</code> 和 <code>Task-C</code> 睡眠较少并且在 <code>Task-A</code> 睡眠 <code>10</code> 倍并首先被调度之前结束。 <code>Task-A</code> 阻塞事件循环的场景是灾难性的。</p>
+<h2 id="asyncio_1">使用与asyncio不兼容的库</h2>
+<p><code>asyncio</code> 模块在 <code>Python</code> 社区中仍然是最新的。 一些库仍然不完全兼容。 让我们重构上一节示例 <code>asyncio_task_sample.py</code> 并将函数从 <code>asyncio.sleep</code> 更改为 <code>time.sleep</code>。 在不作为未来返回的时间模块中休眠并检查其行为。 我们将 <code>yield from asyncio.sleep(seconds)</code> 行更改为 <code>yield from time.sleep(seconds)</code>。我们显然需要导入时间模块来使用新的睡眠。 运行该示例，请注意以下屏幕截图中显示的输出中的新行为：</p>
 <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-16.png"><img alt="1" src="../../imgs/7-16.png"/></a></p>
-<p>我们可以注意到协程正常初始化，但是由于 <code>yield from</code> 语法等待协程或 <code>asyncio.Future</code> 而发生错误，并且 <code>time.sleep</code> 在其结束时没有生成任何东西。 那么，在这些情况下我们应该如何处理呢？ 答案很简单； 我们需要一个 <code>asyncio.Future</code> 对象，然后重构我们的示例。</p>
+<p>我们可以注意到协程正常初始化，但是由于 <code>yield from</code> 语法等待协程或 <code>asyncio.Future</code> 而发生错误，并且 <code>time.sleep</code> 在其结束时没有生成任何东西。 那么，在这些情况下我们应该如何处理呢？ 答案很简单: 我们需要一个 <code>asyncio.Future</code> 对象，然后重构我们的示例。</p>
 <p>首先，让我们创建一个函数，该函数将创建一个 <code>asyncio.Future</code> 对象以将其返回到 <code>sleep_coro</code> 协程中的 <code>yield from present</code>。 <code>sleep_func</code>函数如下：</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sleep_func</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>    
@@ -613,8 +634,8 @@
 <p>请注意，<code>sleep_func</code> 函数在结束时会执行 <code>f.set_result("Future done!")</code> 在 <code>future cause</code> 中放置一个虚拟结果，因为此计算不会生成具体结果； 它只是一个睡眠功能。 然后，返回一个 <code>asyncio.Future</code> 对象，<code>yield from</code> 期望它恢复 <code>sleep_coro</code> 协程。 以下屏幕截图说明了修改后的 <code>asyncio_task_sample.py</code> 程序的输出：</p>
 <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-17.png"><img alt="1" src="../../imgs/7-17.png"/></a></p>
 <p>现在所有已分派的任务都执行无误。 可是等等！ 上一个屏幕截图中显示的输出仍然有问题。 请注意，执行顺序内部有些奇怪，因为 <strong>Task-A</strong> 休眠了 10 秒，并在随后两个仅休眠 1 秒的任务开始之前结束。 也就是说，我们的事件循环被任务阻塞了。 这是使用不与 asyncio 异步工作的库或模块的结果。</p>
-<p>解决这个问题的方法是将一个阻塞任务委托给<code>ThreadPoolExecutor</code>（记住，如果处理是I/O绑定的，这个方法很好用；如果是CPU绑定的，使用<code>ProcessPoolExecutor</code>。为了让我们放心，<code>asyncio</code>以一种非常简单的方式支持这种机制。让我们再次重构我们的<code>asyncio_task_sample.py</code>代码，以便为任务提供执行而不阻塞事件循环。</p>
-<p>首先，我们必须删除<code>sleep_func</code>函数，因为它不再需要了。对 <code>time.sleep</code> 的调用将由 <code>BaseEventLoop.run_in_executor</code> 方法完成。然后，让我们以如下方式重构我们的<code>sleep_coro coroutine</code>。</p>
+<p>解决此问题的一种方法是将阻塞任务委托给 <code>ThreadPoolExecutor</code>（请记住，如果处理受 <strong>I/O</strong> 限制，则此方法效果很好；如果受 <strong>CPU</strong> 限制，请使用 <code>ProcessPoolExecutor</code>。为了我们的舒适，<code>asyncio</code> 以一种非常简单的方式支持此机制. 让我们再次重构我们的 <code>asyncio_task_sample.py</code> 代码，以便在不阻塞<strong>事件循环</strong>的情况下执行任务。</p>
+<p>首先，我们必须删除 <code>sleep_func</code> 函数，因为它不再是必需的。 对 <code>time.sleep</code> 的调用将由 <code>BaseEventLoop.run_in_executor</code> 方法完成。然后让我们按照以下方式重构我们的 <code>sleep_coro</code> 协程：</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@asyncio</span><span class="o">.</span><span class="n">coroutine</span>
 <span class="k">def</span> <span class="nf">sleep_coro</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">loop</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>    
     <span class="n">future</span> <span class="o">=</span> <span class="n">loop</span><span class="o">.</span><span class="n">run_in_executor</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">,</span> <span class="n">seconds</span><span class="p">)</span>
@@ -623,13 +644,36 @@
     <span class="k">yield from</span> <span class="n">future</span>    
     <span class="nb">print</span><span class="p">(</span><span class="s2">"[</span><span class="si">%s</span><span class="s2">] done!"</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
 </code></pre></div>
-<p>值得注意的是，<code>coroutine</code>接收了一个新的参数，它将是我们在主块中创建的事件循环，这样<code>ThreadPoolExecutor</code>就会被用来响应同样的执行结果。</p>
-<p>在这之后，我们有以下一行。</p>
+<div class="admonition info">
+<p class="admonition-title">由于学习时，python 3已更新到3.10.2 固如下写法也可以</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># python3.10.2 版如下, 使用async、await 关键字</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">sleep_coro</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">loop</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">future</span> <span class="o">=</span> <span class="n">loop</span><span class="o">.</span><span class="n">run_in_executor</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">,</span> <span class="n">seconds</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"[</span><span class="si">%s</span><span class="s2">] coroutine will sleep for </span><span class="si">%d</span><span class="s2"> second(s)…"</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">seconds</span><span class="p">))</span>
+    <span class="k">await</span> <span class="n">future</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"[</span><span class="si">%s</span><span class="s2">] done!"</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">(</span><span class="n">sleep_coro2</span><span class="p">(</span><span class="s2">"Task-A"</span><span class="p">,</span> <span class="n">loop</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span>
+        <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">(</span><span class="n">sleep_coro2</span><span class="p">(</span><span class="s2">"Task-B"</span><span class="p">,</span> <span class="n">loop</span><span class="p">)),</span>
+        <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">(</span><span class="n">sleep_coro2</span><span class="p">(</span><span class="s2">"Task-C"</span><span class="p">,</span> <span class="n">loop</span><span class="p">)),</span>
+    <span class="p">]</span>
+
+    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">))</span>
+</code></pre></div>
+</div>
+<p>值得注意的是，协程接收到一个新参数，该参数将是我们在主函数中创建的事件循环，以便使用 <code>ThreadPoolExecutor</code> 来响应相同的执行结果。</p>
+<p>在这之后，我们有下一行:</p>
 <div class="highlight"><pre><span></span><code><span class="n">future</span> <span class="o">=</span> <span class="n">loop</span><span class="o">.</span><span class="n">run_in_executor</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">,</span> <span class="n">seconds</span><span class="p">)</span>
 </code></pre></div>
-<p>在上一行中，对<code>BaseEventLoop.run_in_executor</code>函数进行了调用，它的第一个参数是一个执行器（<a href="https://docs.python.org/3.4/library/concurrent.futures.html#concurrent.futures.Executor）。如果它传递的是None，它将使用ThreadPoolExecutor作为默认。第二个参数是一个回调函数，在本例中是代表我们要完成的计算的time.sleep函数，最后我们可以传递回调参数。">https://docs.python.org/3.4/library/concurrent.futures.html#concurrent.futures.Executor）。如果它传递的是<code>None</code>，它将使用<code>ThreadPoolExecutor</code>作为默认。第二个参数是一个回调函数，在本例中是代表我们要完成的计算的<code>time.sleep</code>函数，最后我们可以传递回调参数。</a></p>
-<p>注意，<code>BaseEventLoop.run_in_executor</code>方法返回一个<code>asyncio.Future</code>对象。然而，从传递返回的<code>future</code>开始进行调用收益就足够了，我们的<code>coroutine</code>已经准备好了。</p>
-<p>记住，我们需要改变程序的主块，将事件循环传递给<code>sleep_coro</code>。</p>
+<p>在上一行中，调用了 <code>BaseEventLoop.run_in_executor</code> 函数，它的第一个参数是一个<a href="https://docs.python.org/3.4/library/concurrent.futures.html#concurrent.futures.Executor">执行器</a>。 如果它通过 <code>None</code>，它将使用 <code>ThreadPoolExecutor</code> 作为默认值。 第二个参数是一个回调函数，在本例中是 <code>time.sleep</code> 函数，代表我们要完成的计算，最后我们可以传递回调参数。</p>
+<p>请注意，<code>BaseEventLoop.run_in_executor</code> 方法返回一个 <code>asyncio.Future</code> 对象。 然而，通过返回的 <code>future</code> 调用 <code>yield from</code> 就足够了，并且我们的协程已经准备好了。</p>
+<p>记住，我们需要改变程序的主函数，将<strong>事件循环传</strong>(event loop)递给<code>sleep_coro</code>。</p>
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
     <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
     <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">(</span><span class="n">sleep_coro</span><span class="p">(</span><span class="s1">'Task-A'</span><span class="p">,</span> <span class="n">loop</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span>
@@ -639,6 +683,7 @@
 </code></pre></div>
 <p>让我们看看下面截图中显示的重构后的代码执行情况。</p>
 <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-18.png"><img alt="1" src="../../imgs/7-18.png"/></a></p>
+<p>我们得到了它！结果是一致的，事件循环没有被<code>time.sleep</code>函数的执行阻塞。</p>
 <hr/>
 <div class="md-source-file">
 <small>
