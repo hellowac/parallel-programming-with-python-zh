@@ -1,29 +1,27 @@
 # 发现Python并行编程的工具
 
-由Guido Van Rossum创造的语言，是一种多泛型的，多用途的语言。由于它非常简单且易于维护，被世界各处广泛接受。它也被称为含有电池的语言。它有广泛的模块使其用起来更流畅。在并行编程中，Python有简化实现的内置和外部模块。本书基于Python3.X的。
+由 Guido Van Rossum 创建的 Python 语言是一种多范式、多用途的语言。 由于其强大的简单性和易于维护，它已在世界范围内被广泛接受。 它也被称为包含电池的语言。 模块种类繁多，使用起来更顺畅。 在并行编程中，Python 具有简化实现的内置和外部模块。 本书是基于Python3.X的。
 
 ## Python的threading模块
 
-Python的threading模块提供了一个抽象层次的模块_thread，这是一个低层次的模块。当开发一个基于线程的并行系统的艰巨任务时，它为程序员提供了一些函数来帮助程序员的开发。线程模块的官方文档可以在<<http://docs.python.org/3/library/>
-threading.html?highlight=threading#module-threadin>找到。
+Python的**threading**模块为模块 **_thread** 提供了一个抽象层，它是一个较低级别的模块。 它提供的功能可以帮助程序员完成基于线程开发并行系统的艰巨任务。 **threading**模块的官方文档可以在<http://docs.python.org/3/library/threading.html?highlight=threading#module-threadin>{target="_blank"}中找到。
 
 ## Python的mutliprocess模块
 
-multiprocessing模块旨在为基于进程的并行的使用提供一个简单的API。这个模块与线程模块类似，它简化了基于进程的并行系统的开发,这一点与线程模块没有什么不同。在Python社区中，基于进程的方法很流行，因为它是在解决出现在Python中CPU-Bound threads和GIL的使用的问题时的一个解决方案。多进程模块的官方文档可以在<<http://docs.python.org/3/library/multiprocessing.html?highlight=multi>
-processing#multiprocessing>找到。
+**multiprocessing** 模块旨在为使用基于进程的并行性提供一个简单的 API。 该模块类似于线程模块，它简化了进程之间的交替，没有太大的困难。基于进程的方法在 Python 用户社区中非常流行，因为它是回答有关使用 CPU 绑定线程和 Python 中存在的 GIL 的问题的替代方法。 **multiprocessing**模块的官方文档可以在以下位置找到:<http://docs.python.org/3/library/multiprocessing.html?highlight=multiprocessing#multiprocessing>
 
 ## Python的parallel模块
 
-Python的parallel模块是外部模块，它提供了丰富的API，这些API利用进程的方法创建并行和分布式系统。这个模块是轻量级并且易安装的，它与其他的Python程序一起集成的。parallel模块可以在<http://parallelpython.com>找到。在那么多特性中，我们着重强调以下几点：
+**parallel Python** 是外部模块，它提供了丰富的 API，这些API利用进程的方法创建并行和分布式系统。该模块是轻量级并且易安装的，并可与其他 Python 程序集成。 可以在 <http://parallelpython.com> 找到 **parallel Python** 模块。 在所有功能中，我们可能会强调以下内容：
 
-* 最优配置的自动检测
-* 运行时可以改变多个工作进程
+* 自动检测最佳配置
+* 在运行时可以更改许多工作进程的状态
 * 动态的负载均衡
 * 容错性
-* 自发现计算资源
+* 自动发现计算资源
 
-## Celery-分布式任务队列
+## Celery分布式任务队列
 
-Celery是一个用于创建分布式系统的极其优秀的模块，并且拥有很好的文档。它在并发形式上使用了至少三种不同类型的方法来执行任务：multiprocessing, Eventlet,和 Gevent。这项工作将会集中精力在多进程的方法的使用上。而且，只需要通过配置就能实现进程间的互联，这被留下来作为一个研究，以便读者能够建立一个与他/她的实验的一个比较。
+**Celery** 是一个出色的 Python 模块，用于创建分布式系统并具有出色的文档。 它在并发形式上使用了至少三种不同类型的方法来执行任务——multiprocessing、Eventlet 和 Gevent。 然而，这项工作将集中精力于多处理方法的使用。 而且，只需要通过配置就能实现进程间的互相通信，它将作为一项课题研究，以便读者能够与他/她自己的实验进行比较。
 
-Celery模块可以在官方的项目页面<http://celeryproject.org>得到。
+Celery模块可以在官方的项目页面<http://celeryproject.org>{target="_blank"}得到。

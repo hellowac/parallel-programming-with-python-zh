@@ -73,7 +73,7 @@ nav:
     - 并行编程间的通信: chapter1/communicating_in_parallel_programming.md
     - 识别并行编程的问题: chapter1/identifying_parallel_programming_problems.md
     - 发现Python并行编程的工具: chapter1/discovering_Pythons_parallel_programming_tools.md
-    - 小心PythonGIL: chapter1/the_parallel_python_module.md
+    - 小心PythonGIL: chapter1/taking_care_of_GIL.md
     - 小结: chapter1/summary.md
   - 第二章 设计并行算法:
     - chapter2/index.md
