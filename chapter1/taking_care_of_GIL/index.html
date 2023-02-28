@@ -5,9 +5,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="../discovering_Pythons_parallel_programming_tools/" rel="prev"/>
+<link href="../summary/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
-<title>ReadMe - python并发编程-中文版</title>
+<title>小心PythonGIL - python并发编程-中文版</title>
 <link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -31,7 +33,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#designing-parallel-algorithms">
+<a class="md-skip" href="#python-gil">
           跳转至
         </a>
 </div>
@@ -55,7 +57,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              ReadMe
+              小心PythonGIL
             
           </span>
 </div>
@@ -132,52 +134,53 @@
         python并发编程
       </a>
 </li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter1/">第一章 并行、并发以及分布式编程的对比分析</a>
+<a href="../">第一章 并行、并发以及分布式编程的对比分析</a>
 <label for="__nav_2">
 <span class="md-nav__icon md-icon"></span>
 </label>
 </div>
-<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="true" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_2">
 <span class="md-nav__icon md-icon"></span>
           第一章 并行、并发以及分布式编程的对比分析
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/why_use_parallel_programming/">
+<a class="md-nav__link" href="../why_use_parallel_programming/">
         为什么使用并行编程
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/exploring_common_forms_of_parallelization/">
+<a class="md-nav__link" href="../exploring_common_forms_of_parallelization/">
         探索并行化的几种方式
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/communicating_in_parallel_programming/">
+<a class="md-nav__link" href="../communicating_in_parallel_programming/">
         并行编程间的通信
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/identifying_parallel_programming_problems/">
+<a class="md-nav__link" href="../identifying_parallel_programming_problems/">
         识别并行编程的问题
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/discovering_Pythons_parallel_programming_tools/">
+<a class="md-nav__link" href="../discovering_Pythons_parallel_programming_tools/">
         发现Python并行编程的工具
       </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/the_parallel_python_module/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<a class="md-nav__link md-nav__link--active" href="./">
         小心PythonGIL
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/summary/">
+<a class="md-nav__link" href="../summary/">
         小结
       </a>
 </li>
@@ -187,7 +190,7 @@
 <li class="md-nav__item md-nav__item--nested">
 <input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../">第二章 设计并行算法</a>
+<a href="../../chapter2/">第二章 设计并行算法</a>
 <label for="__nav_3">
 <span class="md-nav__icon md-icon"></span>
 </label>
@@ -199,27 +202,27 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E5%88%86%E6%B2%BB%E6%8A%80%E6%9C%AF/">
+<a class="md-nav__link" href="../../chapter2/%E5%88%86%E6%B2%BB%E6%8A%80%E6%9C%AF/">
         分治技术
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%88%86%E8%A7%A3/">
+<a class="md-nav__link" href="../../chapter2/%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%88%86%E8%A7%A3/">
         使用数据分解
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%94%A8%E7%AE%A1%E9%81%93%E5%88%86%E8%A7%A3%E4%BB%BB%E5%8A%A1/">
+<a class="md-nav__link" href="../../chapter2/%E7%94%A8%E7%AE%A1%E9%81%93%E5%88%86%E8%A7%A3%E4%BB%BB%E5%8A%A1/">
         用管道分解任务
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E5%A4%84%E7%90%86%E5%92%8C%E6%98%A0%E5%B0%84/">
+<a class="md-nav__link" href="../../chapter2/%E5%A4%84%E7%90%86%E5%92%8C%E6%98%A0%E5%B0%84/">
         处理和映射
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E6%80%BB%E7%BB%93/">
+<a class="md-nav__link" href="../../chapter2/%E6%80%BB%E7%BB%93/">
         小结
       </a>
 </li>
@@ -482,47 +485,24 @@
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
 <nav aria-label="目录" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#designing-parallel-algorithms">
-    Designing Parallel Algorithms
-  </a>
-</li>
-</ul>
 </nav>
 </div>
 </div>
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1>ReadMe</h1>
-<h2 id="designing-parallel-algorithms">Designing Parallel Algorithms</h2>
-<ul>
-<li>设计并行算法</li>
-<li>分治技术</li>
-<li>使用数据分解</li>
-<li>用管道分解任务</li>
-<li>处理和映射<ul>
-<li>识别独立的任务</li>
-<li>识别需要数据交换的任务</li>
-<li>负载均衡</li>
-</ul>
-</li>
-<li>小结</li>
-</ul>
+<h1 id="python-gil">小心Python GIL</h1>
+<p><strong>GIL</strong> 是一种用于实现标准 Python（称为 CPython）的一种机制，以避免由不同线程同时执行字节码。 Python 中 <strong>GIL</strong> 的存在是该语言用户之间激烈讨论的一个原因。 选择 <strong>GIL</strong> 是为了保护 <strong>CPython</strong> 解释器使用的内部内存，它没有为线程的并发访问实现同步机制。 无论如何，当我们决定使用线程时，<strong>GIL</strong> 会导致问题，而这些线程往往受 <strong>CPU</strong> 限制。 例如，<strong>I/O</strong> 线程不在 <strong>GIL</strong> 的范围之内。 也许该机制对 Python 的演变带来的好处多于对它的伤害。 显然，我们不能仅将速度视为判断某事好坏的单一论据。</p>
+<p>在某些情况下,使用多进程配合<strong>消息传递</strong>能更好的平衡可维护性、可扩展性以及性能之间的关系。 可即便如此，在某些情况下确实需要线程，这将被 <strong>GIL</strong> 制服。 在这些情况下，可以做的就是用C语言编写一些代码作为扩展，并将它们嵌入到Python程序中。 因此，还有其他选择； 由开发人员分析真正的必要性。 那么，问题来了：一般来说，<strong>GIL</strong> 是反派吗？重要的是要记住，<strong>PyPy</strong> 团队正在研究 <strong>STM</strong> 实现，以便从 <strong>Python</strong> 中删除 <strong>GIL</strong>。 有关该项目的更多详细信息，请访问 <a href="http://pypy.org/tmdonate.html" target="_blank">http://pypy.org/tmdonate.html</a>。</p>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月28日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2015年1月31日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月28日</span>
 </small>
 </div>
 </article>

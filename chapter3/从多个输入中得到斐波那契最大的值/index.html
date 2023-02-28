@@ -174,7 +174,7 @@
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/the_parallel_python_module/">
+<a class="md-nav__link" href="../../chapter1/taking_care_of_GIL/">
         小心PythonGIL
       </a>
 </li>
@@ -244,26 +244,9 @@
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
-          从多个输入中得到斐波那契最大的值
-          <span class="md-nav__icon md-icon"></span>
-</label>
 <a class="md-nav__link md-nav__link--active" href="./">
         从多个输入中得到斐波那契最大的值
       </a>
-<nav aria-label="目录" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#_1">
-    从多个输入中得到斐波那契最大的值
-  </a>
-</li>
-</ul>
-</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../%E7%88%AC%E5%8F%96%E7%BD%91%E9%A1%B5/">
@@ -502,47 +485,35 @@
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
 <nav aria-label="目录" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#_1">
-    从多个输入中得到斐波那契最大的值
-  </a>
-</li>
-</ul>
 </nav>
 </div>
 </div>
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1>从多个输入中得到斐波那契最大的值</h1>
-<h2 id="_1">从多个输入中得到斐波那契最大的值</h2>
+<h1 id="_1">从多个输入中得到斐波那契最大的值</h1>
 <p>众所周知，斐波那契数列被定义如下：</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="https://github.com/Voidly/Img/blob/master/Parallel%20Programming%20with%20Python/Chapter%203/fibonacci.png?raw=true"><img alt="" src="https://github.com/Voidly/Img/blob/master/Parallel%20Programming%20with%20Python/Chapter%203/fibonacci.png?raw=true"/></a></p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><mi>F</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo>=</mo><mrow data-mjx-texclass="INNER"><mo data-mjx-texclass="OPEN">{</mo><mtable columnspacing="1em" rowspacing="4pt"><mtr><mtd><mn>0</mn><mo>,</mo><mtext> if </mtext><mi>n</mi><mo>=</mo><mn>0</mn></mtd></mtr><mtr><mtd><mn>1</mn><mo>,</mo><mtext> if </mtext><mi>n</mi><mo>=</mo><mn>1</mn></mtd></mtr><mtr><mtd><mi>F</mi><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo>+</mo><mi>F</mi><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>2</mn><mo stretchy="false">)</mo><mo>,</mo><mi>if</mi><mi>n</mi><mo>&gt;</mo><mn>1</mn></mtd></mtr></mtable><mo data-mjx-texclass="CLOSE" fence="true" stretchy="true" symmetric="true"></mo></mrow></math>
 <p>实际上，按照从0到10计算斐波那契的值，结果将会是0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 和55.</p>
-<p>用迭代法计算斐波那契最高的值的Python代码如下:
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
-        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
-            <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-        <span class="k">return</span> <span class="n">a</span>
+<p>用迭代法计算斐波那契最高的值的Python代码如下:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="n">a</span>
 </code></pre></div>
-斐波那契函数为一个特定的输入的数据计算一个最大的斐波那契值。让我们想象一个场景，在这个场景中，需要计算斐波那契的值，而本网站将会从一个用户那里接收到几个输入。假设用户提供一个数组的值作为输入，因此使这些计算按顺序将会很有趣。但是假使是100万个用户同时发出请求那么将会怎么样？在这种情况下，一些用户不得不等待很长一段时间才能得到他们的答案。</p>
-<p>让我们只考虑先前文中的Python实现的斐波那契函数代码。我们怎么在有一个数组数据输入的情况下使用并行性来实现它？在前一章已经展示过多种实现的方式，这里我们使用其中一种方式-数据分解。我们可以将数组分为几个单元，每个单元关联一个任务然后被一个worker执行。下图描述了一个建议的解决方案：</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="https://github.com/Voidly/Img/blob/master/Parallel%20Programming%20with%20Python/Chapter%203/Parallel%20Fibonacci%20for%20multiples%20inputs.png?raw=true"><img alt="" src="https://github.com/Voidly/Img/blob/master/Parallel%20Programming%20with%20Python/Chapter%203/Parallel%20Fibonacci%20for%20multiples%20inputs.png?raw=true"/></a></p>
-<blockquote>
-<p>对读者的建议，实现使用缓存机制存储计算的值来避免浪费CPU时间来完成练习。我们建议使用像memcached的缓存。<a href="http://memcached.org/">http://memcached.org/</a></p>
-</blockquote>
+<p>斐波那契函数为一个特定的输入的数据计算一个最大的斐波那契值。让我们想象一个场景，在这个场景中，需要计算斐波那契的值，而本网站将会从一个用户那里接收到几个输入。假设用户提供一个数组的值作为输入，因此使这些计算按顺序将会很有趣。但是假使是100万个用户同时发出请求那么将会怎么样？在这种情况下，一些用户不得不等待很长一段时间才能得到他们的答案。</p>
+<p>让我们只考虑先前文中的Python实现的斐波那契函数代码。我们怎么在有一个数组数据输入的情况下使用并行性来实现它？在前一章已经展示过多种实现的方式，这里我们使用其中一种方式-<strong>数据分解</strong>。我们可以将数组分为几个单元，每个单元关联一个任务然后被一个worker执行。下图描述了一个建议的解决方案：</p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/3-01.png"><img alt="1" src="../../imgs/3-01.png"/></a></p>
+<div class="admonition info">
+<p>作为对读者的建议，请完成实施缓存计算值机制的练习，以避免浪费 CPU 时间。 我们推荐像 <a href="http://memcached.org/" target="_blank">memcached</a> 这样的缓存数据库。</p>
+</div>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月28日</span>
 <br/>
         创建日期:
         <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2015年2月15日</span>

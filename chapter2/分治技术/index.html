@@ -174,7 +174,7 @@
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter1/the_parallel_python_module/">
+<a class="md-nav__link" href="../../chapter1/taking_care_of_GIL/">
         小心PythonGIL
       </a>
 </li>
@@ -492,15 +492,15 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="_1">分治技术</h1>
-<p>当你面对一个复杂的问题时，你想做的第一件事就是分解问题以便可以确定哪些部分可以独立的被处理。一般说来，在一个解决方案中，可并行的部分可以被不同的workers分开或者是分布式的执行。分治技术涉及到将一个完整的问题递归的分为不可再分的可被解决的小问题。排序算法，例如归并排序和快排都可以使用这种方法解决。</p>
-<p>下图显示了在6个元素的向量中应用归并排序，可以看到使用了分治技术：</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="https://github.com/Voidly/Img/blob/master/Parallel%20Programming%20with%20Python/Chapter%202/Merge%20sort%20(divide%20and%20conquer).png?raw=true"><img alt="1" src="https://github.com/Voidly/Img/blob/master/Parallel%20Programming%20with%20Python/Chapter%202/Merge%20sort%20(divide%20and%20conquer).png?raw=true"/></a></p>
+<p>当你面对一个复杂的问题时，要做的第一件事就是分解问题，以确定可以独立处理的部分。 通常，解决方案中的可<strong>并行化部分</strong>是可以分割和分布式处理的部分，以便由不同的worker处理。 分而治之的技术涉及<strong>递归</strong>地分割<strong>域</strong>(domain)，直到找到并解决完整问题的不可分割的单元。 <strong>归并排序</strong>、<strong>快速排序</strong>等排序算法都可以通过这种方式解决。</p>
+<p>下图显示了<strong>归并排序</strong>在六个元素的向量中的应用，可以看到使用了<strong>分而治之技术</strong>：</p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/2-01.png"><img alt="1" src="../../imgs/2-01.png"/></a></p>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月28日</span>
 <br/>
         创建日期:
         <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2015年2月15日</span>
