@@ -102,8 +102,8 @@ nav:
     - 小结: chapter5/总结.md
   - 第六章 使用并行 Python:
     - chapter6/index.md
-    - 理解进程间通信: chapter6/理解进程间通信.md
-    - 了解Parallel Python(PP): chapter6/了解pp模块.md
+    - 理解进程间通信: chapter6/understanding_interprocess_communication.md
+    - 了解Parallel Python(PP): chapter6/discovering_pp.md 
     - 在SMP架构上使用PP计算斐波那契序列: chapter6/在SMP架构上使用pp模块计算斐波那契序列.md
     - 使用PP创建分布式的网络爬虫: chapter6/使用pp模块创建分布式网络爬虫.md
     - 小结: chapter6/总结.md
