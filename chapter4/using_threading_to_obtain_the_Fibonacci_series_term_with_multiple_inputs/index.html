@@ -281,9 +281,26 @@
 </li>
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          使用threading模块来为多个输入同时计算Fibonacci序列
+          <span class="md-nav__icon md-icon"></span>
+</label>
 <a class="md-nav__link md-nav__link--active" href="./">
         使用threading模块来为多个输入同时计算Fibonacci序列
       </a>
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+    完整例子
+  </a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../crawling_the_web_using_the_concurrent_futures_module/">
@@ -485,6 +502,17 @@
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
 <nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+    完整例子
+  </a>
+</li>
+</ul>
 </nav>
 </div>
 </div>
@@ -589,6 +617,67 @@
 </code></pre></div>
 <p>请注意，首先创建并初始化 <code>fibonacci_task</code> 线程，然后它们进入等待状态。 同时，创建 <code>queue_task</code> 并填充 <code>shared_queue</code>。 最后，<code>queue_task</code> 通知 <code>fibonacci_task</code> 线程它们可以执行它们的任务。</p>
 <p>请注意，<code>fibonacci_task</code> 线程的执行不遵循顺序逻辑，每次执行的顺序可能不同。 这就是使用线程的一个特点：<strong>非确定性</strong>(non-determinism)。</p>
+<h2 id="_2">完整例子</h2>
+<p>译者注:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#coding: utf-8</span>
+
+<span class="kn">import</span> <span class="nn">logging</span><span class="o">,</span> <span class="nn">threading</span>
+
+<span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Queue</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">'</span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="n">ch</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+
+<span class="n">fibo_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">shared_queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+<span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+
+<span class="n">queue_condition</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Condition</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">fibonacci_task</span><span class="p">(</span><span class="n">condition</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">condition</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">shared_queue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"[</span><span class="si">%s</span><span class="s2">] - waiting for elements in queue.."</span> <span class="o">%</span> <span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">condition</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">shared_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+                <span class="n">fibo_dict</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span> 
+            <span class="n">shared_queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"[</span><span class="si">%s</span><span class="s2">] fibonacci of key [</span><span class="si">%d</span><span class="s2">] with result [</span><span class="si">%d</span><span class="s2">]"</span> <span class="o">%</span> <span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">fibo_dict</span><span class="p">[</span><span class="n">value</span><span class="p">]))</span>
+
+<span class="k">def</span> <span class="nf">queue_task</span><span class="p">(</span><span class="n">condition</span><span class="p">):</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'Starting queue_task...'</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">condition</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">:</span>
+            <span class="n">shared_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Notifying fibonacci_task threadsthat the queue is ready to consume.."</span><span class="p">)</span>
+            <span class="n">condition</span><span class="o">.</span><span class="n">notify_all</span><span class="p">()</span>
+
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">threads</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">fibonacci_task</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">queue_condition</span><span class="p">,))</span> 
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="p">[</span><span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">]</span>
+
+    <span class="n">prod</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'queue_task_thread'</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">queue_task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">queue_condition</span><span class="p">,))</span>
+    <span class="n">prod</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="p">[</span><span class="n">thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span> <span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">]</span>
+</code></pre></div>
 <hr/>
 <div class="md-source-file">
 <small>

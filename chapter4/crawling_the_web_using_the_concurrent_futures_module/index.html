@@ -645,14 +645,17 @@
     <span class="k">finally</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">links</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="k">as</span> <span class="n">group_link_threads</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">urls</span><span class="o">.</span><span class="n">qsize</span><span class="p">()):</span>
-        <span class="n">group_link_threads</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">group_urls_task</span><span class="p">,</span> <span class="n">urls</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="k">as</span> <span class="n">crawler_link_threads</span><span class="p">:</span>
-    <span class="n">future_tasks</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">crawler_link_threads</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">crawl_task</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span> <span class="n">url</span>  
-        <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">result_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+
+    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="k">as</span> <span class="n">group_link_threads</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">urls</span><span class="o">.</span><span class="n">qsize</span><span class="p">()):</span>
+            <span class="n">group_link_threads</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">group_urls_task</span><span class="p">,</span> <span class="n">urls</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="k">as</span> <span class="n">crawler_link_threads</span><span class="p">:</span>
+        <span class="n">future_tasks</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">crawler_link_threads</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">crawl_task</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span> <span class="n">url</span>  
+            <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">result_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
 </code></pre></div>
 <hr/>
 <div class="md-source-file">
