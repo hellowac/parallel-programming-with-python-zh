@@ -34,8 +34,6 @@ html_link_regex = re.compile('<a\s(?:.*?\s)*?href=[\'"](.*?)[\'"].*?>')
 number_of_cpus = cpu_count()
 ```
 
-In the final chunk, we can notice the consistency in the APIs that are in the concurrent.futures module. The following chunk is exactly the one used in our example using ThreadPoolExecutor, as mentioned in the previous chapter. However, it is enough to change the class to ProcessPoolExecutor by altering the internal behavior and tackling the GIL issue for CPU-bound processes without breaking the code. Check the following chunks; both create ProcessPoolExecutor with workers with limits equal to the number of processors in the machine. The first executor is for grouping the URLs in the dictionary with the standard None value. The second executor proceeds with the crawling stage.
-
 在最后一个代码块中，我们可以注意到`concurrent.futures`模块中的API的一致性。下面这块内容正是我们在上一章中提到的使用`ThreadPoolExecutor`的例子中使用的。然而，通过改变内部行为和解决CPU绑定进程的GIL问题，将该类改为`ProcessPoolExecutor`就足够了，而不会破坏代码。检查以下几个代码块；这两块都创建了`ProcessPoolExecutor`，其工作者的限制等于机器中处理器的数量。第一个executor用于将字典中的`URL`以标准的`None`值分组。第二个executor进行抓取阶段。
 
 下面是第一个executor的一代码块。
