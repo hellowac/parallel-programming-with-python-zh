@@ -5,12 +5,12 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../%E7%90%86%E8%A7%A3%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" rel="prev"/>
+<link href="../understanding_interprocess_communication/" rel="prev"/>
 <link href="../%E5%9C%A8SMP%E6%9E%B6%E6%9E%84%E4%B8%8A%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E8%AE%A1%E7%AE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
 <title>了解Parallel Python(PP) - python并发编程-中文版</title>
-<link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -354,7 +354,7 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%90%86%E8%A7%A3%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">
+<a class="md-nav__link" href="../understanding_interprocess_communication/">
         理解进程间通信
       </a>
 </li>
@@ -492,48 +492,45 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="pp">了解PP模块</h1>
-<p>上一章中,我们介绍了直接使用系统调用创建进程间通讯的方法,这是一种很低层的机制. 并且它只在Linux或Unix环境下才有效. 接下来我们会使用一个名为PP的python模块来创建IPC通讯,这种通讯不仅仅可以在本地进程间进行,还能通过计算机网络在物理上彼此分散的进程间进程.</p>
-<p>关于PP模块的文档并不多,可以在<a href="http://www.parallelpython.com/component/option.com_smf/">http://www.parallelpython.com/component/option.com_smf/</a> 中找到相关文档和FAQ. API提供了大量的使用该工具的说明. 十分的简洁明了</p>
+<p>上一节中,我们介绍了直接使用系统调用创建进程间通讯的方法,这是一种很低层的机制. 并且它只在Linux或Unix环境下才有效. 接下来我们会使用一个名为PP的python模块来创建IPC通讯,这种通讯不仅仅可以在本地进程间进行,还能通过计算机网络在物理上彼此分散的进程间进程.</p>
+<p>关于PP模块的文档并不多,可以在<a href="https://www.parallelpython.com/">https://www.parallelpython.com/</a> 中找到相关文档和FAQ. API提供了大量的使用该工具的说明. 十分的简洁明了</p>
 <p>使用PP模块的最大优势在于它提供了一个抽象层. PP模块的重要特征如下所示:</p>
 <ul>
 <li>自动探测进程的数量并以此改进负载均衡</li>
 <li>可以在运行期改变要投入的处理器数量</li>
-<li>运行期自动均衡负载</li>
-<li>通过网络自动探测资源</li>
+<li>运行时负载均衡</li>
+<li>全网自动发现资源</li>
 </ul>
 <p>PP模块有两种方式来执行并行代码. 第一种方式基于SMP架构,即在同一台机器上有多个处理器/核心. 第二中方式将网络中的各个机器配置,整合成区块,并将任务分配給这些机器去运行. 无论哪一种方式,进程间消息交换的过程都是抽象的. 这使得我们无需关系其低层的实现方式到底是通过管道还是socket. 我们只需要使用回调函数来通过参数和函数的方式来交换信息就行了. 下面给个例子.</p>
-<p>在PP的API中有一个名为Server的类,使用该类可以实现在本地和远程的进程间封装和分派任务. Server的构造函数(__init__)中有几个参数比较重要:</p>
+<p>在PP的API中有一个名为Server的类,使用该类可以实现在本地和远程的进程间封装和分派任务. Server的构造函数(_<em>init_</em>)中有几个参数比较重要:</p>
 <ul>
+<li><strong>ncpus</strong>: 该参数用于指定执行任务的工作进程数量. 若没有指定该参数,则会自动根据机器上处理器/核心的数量来创建工作进程的总数,以优化资源的使用。</li>
 <li>
-<p>ncpus: 该参数用于指定执行任务的工作进程数量. 若没有指定该参数,则会自动根据机器上处理器/核心的数量来创建工作进程,以后话资源的使用</p>
-</li>
-<li>
-<p>ppservers: 该参数是一个元组,该元组的元素为并行Python执行服务器(PPES)的名称或IP地址. 一个PPES由连入网络的机器组成. 且该机器通过ppsever.py共组运行并等待待执行的任务.</p>
-</li>
-</ul>
-<p>其他参数的说明请参阅<a href="http://www.parallelpython.com/content/view/15/30/">http://www.parallelpython.com/content/view/15/30/</a></p>
-<p>Server对象的实例拥有很多方法,其中submit方法允许我们分配任务到各个工作进程. submit函数具有如下签名:</p>
+<p><strong>ppservers</strong>: 该参数是一个元组,该元组的元素为并行Python执行服务器(PPES)的名称或IP地址. 一个PPES由连入网络的机器组成. 且该机器通过<code>ppsever.py</code>共组运行并等待待执行的任务. 其他参数的说明请参阅<a href="http://www.parallelpython.com/content/view/15/30/">http://www.parallelpython.com/content/view/15/30/</a></p>
+<p><code>Server</code>类的实例拥有很多方法,其中<code>submit</code>方法允许我们分配任务到各个工作进程. <code>submit</code>函数具有如下签名:</p>
 <div class="highlight"><pre><span></span><code><span class="n">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">depfuncs</span><span class="o">=</span><span class="p">(),</span> <span class="n">modules</span><span class="o">=</span><span class="p">(),</span>   
-    <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">callbackargs</span><span class="o">=</span><span class="p">(),</span> <span class="n">group</span><span class="o">=</span><span class="s1">'default'</span><span class="p">,</span>   
-        <span class="nb">globals</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+       <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">callbackargs</span><span class="o">=</span><span class="p">(),</span> <span class="n">group</span><span class="o">=</span><span class="s1">'default'</span><span class="p">,</span>   
+       <span class="nb">globals</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
-<p>在submit方法中,我们集中关注以下几个参数:</p>
-<ul>
-<li><strong>func</strong>: 该函数会被本地进程或远程服务器执行</li>
-<li><strong>args</strong>: 该参数提供了了执行func函数时的参数</li>
-<li><strong>modules</strong>: 该参数说明远程代码(remote code)或进程为了调用func函数,需要导入哪些模块. 例如若被分配的函数用到了time模块,则modules=('time',)</li>
-<li><strong>callback</strong> :执行完func后的回调函数,func的执行结果会作为其函数参数. 常用于对func的执行结果作进一步加工</li>
+</li>
 </ul>
-<p>还有其他的参数将会在下一张分析代码时进行说明.</p>
+<p>在<code>submit</code>方法中,我们主要关注以下几个参数:</p>
+<ul>
+<li><strong>func</strong>: 该函数会被本地进程或远程服务器执行。</li>
+<li><strong>args</strong>: 该参数提供了了执行<code>func</code>函数时的参数。</li>
+<li><strong>modules</strong>: 该参数说明远程代码(remote code)或进程为了调用func函数,需要导入哪些模块. 例如若被分配的函数用到了time模块, 则在元组参数中，传递方式必须为 <code>modules=('time',)</code></li>
+<li><strong>callback</strong> :这是执行完<code>func</code>函数后的回调函数,<code>func</code>的执行结果会作为其函数参数. 常用于对<code>func</code>的执行结果作进一步加工</li>
+</ul>
+<p>还有其他的参数将会在下一节分析代码时进行介绍.</p>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2016年6月3日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 </small>
 </div>
 </article>

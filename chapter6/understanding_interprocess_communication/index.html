@@ -6,11 +6,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="../" rel="prev"/>
-<link href="../%E4%BA%86%E8%A7%A3pp%E6%A8%A1%E5%9D%97/" rel="next"/>
+<link href="../discovering_pp/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
 <title>理解进程间通信 - python并发编程-中文版</title>
-<link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -392,11 +392,16 @@
 </ul>
 </nav>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_5">
+    完整示例
+  </a>
+</li>
 </ul>
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E4%BA%86%E8%A7%A3pp%E6%A8%A1%E5%9D%97/">
+<a class="md-nav__link" href="../discovering_pp/">
         了解Parallel Python(PP)
       </a>
 </li>
@@ -550,6 +555,11 @@
 </ul>
 </nav>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_5">
+    完整示例
+  </a>
+</li>
 </ul>
 </nav>
 </div>
@@ -558,68 +568,126 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="_1">理解进程间通讯</h1>
-<p>IPC是允许多进程间通信的一种机制。
-有许多IPC的实现方式，他们依赖于不同架构的运行环境。运行在同一台机器上的进程可以由多种进程间通信方式，比如共享内存、消息队列和管道。如果多进程处于物理上分布式集群上上，我们可以使用RPC的方式。
-第五章中我们介绍了Multiprocessing和ProcessPoolExecutor模块，学习了常规的管道的用法。我们学习了同一个父进程的各个子进程间通信方式，但是有时候我们需要在不相关的进程间传递信息（子进程不共有同一个父进程），我们会想，通过不相关进程的地址空间，是否能够在它们之间建立通信。然而一个进程不能获取另外一个进程的地址空间，因此我们需要使用一种新的机制——命名管道。</p>
+<p>进程间通信 (Interprocess communication - IPC) 由允许在进程之间交换信息的机制组成。</p>
+<p>有多种实现 IPC 的方法，通常，它们取决于为运行时环境选择的体系结构。 在某些情况下，例如，进程在同一台机器上运行，我们可以使用各种类型的通信，例如<strong>共享内存</strong>、<strong>消息队列</strong>和<strong>管道</strong>。 例如，当进程物理分布在集群中时，我们可以使用<strong>套接字</strong>(sockets)和<strong>远程过程调用</strong> (Remote Procedure Call - RPC)。</p>
+<p>在第 5 章，使用 <code>Multiprocessing</code> 和 <code>ProcessPoolExecutor</code>，我们验证了常规管道的使用等。 我们还研究了具有共同父进程的进程之间的通信。 但是，有时需要在不相关的进程（具有不同父进程的进程）之间进行通信。 我们可能会问自己，不相关进程之间的通信是否可以通过它们的寻址空间来完成。 尽管如此，<strong>一个进程永远不会从另一个进程访问寻址空间</strong>。 因此，我们必须使用称为<strong>命名管道</strong>的机制。</p>
 <h2 id="_2">探索命名管道</h2>
-<p>对于POSIX系统，例如linux,我们可以把所有东西归结为文件，我们每操作一个任务，我们可以找到一个文件与之对应，同时还有一个文件描述符与该文件相联系,通过文件描述符就可以操作该文件.</p>
-<p>命名管道是一种允许通过某些特殊文件的文件描述符实现IPC通讯的机制.这些特殊文件使用特殊的模式(例如先入先出)来读写数据.在对信息的管理上命名管道不同于常规管道，命名管道通过文件系统中的特殊文件及其文件描述符来实现,而普通管道是在内存中创建的.</p>
+<p>在 <strong>POSIX</strong> 系统中，例如 <strong>Linux</strong>，我们应该记住一切，绝对一切，都可以总结为文件。对于我们执行的每个任务，在某处都有一个文件，我们还可以找到一个附加到它的文件描述符，它允许我们操作这些文件。</p>
+<div class="admonition info">
+<p class="admonition-title">文件描述符</p>
+<p>文件描述符是允许用户程序访问文件以进行读/写操作的机制。 通常，文件由唯一的文件描述符引用。 有关文件描述符的更多信息，请访问<a href="https://www.ibm.com/docs/en/aix/7.2?topic=volumes-using-file-descriptors" target="_blank">https://www.ibm.com/docs/en/aix/7.2?topic=volumes-using-file-descriptors</a>(原文地址为: <a href="http://publib.boulder.ibm.com/infocenter/pseries/v5r3/index.jsp?topic=/com.ibm.aix.genprogc/doc/genprogc/fdescript.html">http://publib.boulder.ibm.com/infocenter/pseries/v5r3/index.jsp?topic=/com.ibm.aix.genprogc/doc/genprogc/fdescript.html</a>,但找不到了，找到了一个替代描述文件描述符的。)</p>
+</div>
+<p><strong>命名管道</strong>(Named pipes)不过是允许通过使用与特殊文件相关联的文件描述符进行 IPC 通信的机制，例如，用于写入和读取数据的<strong>先进先出</strong> (FIFO) 方案。 命名管道与常规管道的不同之处在于它们管理信息的方法。 <strong>命名管道</strong>(Named pipes)使用文件系统中的文件描述符和特殊文件，而常规管道是在内存中创建的。</p>
 <h2 id="python">在python中使用命名管道</h2>
-<p>在python中使用命名管道很容易. 下面我们会通过两个非直接通讯的程序来展示如何使用命名管道. 第一个程序名为write_to_named_pip.py,它的作用是写一条22个字节的消息到管道中,该消息包括一个信息字符串及产生消息的PID. 第二个程序名为read_from_named_pip.py, 它会从管道中读取消息并展示消息内容及其PID.</p>
-<p>在执行的最后,read_from_named_pipe.py进程会显示一条形如"I pid [<the of="" pid="" process="" reader="">] received a message =&gt; Hello from pid [the PID of writer process"的消息</the></p>
-<p>为了展示读写进程的相互依赖关系,我们会在两个独立的控制台上运行这两个程序. 在展示结果前,让我们先分析一下两个程序的代码.</p>
+<p><strong>命名管道</strong>在 Python 中的使用非常简单，我们将通过实现两个执行单向通信的程序来说明这一点。 第一个程序名为<code>write_to_named_pipe.py</code>，其功能是在管道中写入一条22字节的消息，通知一个字符串和生成它的进程的PID。 第二个程序称为 <code>read_from_named_pipe.py</code>，它将读取消息并显示消息内容，添加其 PID。</p>
+<p>在执行结束时，<code>read_from_named_pipe.py</code> 进程将显示一条形如"I pid [\<the of="" pid="" process\="" reader="">] received a message =&gt; Hello from pid [the PID of writer process"的消息。</the></p>
+<p>为了说明在命名管道中写入和读取进程之间的相互依赖性，我们将在两个不同的控制台中执行读取和写入。 但在此之前，让我们分析一下这两个程序的代码。</p>
 <h3 id="_3">往命名管道写入数据</h3>
-<p>在python中,命名管道是通过系统调用来实现的. 下面我们会逐行解释write_to_named_pipe.py中代码的功能.</p>
-<p>我们首先导入os模块,这样我们在后面的代码中才能调用系统调用.</p>
+<p>在 Python 中，命名管道是通过系统调用实现的。 在下面的代码中，我们将逐行解释 <code>write_to_named_pipe.py</code> 程序中代码的功能。</p>
+<p>我们从 <code>os</code> 模块的输入开始，它将提供对系统调用的访问，我们将使用以下代码行：</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
 </code></pre></div>
 <p>接下来我们会解释__main__代码块,在该代码块中创建了命名管道以及一个用于存储消息的FIFO的特殊文件. __main__代码块中的第一行代码定义了命名管道的标签.</p>
 <div class="highlight"><pre><span></span><code><span class="n">named_pipe</span> <span class="o">=</span> <span class="s2">"my_pipe"</span>
 </code></pre></div>
-<p>接下来我们检查该命名管道是否已经存在,若不存在,则调用mkfifo系统调用来创建这个命名管道.</p>
+<p>接下来我们检查该命名管道是否已经存在,若不存在,则调用<code>mkfifo</code>系统调用来创建这个命名管道.</p>
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">named_pipe</span><span class="p">):</span>
     <span class="n">os</span><span class="o">.</span><span class="n">mkfifo</span><span class="p">(</span><span class="n">named_pipe</span><span class="p">)</span>
 </code></pre></div>
-<p>mkfifo调用会创建一个特殊的文件,该文件对通过命名管道读写的消息实现了FIFO机制.</p>
-<p>我们再以一个命名管道和一个行如"Hello from pid [%d]"的消息来作为参数调用函数write_message. 该函数会将消息写入到(作为参数传递给它的)命名管道所代表的文件中. write_message函数定义如下:</p>
+<p><code>mkfifo</code>调用会创建一个特殊的文件,该文件对通过命名管道读写的消息实现了<strong>FIFO</strong>机制.</p>
+<p>我们再以一个命名管道和一个行如"Hello from pid [%d]"的消息来作为参数调用函数<code>write_message</code>. 该函数会将消息写入到(作为参数传递给它的)命名管道所代表的文件中. <code>write_message</code>函数定义如下:</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">write_message</span><span class="p">(</span><span class="n">input_pipe</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
     <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">input_pipe</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_WRONLY</span><span class="p">)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="p">(</span><span class="n">message</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">())))</span>
     <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
 </code></pre></div>
-<p>我们可以观察到,在函数的第一行,我们调用一个系统调用:open. 该系统调用若成功的话会返回一个文件描述符, 通过该文件描述符我们就能够读写那个FIFO文件中的数据. 请注意,我们可以通过flags参数控制打开FIFO文件的模式. 由于write_message函数紧紧需要写数据,因此我们使用如下代码:</p>
+<p>我们可以观察到,在函数的第一行,我们调用一个系统调用:<code>open</code>. 该系统调用若成功的话会返回一个文件描述符, 通过该文件描述符我们就能够读写那个<code>FIFO</code>文件中的数据. 请注意,我们可以通过<code>flags</code>参数控制打开<strong>FIFO</strong>文件的模式. 由于<code>write_message</code>函数紧紧需要写数据,因此我们使用如下代码:</p>
 <div class="highlight"><pre><span></span><code><span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">input_pipe</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_WRONLY</span><span class="p">)</span>
 </code></pre></div>
 <p>在成功打开命名管道后,我们使用下面代码写入消息:</p>
 <div class="highlight"><pre><span></span><code><span class="n">os</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="p">(</span><span class="n">message</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()))</span>
 </code></pre></div>
-<p>最后,请一定记着使用close关闭通讯渠道,这样才能释放被占用的计算机资源.</p>
+<p>最后,请一定记着使用<code>close</code>关闭通讯渠道,这样才能释放被占用的计算机资源.</p>
 <div class="highlight"><pre><span></span><code><span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="_4">从命名管道读取数据</h3>
-<p>我们实现了read_from_pipe.py来读取命名管道. 当然,改程序也需要借组os模块才能操作命名模块. 改程序的主要代码很简单:首先,我们定义了所使用命名管道的标签,该标签需要与写进程所用的命名管道同名.</p>
+<p>我们实现<code>read_from_pipe.py</code>来读取命名管道. 当然,改程序也需要借助<code>os</code>模块才能操作命名管道. 改程序的主要代码很简单: 首先,我们定义了所使用命名管道的标签,该标签需要与写进程所用的命名管道同名.</p>
 <div class="highlight"><pre><span></span><code><span class="n">named_pipe</span> <span class="o">=</span> <span class="s2">"my_pipe"</span>
 </code></pre></div>
-<p>然后,我们调用read_message函数,该函数会读取write_to_named_pipe.py写入的内容. read_message函数的定义如下:</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">read_message</span><span class="p">(</span><span class="n">input_type</span><span class="p">):</span>
-    <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">input_pipe</span><span class="p">,</span> <span class="n">os_RONLY</span><span class="p">)</span>
-    <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">"I pid [</span><span class="si">%d</span><span class="s2">] received a message =&gt; </span><span class="si">%s</span><span class="s2">"</span>
-            <span class="o">%</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="mi">22</span><span class="p">))</span>
+<p>然后,我们调用<code>read_message</code>函数,该函数会读取<code>write_to_named_pipe.py</code>写入的内容. <code>read_message</code>函数的定义如下:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 此处原文应该有错</span>
+
+<span class="k">def</span> <span class="nf">read_message</span><span class="p">(</span><span class="n">input_pipe</span><span class="p">):</span>
+    <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">input_pipe</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDONLY</span><span class="p">)</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">"I pid [</span><span class="si">%d</span><span class="s2">] received a message =&gt; </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="mi">22</span><span class="p">))</span>
     <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">message</span>
 </code></pre></div>
-<p>上面代码中,open调用相比无需再介绍了,唯一没见过的只有read调用. 该调用从命名管道中读取指定字节的内容. 这里我们从文件描述符中读取22个字节的内容. 消息被读取出来之后,又被该函数作为返回值返回. 最后依然记得调用close调用来关闭通讯渠道.</p>
-<p>最终,下面的截屏显示了write_to_named_pip和read_from_named_pipe程序的执行结果.</p>
+<p><code>open</code>调用不需要再介绍。 这里的新事物是我们的读取调用，它以字节为单位执行数量的读取。 在我们的例子中，如果给出了文件描述符，它就是 <code>22</code> 个字节。 消息被读取后，由函数返回。 最后，必须执行<code>close</code>调用以关闭通信通道。</p>
+<div class="admonition info">
+<p>要验证已打开文件描述符的有效性。需要由用户处理在使用文件描述符和命名管道时产生的相关异常。</p>
+</div>
+<p>最终,下面的截屏显示了<code>write_to_named_pip</code>和<code>read_from_named_pipe</code>程序的执行结果.</p>
+<div class="highlight"><pre><span></span><code>&gt;$<span class="w"> </span>python<span class="w"> </span>write_to_named_pipe.py
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>&gt;$<span class="w"> </span>python<span class="w"> </span>read_from_pipe.py
+I<span class="w"> </span>pid<span class="w"> </span><span class="o">[</span><span class="m">61032</span><span class="o">]</span><span class="w"> </span>received<span class="w"> </span>a<span class="w"> </span><span class="nv">message</span><span class="w"> </span><span class="o">=</span>&gt;<span class="w"> </span>Hello<span class="w"> </span><span class="m">61017</span>
+</code></pre></div>
+<h2 id="_5">完整示例</h2>
+<p>译者注:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># write_to_named_pip.py</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<span class="k">def</span> <span class="nf">write_message</span><span class="p">(</span><span class="n">input_pipe</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">input_pipe</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_WRONLY</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="p">(</span><span class="n">message</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()))</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span> <span class="c1"># 管道通信为字节，这里需要转码</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">named_pipe</span> <span class="o">=</span> <span class="s2">"my_pipe"</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">named_pipe</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkfifo</span><span class="p">(</span><span class="n">named_pipe</span><span class="p">)</span>
+
+    <span class="n">write_message</span><span class="p">(</span><span class="n">named_pipe</span><span class="p">,</span> <span class="s2">"Hello </span><span class="si">%s</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># read_from_named_pipe.py</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<span class="k">def</span> <span class="nf">read_message</span><span class="p">(</span><span class="n">input_pipe</span><span class="p">):</span>
+    <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">input_pipe</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDONLY</span><span class="p">)</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">"I pid [</span><span class="si">%d</span><span class="s2">] received a message =&gt; </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">(),</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="mi">22</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span>  <span class="c1"># 管道通信为字节，这里需要转码</span>
+    <span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">message</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">named_pipe</span> <span class="o">=</span> <span class="s2">"my_pipe"</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">named_pipe</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkfifo</span><span class="p">(</span><span class="n">named_pipe</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">read_message</span><span class="p">(</span><span class="n">named_pipe</span><span class="p">))</span>
+</code></pre></div>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2015年2月7日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 </small>
 </div>
 </article>
