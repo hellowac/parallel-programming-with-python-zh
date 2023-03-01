@@ -5,11 +5,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../%E7%90%86%E8%A7%A3%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%AE%9A%E4%B9%89/" rel="prev"/>
-<link href="../%E4%BD%BF%E7%94%A8%E5%A4%9A%E8%BF%9B%E7%A8%8B%E8%A7%A3%E5%86%B3%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97%E5%A4%9A%E8%BE%93%E5%85%A5%E9%97%AE%E9%A2%98/" rel="next"/>
+<link href="../using_multiprocessing_to_compute_fibonacci_series_terms_with_multiple_inputs/" rel="prev"/>
+<link href="../%E6%80%BB%E7%BB%93/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
-<title>理解多进程通信 - python并发编程-中文版</title>
+<title>使用ProcessPoolExecutor模块设计网络爬虫 - python并发编程-中文版</title>
 <link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -33,7 +33,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#_1">
+<a class="md-skip" href="#processpoolexecutor">
           跳转至
         </a>
 </div>
@@ -57,7 +57,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              理解多进程通信
+              使用ProcessPoolExecutor模块设计网络爬虫
             
           </span>
 </div>
@@ -312,18 +312,28 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%90%86%E8%A7%A3%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%AE%9A%E4%B9%89/">
+<a class="md-nav__link" href="../understanding_the_concept_of_a_process/">
         理解进程的概念
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../implementing_multiprocessing_communication/">
+        理解多进程通信
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../using_multiprocessing_to_compute_fibonacci_series_terms_with_multiple_inputs/">
+        使用多进程解决斐波那契数列多输入问题
       </a>
 </li>
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
 <label class="md-nav__link md-nav__link--active" for="__toc">
-          理解多进程通信
+          使用ProcessPoolExecutor模块设计网络爬虫
           <span class="md-nav__icon md-icon"></span>
 </label>
 <a class="md-nav__link md-nav__link--active" href="./">
-        理解多进程通信
+        使用ProcessPoolExecutor模块设计网络爬虫
       </a>
 <nav aria-label="目录" class="md-nav md-nav--secondary">
 <label class="md-nav__title" for="__toc">
@@ -332,27 +342,12 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#multiprocessingpipe">
-    使用multiprocessing.Pipe模块
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#multiprocessingqueue">
-    理解multiprocessing.Queue模块
+<a class="md-nav__link" href="#_1">
+    完整示例
   </a>
 </li>
 </ul>
 </nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../%E4%BD%BF%E7%94%A8%E5%A4%9A%E8%BF%9B%E7%A8%8B%E8%A7%A3%E5%86%B3%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97%E5%A4%9A%E8%BE%93%E5%85%A5%E9%97%AE%E9%A2%98/">
-        使用多进程解决斐波那契数列多输入问题
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../%E4%BD%BF%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/">
-        使用ProcessPoolExecutor模块设计网络爬虫
-      </a>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../%E6%80%BB%E7%BB%93/">
@@ -513,13 +508,8 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#multiprocessingpipe">
-    使用multiprocessing.Pipe模块
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#multiprocessingqueue">
-    理解multiprocessing.Queue模块
+<a class="md-nav__link" href="#_1">
+    完整示例
   </a>
 </li>
 </ul>
@@ -529,51 +519,129 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="_1">实现多进程间通信</h1>
-<p>python中的multiprocessing模块支持两种方式在进程间通信，都是基于消息传递机制。之前我们介绍过，由于缺乏同步机制因此不得不采取消息传递机制，在进程间传递复制的数据。</p>
-<h2 id="multiprocessingpipe">使用multiprocessing.Pipe模块</h2>
-<p>pipe管道在两个端点间搭建一种通信机制，通过在进程间建立通道使得进程间可以相互通信。
-为了更好的说明multiprocessing.Pipe对象的使用方法，我们将介绍一个python程序，包含A,B两个进程。进程A发送1到10之间的一个数给进程B，进程B将打印该数，接下来让我们一步步介绍这个程序。
-我们首先导入一些我们程序中需要的包，如下：</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">random</span>
-<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Pipe</span>
+<h1 id="processpoolexecutor">使用ProcessPoolExecutor模块设计网络爬虫</h1>
+<p>正如<code>concurrent.futures</code>模块提供了<code>ThreadPoolExecutor</code>，方便创建和操作多个线程，进程属于<code>ProcessPoolExecutor</code>类。 <code>ProcessPoolExecutor</code> 类也包含在 <code>concurrent.futures</code> 包中，用于实现我们的并行 <code>Web</code> 爬虫。 为了实施这个案例研究，我们创建了一个名为 <code>process_pool_executor_web_crawler.py</code> 的 <code>Python</code> 模块。</p>
+<p>代码以前面示例中已知的导入启动，例如<code>requests</code>、<code>Manager</code> 模块等。 关于任务的定义，以及线程的使用，与上一章的示例相比几乎没有变化，只是现在我们发送数据以通过函数参数形式进行； 参考以下说明：</p>
+<p><code>group_urls_task</code>函数定义如下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">group_urls_task</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="n">result_dict</span><span class="p">,</span> <span class="n">html_link_regex</span><span class="p">)</span>
 </code></pre></div>
-<p>通过os模块的os.getpid()方法使得我们获得进程的PID。os.getpid()将以一种透明的方式返回程序的PID，在我们的程序中，它分别返回producer_task进程和consumer_task进程的PID。
-下面我们将定义producer_task方法，该方法返回1到10之间的一个随机数。producer_task方法的关键是调用conn.send方法，conn以参数的形式在主函数中被传給producer_task方法。producer_task方法如下：</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">producer_task</span><span class="p">(</span><span class="n">conn</span><span class="p">):</span>
-    <span class="n">value</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-    <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'Value [</span><span class="si">%d</span><span class="s1">] send by PID [</span><span class="si">%d</span><span class="s1">]'</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()))</span>
-    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<p><code>crawl_task</code>函数定义如下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">crawl_task</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">html_link_regex</span><span class="p">)</span>
 </code></pre></div>
-<p>consumer进程将要执行的任务也很简单，它唯一的任务就是接收A进程传递过来的参数，接收本进程的PID，最终打印出来。consumer进程的中传入的consumer_task方法如下：</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">consumer_task</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'Value [</span><span class="si">%d</span><span class="s1">] received by PID [</span><span class="si">%d</span><span class="s1">]'</span> <span class="o">%</span> <span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()))</span>
-</code></pre></div>
-<p>最后一块将介绍如何调用Pipe()方法创建两个连接对象分别用于producer进程和consumer进程，然后通过参数形式各自传递到consumer_task方法和producer_task方法中去，主函数具体如下所是：</p>
+<p>现在让我们看一下代码块，其中有一些细微但相关的变化。进入主代码块，我们声明了一个<code>Manager</code>类型的对象，现在它将允许<strong>共享队列</strong>，而不仅仅是包含处理结果的字典。为了定义这个包含需要抓取的URL的名为<code>urls</code>的队列，我们将使用<code>Manager.Queue</code>对象。对于结果字典，我们将使用<code>Manager.dict</code>对象，旨在使用一个由代理管理的字典。下面示例代码说明了这些定义。</p>
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
-    <span class="n">producer_conn</span><span class="p">,</span> <span class="n">consumer_conn</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">()</span>
-    <span class="n">consumer</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">consumer_task</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">consumer_conn</span><span class="p">,))</span>
-    <span class="n">producer</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">producer_task</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">producer_conn</span><span class="p">,))</span>
-
-    <span class="n">consumer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-    <span class="n">producer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-
-    <span class="n">consumer</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-    <span class="n">producer</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+    <span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">()</span>
+    <span class="n">urls</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+    <span class="n">urls</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"http://br.bing.com/"</span><span class="p">)</span>
+    <span class="n">urls</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">"https://github.com"</span><span class="p">)</span>
+    <span class="n">result_dict</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
 </code></pre></div>
-<p>定义好进程之后，我们便可以调用进程对象的start方法开始执行进程，join方法用于分别等待producer进程和consumer进程执行完毕。下面的截图中我们将看到程序的输出：</p>
-<h2 id="multiprocessingqueue">理解multiprocessing.Queue模块</h2>
-<p>之前小节中我们分析了如何在进程间创建通信通道来传递消息，现在我们将分析如何更有效的传递消息，这里我们使用mutilprocessing模块下的Queue对象。multoprocessing.Queue对象方法和queue.Queue对象方法类似。然后内在实现却不尽相同，比如multiprocess模块使用了内部线程feeder，把缓冲区中的数据传入目标进程相关连接的管道中。管道和队列机制均使用了消息传递机制，节省了使用同步机制带来的开销。</p>
+<p>然后，我们定义了爬虫阶段要使用的正则表达式，并获得了运行该程序的机器的处理器数量，如以下代码所示：</p>
+<div class="highlight"><pre><span></span><code><span class="n">html_link_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">'&lt;a\s(?:.*?\s)*?href=[</span><span class="se">\'</span><span class="s1">"](.*?)[</span><span class="se">\'</span><span class="s1">"].*?&gt;'</span><span class="p">)</span>
+<span class="n">number_of_cpus</span> <span class="o">=</span> <span class="n">cpu_count</span><span class="p">()</span>
+</code></pre></div>
+<p>In the final chunk, we can notice the consistency in the APIs that are in the concurrent.futures module. The following chunk is exactly the one used in our example using ThreadPoolExecutor, as mentioned in the previous chapter. However, it is enough to change the class to ProcessPoolExecutor by altering the internal behavior and tackling the GIL issue for CPU-bound processes without breaking the code. Check the following chunks; both create ProcessPoolExecutor with workers with limits equal to the number of processors in the machine. The first executor is for grouping the URLs in the dictionary with the standard None value. The second executor proceeds with the crawling stage.</p>
+<p>在最后一个代码块中，我们可以注意到<code>concurrent.futures</code>模块中的API的一致性。下面这块内容正是我们在上一章中提到的使用<code>ThreadPoolExecutor</code>的例子中使用的。然而，通过改变内部行为和解决CPU绑定进程的GIL问题，将该类改为<code>ProcessPoolExecutor</code>就足够了，而不会破坏代码。检查以下几个代码块；这两块都创建了<code>ProcessPoolExecutor</code>，其工作者的限制等于机器中处理器的数量。第一个executor用于将字典中的<code>URL</code>以标准的<code>None</code>值分组。第二个executor进行抓取阶段。</p>
+<p>下面是第一个executor的一代码块。</p>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">number_of_cpus</span><span class="p">)</span> <span class="k">as</span> <span class="n">group_link_processes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">urls</span><span class="o">.</span><span class="n">qsize</span><span class="p">()):</span>
+            <span class="n">group_link_processes</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">group_urls_task</span><span class="p">,</span> <span class="n">urls</span><span class="p">,</span> <span class="n">result_dict</span><span class="p">,</span> <span class="n">html_link_regex</span><span class="p">)</span>
+</code></pre></div>
+<p>第二个executor的代码块如下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">number_of_cpus</span><span class="p">)</span> <span class="k">as</span> <span class="n">crawler_link_processes</span><span class="p">:</span>
+        <span class="n">future_tasks</span> <span class="o">=</span> <span class="p">{</span><span class="n">crawler_link_processes</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">crawl_task</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">html_link_regex</span><span class="p">):</span> <span class="n">url</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">result_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+        <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">as_completed</span><span class="p">(</span><span class="n">future_tasks</span><span class="p">):</span>
+            <span class="n">result_dict</span><span class="p">[</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+<div class="admonition info">
+<p>使用 <code>concurrent.futures</code> 从多线程模式切换到多进程稍微简单一些。</p>
+</div>
+<p>程序运行结果如下图：</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>process_pool_executor_web_crawler.py
+<span class="o">[</span>SpawnProcess-4<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>url<span class="w"> </span><span class="o">[</span>http://www.google.com<span class="o">]</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>dictionary...
+<span class="o">[</span>SpawnProcess-4<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>url<span class="w"> </span><span class="o">[</span>http://br.bing.com/<span class="o">]</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>dictionary...
+<span class="o">[</span>SpawnProcess-4<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>url<span class="w"> </span><span class="o">[</span>https://duckduckgo.com/<span class="o">]</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>dictionary...
+<span class="o">[</span>SpawnProcess-4<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>url<span class="w"> </span><span class="o">[</span>http://br.search.yahoo.com/<span class="o">]</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>dictionary...
+<span class="o">[</span>SpawnProcess-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>url<span class="w"> </span><span class="o">[</span>https://github.com/<span class="o">]</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>dictionary...
+<span class="o">[</span>SpawnProcess-11<span class="o">]</span><span class="w"> </span>crawling<span class="w"> </span>url<span class="w"> </span><span class="o">[</span>https://duckduckgo.com/<span class="o">]</span><span class="w"> </span>...
+<span class="o">[</span>SpawnProcess-10<span class="o">]</span><span class="w"> </span>crawling<span class="w"> </span>url<span class="w"> </span><span class="o">[</span>http://www.google.com<span class="o">]</span><span class="w"> </span>...
+<span class="o">[</span>SpawnProcess-8<span class="o">]</span><span class="w"> </span>crawling<span class="w"> </span>url<span class="w"> </span><span class="o">[</span>https://github.com/<span class="o">]</span><span class="w"> </span>...
+<span class="o">[</span>SpawnProcess-7<span class="o">]</span><span class="w"> </span>crawling<span class="w"> </span>url<span class="w"> </span><span class="o">[</span>http://br.bing.com/<span class="o">]</span><span class="w"> </span>...
+<span class="o">[</span>SpawnProcess-9<span class="o">]</span><span class="w"> </span>crawling<span class="w"> </span>url<span class="w"> </span><span class="o">[</span>http://br.search.yahoo.com/<span class="o">]</span><span class="w"> </span>...
+<span class="o">[</span>http://www.google.com<span class="o">]</span><span class="w"> </span>with<span class="w"> </span>links:<span class="w"> </span><span class="o">[</span>http://www.google.com.hk/imghp?hl<span class="o">=</span>zh-TW<span class="p">&amp;</span><span class="nv">tab</span><span class="o">=</span>wi...
+<span class="o">[</span>http://br.bing.com/<span class="o">]</span><span class="w"> </span>with<span class="w"> </span>links:<span class="w"> </span><span class="o">[</span>javascript:void<span class="o">(</span><span class="m">0</span><span class="o">)</span><span class="p">;</span>...
+<span class="o">[</span>https://duckduckgo.com/<span class="o">]</span><span class="w"> </span>with<span class="w"> </span>links:<span class="w"> </span><span class="o">[</span>/about...
+<span class="o">[</span>http://br.search.yahoo.com/<span class="o">]</span><span class="w"> </span>with<span class="w"> </span>links:<span class="w"> </span><span class="o">[</span>https://br.yahoo.com/...
+<span class="o">[</span>https://github.com/<span class="o">]</span><span class="w"> </span>with<span class="w"> </span>links:<span class="w"> </span><span class="o">[</span><span class="c1">#start-of-content...</span>
+</code></pre></div>
+<h2 id="_1">完整示例</h2>
+<p>译者注:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">queue</span> 
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Manager</span><span class="p">,</span> <span class="n">cpu_count</span><span class="p">,</span> <span class="n">current_process</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+
+
+<span class="n">result_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">def</span> <span class="nf">group_urls_task</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span> <span class="n">result_dict</span><span class="p">,</span> <span class="n">html_link_regex</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">urls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>  <span class="c1"># true表示阻塞其他线程访问这个队列，0.05表示阻塞的超时时间</span>
+        <span class="n">result_dict</span><span class="p">[</span><span class="n">url</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"[</span><span class="si">%s</span><span class="s2">] putting url [</span><span class="si">%s</span><span class="s2">] in dictionary..."</span> <span class="o">%</span> <span class="p">(</span><span class="n">current_process</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">url</span><span class="p">))</span>
+    <span class="k">except</span> <span class="n">queue</span><span class="o">.</span><span class="n">Empty</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Nothing to be done, queue is empty'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">crawl_task</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">html_link_regex</span><span class="p">):</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">request_data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"[</span><span class="si">%s</span><span class="s2">] crawling url [</span><span class="si">%s</span><span class="s2">] ..."</span> <span class="o">%</span> <span class="p">(</span><span class="n">current_process</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">url</span><span class="p">))</span>
+        <span class="n">links</span> <span class="o">=</span> <span class="n">html_link_regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">request_data</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"error: </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">raise</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">links</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+
+    <span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">()</span>
+    <span class="n">urls</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+    <span class="n">urls</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s1">'http://www.google.com'</span><span class="p">)</span>
+    <span class="n">urls</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s1">'http://br.bing.com/'</span><span class="p">)</span>
+    <span class="n">urls</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s1">'https://duckduckgo.com/'</span><span class="p">)</span>
+    <span class="n">urls</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s1">'https://github.com/'</span><span class="p">)</span>
+    <span class="n">urls</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s1">'http://br.search.yahoo.com/'</span><span class="p">)</span>
+    <span class="n">result_dict</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+
+    <span class="n">html_link_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">'&lt;a\s(?:.*?\s)*?href=[</span><span class="se">\'</span><span class="s1">"](.*?)[</span><span class="se">\'</span><span class="s1">"].*?&gt;'</span><span class="p">)</span>
+    <span class="n">number_of_cpus</span> <span class="o">=</span> <span class="n">cpu_count</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">number_of_cpus</span><span class="p">)</span> <span class="k">as</span> <span class="n">group_link_processes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">urls</span><span class="o">.</span><span class="n">qsize</span><span class="p">()):</span>
+            <span class="n">group_link_processes</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">group_urls_task</span><span class="p">,</span> <span class="n">urls</span><span class="p">,</span> <span class="n">result_dict</span><span class="p">,</span> <span class="n">html_link_regex</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">number_of_cpus</span><span class="p">)</span> <span class="k">as</span> <span class="n">crawler_link_processes</span><span class="p">:</span>
+        <span class="n">future_tasks</span> <span class="o">=</span> <span class="p">{</span><span class="n">crawler_link_processes</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">crawl_task</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">html_link_regex</span><span class="p">):</span> <span class="n">url</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">result_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+        <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">future_tasks</span><span class="p">):</span>
+            <span class="n">result_dict</span><span class="p">[</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">url</span><span class="p">,</span> <span class="n">links</span> <span class="ow">in</span> <span class="n">result_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">] with links: [</span><span class="si">{</span><span class="n">links</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
+</code></pre></div>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2015年2月7日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 </small>
 </div>
 </article>

@@ -5,8 +5,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" rel="prev"/>
-<link href="../%E4%BD%BF%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/" rel="next"/>
+<link href="../implementing_multiprocessing_communication/" rel="prev"/>
+<link href="../crawling_the_web_using_processPoolExecutor/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
 <title>使用多进程解决斐波那契数列多输入问题 - python并发编程-中文版</title>
@@ -312,23 +312,40 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%90%86%E8%A7%A3%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%AE%9A%E4%B9%89/">
+<a class="md-nav__link" href="../understanding_the_concept_of_a_process/">
         理解进程的概念
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">
+<a class="md-nav__link" href="../implementing_multiprocessing_communication/">
         理解多进程通信
       </a>
 </li>
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          使用多进程解决斐波那契数列多输入问题
+          <span class="md-nav__icon md-icon"></span>
+</label>
 <a class="md-nav__link md-nav__link--active" href="./">
         使用多进程解决斐波那契数列多输入问题
       </a>
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+    完整示例
+  </a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E4%BD%BF%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/">
+<a class="md-nav__link" href="../crawling_the_web_using_processPoolExecutor/">
         使用ProcessPoolExecutor模块设计网络爬虫
       </a>
 </li>
@@ -485,6 +502,17 @@
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
 <nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+    完整示例
+  </a>
+</li>
+</ul>
 </nav>
 </div>
 </div>
@@ -492,20 +520,23 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="_1">使用多进程解决斐波那契序列多输入问题</h1>
-<p>下面我们将使用多进程解决多输入情况下的斐波那契数列问题，而不是之前我们使用的多线程的方法。
-multiprocessing_fibonacci.py程序使用multiprocessing模块，为了顺利执行，还导入了如下模块：</p>
+<p>下面我们将使用多进程解决多输入情况下的斐波那契数列问题，而不是之前我们使用的多线程的方法。</p>
+<p><code>multiprocessing_fibonacci.py</code> 代码使用了 <code>multiprocessing</code> 模块，为了运行，它导入了一些基本模块，我们可以在以下代码中观察到：</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">random</span><span class="o">,</span> <span class="nn">re</span><span class="o">,</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">concurrent.futures</span>
-<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span><span class="p">,</span> <span class="n">cpu_count</span><span class="p">,</span> <span class="n">current_process</span><span class="p">,</span> <span class="n">Manager</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">cpu_count</span><span class="p">,</span> <span class="n">current_process</span><span class="p">,</span> <span class="n">Manager</span>
 </code></pre></div>
-<p>上面一些导入模块在之前的章节中提及过，然而，下面的这些模块我们需要特别注意：</p>
+<p>前面的章节中已经提到了一些导入； 尽管如此，以下某些导入确实值得特别注意：</p>
 <ul>
-<li>cpu_count: 该方法允许获得机器cpu的数量</li>
-<li>current_process: 该方法可以获得当前进程的信息，比如进程名称</li>
-<li>Manager: 该类通过对象的方式允许功在多进程之间共享python对象</li>
+<li><strong>cpu_count</strong>: 这是一个允许获取机器中 CPU 数量的函数。</li>
+<li><strong>current_process</strong>: 这是一个允许获取有关当前进程的信息的函数，例如，它的名称。</li>
+<li><strong>Manager</strong>: 这是一种允许通过代理在不同进程之间共享 <code>Python</code> 对象的类型。（更多信息参考:<a href="http://docs.python.org/3/library/multiprocessing.html#multiprocessing.Manager" target="_blank">http://docs.python.org/3/library/multiprocessing.html#multiprocessing.Manager</a>）</li>
 </ul>
-<p>下面的代码中我们可以注意到第一个方法有点不同，它将产生15个1到20之间的整数，这些整数将被当作fibo_dict的key使用。
-接下来让我们一起来看producer_task方法，如下：</p>
+<p>按照代码，我们可以注意到第一个函数的行为有所不同； 它将在 0-14 次迭代期间以 1 到 20 的间隔生成随机值。 这些值将作为键插入到 <code>fibo_dict</code> 中，这是一个由 <code>Manager</code> 对象生成的字典。</p>
+<div class="admonition warning">
+<p>使用消息传递的方法更为常见。 然而，在某些情况下，我们需要在不同进程之间共享一段数据，正如我们在 <code>fibo_dict</code> 字典中看到的那样。</p>
+</div>
+<p>接下来让我们一起来看<code>producer_task</code>方法，如下：</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">producer_task</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">fibo_dict</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">):</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
@@ -514,8 +545,8 @@ multiprocessing_fibonacci.py程序使用multiprocessing模块，为了顺利执�
         <span class="nb">print</span><span class="p">(</span><span class="s2">"Producer [</span><span class="si">%s</span><span class="s2">] putting value [</span><span class="si">%d</span><span class="s2">] into queue.."</span> <span class="o">%</span> <span class="p">(</span><span class="n">current_process</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
         <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 </code></pre></div>
-<p>下面将定义一个函数来计算fibo_dict中key对应的斐波那契数列值，和之前章节介绍计算斐波那契序列值不同的是，这里把fibo_dict当作参数传入不同的processes。</p>
-<p>下面是consumer_task方法，如下：</p>
+<p>下一步是定义函数，该函数将为 <code>fibo_dict</code> 中的每个键计算斐波那契数列值。值得注意的是，与上一章中介绍的函数相关的唯一区别是使用 <code>fibo_dict</code> 作为参数以允许在不同进程使用它。</p>
+<p>下面是<code>consumer_task</code>方法，如下：</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">consumer_task</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">fibo_dict</span><span class="p">):</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">q</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
@@ -525,38 +556,115 @@ multiprocessing_fibonacci.py程序使用multiprocessing模块，为了顺利执�
         <span class="n">fibo_dict</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">"consumer [</span><span class="si">%s</span><span class="s2">] getting value [</span><span class="si">%d</span><span class="s2">] from queue..."</span> <span class="o">%</span> <span class="p">(</span><span class="n">current_process</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
 </code></pre></div>
-<p>更进一步，我们来看main函数中的代码，main函数中下面几个变量被定义：</p>
+<p>为了进一步了解代码，我们看看程序的主代码块。在这个主代码块中，定义了以下一些变量：</p>
 <ul>
-<li>data_queue: 该参数由multiprocessing.Queueu来创建，是进程安全的</li>
-<li>number_of_cpus: 该参数由multiprocessing.cpu_count方法获得，获得机器cpu的个数</li>
-<li>fibo_dict: 这个字典类型变量从Manager实例获得，保存多进程计算结果</li>
+<li><strong>data_queue</strong>: 该参数由<code>multiprocessing.Queueu</code>来创建，是进程安全的</li>
+<li><strong>number_of_cpus</strong>: 该参数由<code>multiprocessing.cpu_count</code>方法获得，获得机器cpu的个数</li>
+<li><strong>fibo_dict</strong>: 这个字典类型变量从<code>Manager</code>实例获得，保存多进程计算结果</li>
 </ul>
-<p>然后，我们将创建producer进程，并传入data_queue队列，data_queue队列值由producer_task方法获得:</p>
+<p>在代码中，我们创建了一个名为 <code>producer</code> 的进程，以使用 <code>producer_task</code> 函数使用随机值填充 <code>data_queue</code>，如下所示：</p>
 <div class="highlight"><pre><span></span><code><span class="n">producer</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">producer_task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">data_queue</span><span class="p">,</span> <span class="n">fibo_dict</span><span class="p">))</span>
 <span class="n">producer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 <span class="n">producer</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 </code></pre></div>
-<p>我们可以注意到Process实例的初始化过程和我们之前的Thread实例初始化过程类似。初始化函数接收target参数作为进程中要执行的函数，和args参数作为target传入的函数的参数。接下来我们通过start方式开始进程，然后使用join方法，等待producer进程执行完毕。</p>
-<p>下面一块代码中，我们将定义consumer_list队列，存入初始化过的consumer进程。使用list存储consumer对象的原因是在所有进程结束开始后调用join方法。循环中的每一个worker被调用后，下一个worker将等待上一个worker执行完毕后才开始执行，下面代码将描述这一过程：</p>
+<p>我们可以注意到<code>Process</code>实例的初始化过程和我们之前的<code>Thread</code>实例初始化过程类似。初始化函数接收<code>target</code>参数作为进程中要执行的函数，和<code>args</code>参数作为<code>target</code>传入的函数的参数。接下来我们通过<code>start()</code>函数开始进程，然后使用<code>join()</code>方法，等待<code>producer</code>进程执行完毕。</p>
+<p>在下一个块中，我们定义了一个名为 <code>consumer_list</code> 的列表，它将存储已初始化进程的消费者列表。 创建此列表的原因是仅在所有 <code>worker</code> 的进程开始后调用 <code>join()</code>。 如果为循环中的每个项目调用 <code>join()</code> 函数，那么只有第一个 <code>worker</code> 会执行该作业，因为下一次迭代将被阻塞，等待当前 <code>worker</code> 结束，最后下一个<code>worker</code>将没有其他要处理的内容； 以下代码代表了这种情况：</p>
 <div class="highlight"><pre><span></span><code><span class="n">consumer_list</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">cpu</span> <span class="o">=</span> <span class="n">cpu_count</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cpu</span><span class="p">):</span>
+<span class="n">number_of_cpus</span> <span class="o">=</span> <span class="n">cpu_count</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_cpus</span><span class="p">):</span>
     <span class="n">consumer</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">consumer_task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">data_queue</span><span class="p">,</span> <span class="n">fibo_dict</span><span class="p">))</span>
     <span class="n">consumer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
     <span class="n">consumer_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
+
 <span class="p">[</span><span class="n">consumer</span><span class="o">.</span><span class="n">join</span><span class="p">()</span> <span class="k">for</span> <span class="n">consumer</span> <span class="ow">in</span> <span class="n">consumer_list</span><span class="p">]</span>
 </code></pre></div>
-<p>最终我们将迭代输出fibo_dict中的结果，如下面截图所示：</p>
+<p>最终，我们在 <code>fibo_dict</code> 中展示了迭代的结果，如下截图所示：</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>multiprocessing_fibonacci.py
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">10</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">19</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">6</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">17</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">18</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">19</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">17</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">18</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">4</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">6</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">7</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">9</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">4</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+Producer<span class="w"> </span><span class="o">[</span>Process-2<span class="o">]</span><span class="w"> </span>putting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">19</span><span class="o">]</span><span class="w"> </span>into<span class="w"> </span>queue..
+consumer<span class="w"> </span><span class="o">[</span>Process-4<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">8</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-6<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">6</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-9<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">19</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-13<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">6</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-11<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">4</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-4<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">9</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-8<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">18</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-10<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">18</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-3<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">19</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-5<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">10</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-6<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">4</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-7<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">17</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-14<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">17</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-12<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">7</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+consumer<span class="w"> </span><span class="o">[</span>Process-9<span class="o">]</span><span class="w"> </span>getting<span class="w"> </span>value<span class="w"> </span><span class="o">[</span><span class="m">19</span><span class="o">]</span><span class="w"> </span>from<span class="w"> </span>queue...
+<span class="o">{</span><span class="m">8</span>:<span class="w"> </span><span class="m">21</span>,<span class="w"> </span><span class="m">10</span>:<span class="w"> </span><span class="m">55</span>,<span class="w"> </span><span class="m">19</span>:<span class="w"> </span><span class="m">4181</span>,<span class="w"> </span><span class="m">6</span>:<span class="w"> </span><span class="m">8</span>,<span class="w"> </span><span class="m">17</span>:<span class="w"> </span><span class="m">1597</span>,<span class="w"> </span><span class="m">18</span>:<span class="w"> </span><span class="m">2584</span>,<span class="w"> </span><span class="m">4</span>:<span class="w"> </span><span class="m">3</span>,<span class="w"> </span><span class="m">7</span>:<span class="w"> </span><span class="m">13</span>,<span class="w"> </span><span class="m">9</span>:<span class="w"> </span><span class="m">34</span><span class="o">}</span>
+</code></pre></div>
+<h2 id="_2">完整示例</h2>
+<p>译者注:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#coding: utf-8</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">concurrent.futures</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">cpu_count</span><span class="p">,</span> <span class="n">current_process</span><span class="p">,</span> <span class="n">Manager</span><span class="p">,</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Queue</span>
+
+<span class="k">def</span> <span class="nf">producer_task</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">fibo_dict</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+        <span class="n">fibo_dict</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Producer [</span><span class="si">%s</span><span class="s2">] putting value [</span><span class="si">%d</span><span class="s2">] into queue.."</span> <span class="o">%</span> <span class="p">(</span><span class="n">current_process</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+        <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">consumer_task</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">fibo_dict</span><span class="p">):</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">q</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+        <span class="n">fibo_dict</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>  <span class="c1"># 由于现代计算机cpu处理太快，这里随机sleep几秒</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"consumer [</span><span class="si">%s</span><span class="s2">] getting value [</span><span class="si">%d</span><span class="s2">] from queue..."</span> <span class="o">%</span> <span class="p">(</span><span class="n">current_process</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">fibo_dict</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">()</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>  <span class="c1"># 如果替换为 {}, 则没有共享对象的功能，打印出来将是空的。</span>
+    <span class="n">data_queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+
+    <span class="n">producer</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">producer_task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">data_queue</span><span class="p">,</span> <span class="n">fibo_dict</span><span class="p">))</span>
+    <span class="n">producer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">producer</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+    <span class="n">consumer_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">number_of_cpus</span> <span class="o">=</span> <span class="n">cpu_count</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_cpus</span><span class="p">):</span>
+        <span class="n">consumer</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">consumer_task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">data_queue</span><span class="p">,</span> <span class="n">fibo_dict</span><span class="p">))</span>
+        <span class="n">consumer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">consumer_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">consumer</span><span class="p">)</span>
+
+    <span class="p">[</span><span class="n">consumer</span><span class="o">.</span><span class="n">join</span><span class="p">()</span> <span class="k">for</span> <span class="n">consumer</span> <span class="ow">in</span> <span class="n">consumer_list</span><span class="p">]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">fibo_dict</span><span class="p">)</span>
+</code></pre></div>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2015年2月7日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 </small>
 </div>
 </article>

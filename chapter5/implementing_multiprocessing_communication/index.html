@@ -5,11 +5,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../" rel="prev"/>
-<link href="../%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" rel="next"/>
+<link href="../understanding_the_concept_of_a_process/" rel="prev"/>
+<link href="../using_multiprocessing_to_compute_fibonacci_series_terms_with_multiple_inputs/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
-<title>理解进程的概念 - python并发编程-中文版</title>
+<title>理解多进程通信 - python并发编程-中文版</title>
 <link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -57,7 +57,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              理解进程的概念
+              理解多进程通信
             
           </span>
 </div>
@@ -311,14 +311,19 @@
           第五章 使用多进程和进程池
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../understanding_the_concept_of_a_process/">
+        理解进程的概念
+      </a>
+</li>
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
 <label class="md-nav__link md-nav__link--active" for="__toc">
-          理解进程的概念
+          理解多进程通信
           <span class="md-nav__icon md-icon"></span>
 </label>
 <a class="md-nav__link md-nav__link--active" href="./">
-        理解进程的概念
+        理解多进程通信
       </a>
 <nav aria-label="目录" class="md-nav md-nav--secondary">
 <label class="md-nav__title" for="__toc">
@@ -327,30 +332,30 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#_2">
-    理解进程模型
+<a class="md-nav__link" href="#multiprocessingpipe">
+    使用multiprocessing.Pipe模块
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#_3">
-    定义进程状态
+<a class="md-nav__link" href="#multiprocessingqueue">
+    理解multiprocessing.Queue模块
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+    完整示例
   </a>
 </li>
 </ul>
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/">
-        理解多进程通信
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../%E4%BD%BF%E7%94%A8%E5%A4%9A%E8%BF%9B%E7%A8%8B%E8%A7%A3%E5%86%B3%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97%E5%A4%9A%E8%BE%93%E5%85%A5%E9%97%AE%E9%A2%98/">
+<a class="md-nav__link" href="../using_multiprocessing_to_compute_fibonacci_series_terms_with_multiple_inputs/">
         使用多进程解决斐波那契数列多输入问题
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E4%BD%BF%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/">
+<a class="md-nav__link" href="../crawling_the_web_using_processPoolExecutor/">
         使用ProcessPoolExecutor模块设计网络爬虫
       </a>
 </li>
@@ -513,13 +518,18 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#_2">
-    理解进程模型
+<a class="md-nav__link" href="#multiprocessingpipe">
+    使用multiprocessing.Pipe模块
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#_3">
-    定义进程状态
+<a class="md-nav__link" href="#multiprocessingqueue">
+    理解multiprocessing.Queue模块
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+    完整示例
   </a>
 </li>
 </ul>
@@ -529,36 +539,91 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="_1">理解进程的定义</h1>
-<p>线程是操作系统中程序执行和资源调度的基本单位。程序的执行由进程来管理，所涉及到的资源包括数据区，子进程，私有栈以及和其他进程间通信。</p>
-<h2 id="_2">理解进程模型</h2>
-<p>进程中定义了相关的信息和资源来确保对进程的操纵和控制，操作系统有一个叫PCB的结构来专门来存储这些信息和资源。例如，PCB结构保存如下的信息：</p>
-<ol>
-<li>Process ID: 这是一个无符号整型数据，标识操作系统中的唯一进程。</li>
-<li>程序计数器: 对应下一条要执行的程序指令地址。</li>
-<li>I/O信息: 包含一组打开的文件和进程相关的设备。</li>
-<li>内存分配: 该区域保存进程已经使用内存空间、为该进程预留的内存空间和页表信息。</li>
-<li>CPU调度: 该区域保存进程优先级信息(and points to the staggering queues)。</li>
-<li>优先级: 定义进程获取CPU资源的优先级。</li>
-<li>当前状态: 表述该进程是准备状态、等待状态还是运行状态。</li>
-<li>CPU申请: 保存栈指针和其他信息。</li>
-</ol>
-<h2 id="_3">定义进程状态</h2>
-<p>进程整个生命周期具有三种状态，分别如下:</p>
-<ul>
-<li>运行状态: 进程正占用cpu资源。</li>
-<li>准备状态: 处于进程队列中的进程已经准备好获取cpu资源。</li>
-<li>等待状态: 进程正在等待执行中的任务所需的I/O操作。</li>
-</ul>
+<h1 id="_1">实现多进程间通信</h1>
+<p><a href="http://docs.python.org/3/library/multiprocessing.html">multiprocessing</a>模块允许进程间以两种方式进行通信，这两种方式都基于消息传递机制。 如前所述，由于缺乏同步机制因此不得不采取消息传递机制，因此是数据副本在进程之间交换。</p>
+<h2 id="multiprocessingpipe">使用multiprocessing.Pipe模块</h2>
+<p><strong>管道</strong>(pipe)由在两个端点（通信中的两个进程）之间建立通信的机制组成。 这是一种创建通道以便在进程之间交换消息的方法。</p>
+<div class="admonition warning">
+<p>Python 官方文档建议每两个端点使用一个管道，因为不能保证另一个端点同时读取安全。</p>
+</div>
+<p>为了举例说明<code>multiprocessing.Pipe</code>对象的使用，我们来实现一个创建两个进程A和B的Python程序，进程A发送一个1到10的随机整数值给进程B，进程B会显示它在屏幕上。 现在，让我们一步步介绍这个程序。</p>
+<p>我们首先导入一些我们程序中需要的包，如下：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Pipe</span>
+</code></pre></div>
+<p>通过<code>os</code>模块的<a href="http://docs.python.org/3.3/library/os.html">os.getpid()</a>方法使得我们可以获得进程的PID。<a href="http://docs.python.org/3.3/library/os.html">os.getpid()</a>将以一种透明的方式返回程序的PID，在我们的示例中，<code>os.getpid()</code> 调用将以透明形式返回负责运行任务 <code>producer_task</code> 和 <code>consumer_task</code> 的各自进程的 <code>PID</code>。</p>
+<p>在程序的下一部分，我们将定义<code>producer_task</code>函数，除此之外，该函数将使用<code>random.randint(1, 10)</code>调用生成一个随机数。这个函数的关键点被称为<code>conn.send(value)</code>，它使用<code>Pipe</code>在主程序的流量中生成的连接对象，该连接对象(conn)已被作为参数发送到该函数。观察<code>producer_task</code>函数的全部内容，如下所示:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">producer_task</span><span class="p">(</span><span class="n">conn</span><span class="p">):</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Value [</span><span class="si">%d</span><span class="s1">] send by PID [</span><span class="si">%d</span><span class="s1">]'</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()))</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+<div class="admonition warning">
+<p>永远不要忘记总是调用<code>Pipe</code>连接的<code>close()</code>方法，该连接通过发送方法发送数据。当不再使用时，这对于最终释放与通信通道相关的资源是很重要的。</p>
+</div>
+<p>消费者进程要执行的任务非常简单，它的唯一目标是在屏幕上打印接收到的值，接收消费者进程的<code>PID</code>。 为了从通信通道获取发送的值，我们使用了 <a href="http://docs.python.org/dev/library/multiprocessing.html#multiprocessing.Connection.recv" target="_blank">conn.recv()</a> 调用。 <code>consumer_task</code> 函数的实现最终如下所示：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">consumer_task</span><span class="p">(</span><span class="n">conn</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Value [</span><span class="si">%d</span><span class="s1">] received by PID [</span><span class="si">%d</span><span class="s1">]'</span> <span class="o">%</span> <span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()))</span>
+</code></pre></div>
+<p>我们这个小例子的最后部分实现了对<code>Pipe()</code>对象的调用，创建了两个连接对象，将被消费者和生产者进程使用。在这个调用之后，生产者和消费者进程被创建，分别发送<code>consumer_task</code>和<code>producer_task</code>函数作为目标函数，我们可以在下面的完整代码中看到。</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">producer_conn</span><span class="p">,</span> <span class="n">consumer_conn</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">()</span>
+    <span class="n">consumer</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">consumer_task</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">consumer_conn</span><span class="p">,))</span>
+    <span class="n">producer</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">producer_task</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">producer_conn</span><span class="p">,))</span>
+
+    <span class="n">consumer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">producer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">consumer</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+    <span class="n">producer</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</code></pre></div>
+<p>定义完进程后，就该调用<code>start()</code>方法来启动执行，并调用<code>join()</code>方法，这样主进程就会等待生产者和消费者进程的执行。</p>
+<p>在下面的截图中，我们可以看到<code>multiprocessing_pipe.py</code>程序的输出。</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>multiprocessing_pipe.py<span class="w"> </span>
+Value<span class="w"> </span><span class="o">[</span><span class="m">6</span><span class="o">]</span><span class="w"> </span>send<span class="w"> </span>by<span class="w"> </span>PID<span class="w"> </span><span class="o">[</span><span class="m">95980</span><span class="o">]</span>
+Value<span class="w"> </span><span class="o">[</span><span class="m">6</span><span class="o">]</span><span class="w"> </span>received<span class="w"> </span>by<span class="w"> </span>PID<span class="w"> </span><span class="o">[</span><span class="m">95979</span><span class="o">]</span>
+</code></pre></div>
+<h2 id="multiprocessingqueue">理解multiprocessing.Queue模块</h2>
+<p>在上一节中，我们分析了管道的概念，通过创建一个通信通道在进程之间建立通信。现在，我们将分析如何有效地建立这种通信，利用<code>Queue</code>对象，它在<code>multiprocessing</code>模块中实现。<code>multiprocessing.Queue</code>的可用接口与<code>queue.Queue</code>相当类似。然而，内部实现使用了不同的机制，比如使用了<code>thread</code>的内部线程<code>feeder</code> ，它将数据从队列的数据缓冲区传输到与目标进程相关的管道。管道和队列机制都利用了<strong>消息传递机制</strong>，这使用户无需使用<strong>同步机制</strong>，从而节省了使用<strong>同步机制</strong>带来的开销。</p>
+<div class="admonition warning">
+<p>虽然使用<code>multiprocessing.Queue</code>的用户不需要使用同步机制，例如<code>Locks</code>，但在内部，这些机制被用来在缓冲区和管道之间传输数据，以完成通信。</p>
+</div>
+<h2 id="_2">完整示例</h2>
+<p>译者注:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Pipe</span>
+
+<span class="k">def</span> <span class="nf">producer_task</span><span class="p">(</span><span class="n">conn</span><span class="p">):</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Value [</span><span class="si">%d</span><span class="s1">] send by PID [</span><span class="si">%d</span><span class="s1">]'</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()))</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">consumer_task</span><span class="p">(</span><span class="n">conn</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Value [</span><span class="si">%d</span><span class="s1">] received by PID [</span><span class="si">%d</span><span class="s1">]'</span> <span class="o">%</span> <span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()))</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">producer_conn</span><span class="p">,</span> <span class="n">consumer_conn</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">()</span>
+    <span class="n">consumer</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">consumer_task</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">consumer_conn</span><span class="p">,))</span>
+    <span class="n">producer</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">producer_task</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">producer_conn</span><span class="p">,))</span>
+
+    <span class="n">consumer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">producer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">consumer</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+    <span class="n">producer</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</code></pre></div>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2015年2月7日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 </small>
 </div>
 </article>
