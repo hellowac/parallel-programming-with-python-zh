@@ -5,11 +5,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../" rel="prev"/>
-<link href="../%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E8%A7%A3%E5%86%B3%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97%E5%A4%9A%E8%BE%93%E5%85%A5%E9%97%AE%E9%A2%98/" rel="next"/>
+<link href="../defining_threads/" rel="prev"/>
+<link href="../crawling_the_web_using_the_concurrent_futures_module/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
-<title>什么是线程 - python并发编程-中文版</title>
+<title>使用threading模块来为多个输入同时计算Fibonacci序列 - python并发编程-中文版</title>
 <link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -57,7 +57,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              什么是线程
+              使用threading模块来为多个输入同时计算Fibonacci序列
             
           </span>
 </div>
@@ -274,51 +274,19 @@
           第四章 使用threading和concurrent.futures模块
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
-          什么是线程
-          <span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../defining_threads/">
         什么是线程
       </a>
-<nav aria-label="目录" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#_2">
-    使用线程的优势和劣势
-  </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#_3">
-    理解不同类型的线程
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#_4">
-    定义线程的状态
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#threading_thread">
-    是使用threading模块还是_thread模块
-  </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E8%A7%A3%E5%86%B3%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97%E5%A4%9A%E8%BE%93%E5%85%A5%E9%97%AE%E9%A2%98/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<a class="md-nav__link md-nav__link--active" href="./">
         使用threading模块来为多个输入同时计算Fibonacci序列
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E4%BD%BF%E7%94%A8concurrent_futures%E6%A8%A1%E5%9D%97%E7%88%AC%E5%8F%96web%E4%BF%A1%E6%81%AF/">
+<a class="md-nav__link" href="../crawling_the_web_using_the_concurrent_futures_module/">
         使用concurrent.futures模块爬取web信息
       </a>
 </li>
@@ -517,98 +485,119 @@
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
 <nav aria-label="目录" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#_2">
-    使用线程的优势和劣势
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#_3">
-    理解不同类型的线程
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#_4">
-    定义线程的状态
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#threading_thread">
-    是使用threading模块还是_thread模块
-  </a>
-</li>
-</ul>
 </nav>
 </div>
 </div>
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="_1">什么是线程</h1>
-<p>线程表示的是进程中不同的执行流程. 让我们把一个程序相信成是一个蜂箱,该程序的一个动作是将划分收集到这个蜂箱内. 这些搜集动作是由许多个工蜂同时进行的. 这个例子中,工蜂扮演的就是线程的角色, 它们工作在进程内部并且共享资源来完成它们的任务.</p>
-<p>同一个进程中的线程共享内存空间. 因此开发者的任务就是控制和访问这些内存区域.</p>
-<h2 id="_2">使用线程的优势和劣势</h2>
-<p>是否使用线程需要权衡利弊,这依赖于用于实现解决方案的编程语言和操作系统.</p>
-<p>使用线程的优势如下所示:</p>
-<ul>
-<li>同一进程的不同线程之间交流的速度,数据单元(data location)的速度和共享信息的速度都很快</li>
-<li>创建线程的花费要远远少于创建进程的花费,这时因为它无需拷贝主进程上下文环境中的那些信息</li>
-<li>通过处理器的缓存机制可以优化内存存取,这样就能够充分利用数据局部性(data locality)的优势</li>
-</ul>
-<p>使用线程的劣势如下:</p>
-<ul>
-<li>数据共享可以加速通讯. 然而开发新手使用线程也很容引进难以解决的错误</li>
-<li>数据共享限制了解决方案的灵活性. 若想将其迁移到分布式架构上,会是件很头疼的事情. 总的来说,它限制了算法的可扩展性</li>
-</ul>
-<p>[就Python编程语言来说, 计算密集型的线程会由于GIL的存在而影响程序的性能]</p>
-<h2 id="_3">理解不同类型的线程</h2>
-<p>存在两种类型的线程:内核线程与用户线程. 其中,内核线程是指由操作系统创建和管理的线程. 内核线程的上下文切换,调度和销毁都由当前操作系统的内核来管理. 而对于用户线程,这些东西都由开发者来控制.</p>
-<p>每种线程都有其优势:</p>
-<p>内核线程的优势如下:</p>
-<ul>
-<li>一个内核线程其实就是一个进程. 因此即使一个内核线程被阻塞了,其他的内核线程也照样运行</li>
-<li>不同的内核线程可以运行在不同的CPU上</li>
-</ul>
-<p>内核线程的劣势如下:</p>
-<ul>
-<li>创建线程和线程间同步的消耗太大</li>
-<li>实现依赖于平台</li>
-</ul>
-<p>用户线程的优势如下:</p>
-<ul>
-<li>用户线程的创建和线程间同步的开销较少</li>
-<li>用户线程是平台无关的</li>
-</ul>
-<p>用户线程的劣势如下:</p>
-<ul>
-<li>同一进程中的所有用户线程都对应一个内核线程. 因此,若该内核线程被阻塞,则所有相应的用户线程都会被阻塞</li>
-<li>不同用户线程无法运行在不同CPU上</li>
-</ul>
-<h2 id="_4">定义线程的状态</h2>
-<p>在线程的生命周期中,有5中状态:</p>
-<ul>
-<li>新建: 该过程的主要动作就是创建一个新线程, 创建完新线程后,该线程被发送到待执行的线程队列中</li>
-<li>运行: 该状态下,线程获取到并消耗CPU资源</li>
-<li>就绪: 该状态下,线程在待执行的线程队列中排队,等待被执行</li>
-<li>阻塞: 该状态下,线程由于等待某个事件(例如I/O操作)的出现而被阻塞. 这时线程并不使用CPU</li>
-<li>死亡: 该状态下,线程释放执行时使用的资源并结束整个线程的生命周期</li>
-</ul>
-<h2 id="threading_thread">是使用threading模块还是_thread模块</h2>
-<p>Python提供了两个模块来实现基于系统的线程:_thread模块(该模块提供了使用线程相关的较低层的API; 它的文档可以在<a href="http://docs.python.org/3.3/library/_thread.html">http://docs.python.org/3.3/library/_thread.html</a> 找到)和threading模块(该模块提供了使用线程相关的较高层的API; 它的文档可以在 <a href="http://docs.python.org/3.3/library/threading.html">http://docs.python.org/3.3/library/threading.html</a> 中找到). threading模块提供的接口要比_thread模块的结构更友好一些. 至于具体选择哪个模块取决于开发者, 若开发者觉得在低层操作线程,实现自己的线程池,处理所及其其他原始特性(features)更随手一些的话,他/她会偏向使用_thread,否则threading会是更明智的选择</p>
+<h1 id="_1">使用多线程解决斐波那契序列多输入问题</h1>
+<p>现在是时候实现了。任务是在给定多个输入值时并行执行斐波那契数列的各项。 出于教学目的，我们将固定四个元素中的输入值和四个线程来处理每个元素，模拟 worker 和要执行的任务之间的完美对称。 该算法将按如下方式工作：</p>
+<ol>
+<li>首先使用一个列表存储四个待输入值，这些值将被放入对于线程来说互相锁定的数据结构。</li>
+<li>输入值被放入可被锁定的数据结构之后，负责处理斐波那契序列的线程将被告知可以被执行。这时，我们可以使用python线程的同步机制<code>Condition</code>模块（<code>Condition</code>模块对共享变量提供线程之间的同步操作），模块详情请参考：<a href="http://docs.python.org/3/library/threading.html#threading.Condition" target="_blank">http://docs.python.org/3/library/threading.html#threading.Condition</a>。</li>
+<li>当每个线程结束斐波那契序列的计算后，分别把结果存入一个字典。</li>
+</ol>
+<p>接下来我们将列出代码，并且讲述其中有趣的地方：</p>
+<p>代码开始处我们加入了对编码额外的支持，导入<code>logging</code>, <code>threading</code>和<code>queue</code>模块。此外，我们还定义了我们例子中用到主要数据结构。
+一个字典，被命名为<code>fibo_dict</code>，将用来存储输入输出数据，输入数据为<code>key</code>，计算结果（输出数据）为值。
+我们同样定义了一个队列对象，该对象中存储线程间的共享数据（包括读写）。
+我们把该对象命名为<code>shared_queue</code>。最后我们定义一个列表模拟程序的四个输入值。代码如下：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#coding: utf-8</span>
+
+<span class="kn">import</span> <span class="nn">logging</span><span class="o">,</span> <span class="nn">threading</span>
+
+<span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Queue</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">'</span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="n">ch</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+
+<span class="n">fibo_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">shared_queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+<span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">下载示例代码</p>
+<p>您可以从<a href="http://www.packtpub.com" target="_blank">http://www.packtpub.com</a>上的帐户下载您购买的所有 Packt 书籍的示例代码文件。 如果您在其他地方购买了本书，您可以访问 <a href="http://www.packtpub.com/support" target="_blank">http://www.packtpub.com/support</a> 并注册以便将文件直接通过电子邮件发送给您。</p>
+</div>
+<p>在下面的代码行中，我们将从名为 <code>Condition</code> 的线程模块中定义一个对象。 该对象旨在根据特定条件同步对资源的访问。</p>
+<div class="highlight"><pre><span></span><code><span class="n">queue_condition</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Condition</span><span class="p">()</span>
+</code></pre></div>
+<p>使用 Condition 对象的用于控制队列的创建和在其中进行条件处理。</p>
+<p>下一段代码是定义将由多个线程执行的函数。我们将称它为 <code>fibonacci_task</code>。<code>fibonacci_task</code>函数接收<code>condition</code>对象作为参数，它将控制<code>fibonacci_task</code>对<code>share_queue</code>的访问。在这个函数中，我们使用了<code>with</code>语句（关于<code>with</code>语句的更多信息，请参考<a href="http://docs.python.org/3/reference/compound_stmts.html#with">http://docs.python.org/3/reference/compound_stmts.html#with</a>）来简化内容的管理。如果没有<code>with</code>语句，我们将不得不明确地获取锁并释放它。有了<code>with</code>语句，我们可以在开始时获取锁，并在内部块的退出时释放它。<code>fibonacci_task</code>函数的下一步是进行逻辑评估，告诉当前线程："虽然<code>shared_queue</code>是空的，但要等待。" 这就是<code>condition</code>对象的<code>wait()</code>方法的主要用途。线程将等待，直到它得到通知说<code>shared_queue</code>可以自由处理。一旦我们的条件得到满足，当前线程将在<code>shared_queue</code>中获得一个元素，它马上计算斐波那契数列的值，并在<code>fibo_dict</code>字典中生成一个条目。最后，我们调用<code>task_done()</code>方法，目的是告知某个队列的任务已经被提取并执行。代码如下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">fibonacci_task</span><span class="p">(</span><span class="n">condition</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">condition</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">shared_queue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"[</span><span class="si">%s</span><span class="s2">] - waiting for elements in queue.."</span> <span class="o">%</span> <span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">condition</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">shared_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+                <span class="n">fibo_dict</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span>
+            <span class="n">shared_queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"[</span><span class="si">%s</span><span class="s2">] fibonacci of key [</span><span class="si">%d</span><span class="s2">] with result [</span><span class="si">%d</span><span class="s2">]"</span> <span class="o">%</span> <span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">fibo_dict</span><span class="p">[</span><span class="n">value</span><span class="p">]))</span>
+</code></pre></div>
+<p>我们定义的第二个函数是<code>queue_task</code>函数，它将由负责为<code>shared_queue</code>填充要处理的元素的线程执行。我们可以注意到获取<code>condition</code>作为访问<code>shared_queue</code>的一个参数。对于<code>input_list</code>中的每一个项目，线程都会将它们插入<code>shared_queue</code>中。</p>
+<p>将所有元素插入 <code>shared_queue</code> 后，该函数通知负责计算斐波那契数列的线程队列已准备好使用。 这是通过使用 <code>condition.notifyAll()</code> 完成的，如下所示：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">queue_task</span><span class="p">(</span><span class="n">condition</span><span class="p">):</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'Starting queue_task...'</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">condition</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">:</span>
+            <span class="n">shared_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Notifying fibonacci_task threadsthat the queue is ready to consume.."</span><span class="p">)</span>
+            <span class="n">condition</span><span class="o">.</span><span class="n">notifyAll</span><span class="p">()</span>  <span class="c1"># python3.10 中使用 notify_all()</span>
+</code></pre></div>
+<p>在下一段代码中，我们创建了一组包含四个线程的集合，它们将等待来自 <code>shared_queue</code> 的准备条件。 然后我们强调了线程类的构造函数，它允许我们定义函数。该线程将使用目标参数执行，该函数在<code>args</code>中接收的参数如下:</p>
+<div class="highlight"><pre><span></span><code><span class="n">threads</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">fibonacci_task</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">queue_condition</span><span class="p">,))</span> 
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>接着我们使用<code>thread</code>对象的<code>start</code>方法开始线程：</p>
+<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span> <span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">]</span>
+</code></pre></div>
+<p>然后我们创建一个线程处理<code>shared_queue</code>，然后执行该线程。代码如下：</p>
+<div class="highlight"><pre><span></span><code><span class="n">prod</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'queue_task_thread'</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">queue_task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">queue_condition</span><span class="p">,))</span>
+<span class="n">prod</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</code></pre></div>
+<p>最后，我们对所有计算斐波那契数列的线程调用了<code>join()</code>方法。这个调用的目的是让让主线程等待子线程的调用，直到所有子线程执行完毕之后才结束主线程。请参考下面的代码：</p>
+<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span> <span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">]</span>
+</code></pre></div>
+<p>程序的执行结果如下：</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>temp.py
+<span class="m">2023</span>-03-01<span class="w"> </span><span class="m">12</span>:19:26,873<span class="w"> </span>-<span class="w"> </span><span class="o">[</span>Thread-1<span class="w"> </span><span class="o">(</span>fibonacci_task<span class="o">)]</span><span class="w"> </span>-<span class="w"> </span>waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>elements<span class="w"> </span><span class="k">in</span><span class="w"> </span>queue..
+<span class="m">2023</span>-03-01<span class="w"> </span><span class="m">12</span>:19:26,873<span class="w"> </span>-<span class="w"> </span><span class="o">[</span>Thread-2<span class="w"> </span><span class="o">(</span>fibonacci_task<span class="o">)]</span><span class="w"> </span>-<span class="w"> </span>waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>elements<span class="w"> </span><span class="k">in</span><span class="w"> </span>queue..
+<span class="m">2023</span>-03-01<span class="w"> </span><span class="m">12</span>:19:26,874<span class="w"> </span>-<span class="w"> </span><span class="o">[</span>Thread-3<span class="w"> </span><span class="o">(</span>fibonacci_task<span class="o">)]</span><span class="w"> </span>-<span class="w"> </span>waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>elements<span class="w"> </span><span class="k">in</span><span class="w"> </span>queue..
+<span class="m">2023</span>-03-01<span class="w"> </span><span class="m">12</span>:19:26,874<span class="w"> </span>-<span class="w"> </span><span class="o">[</span>Thread-4<span class="w"> </span><span class="o">(</span>fibonacci_task<span class="o">)]</span><span class="w"> </span>-<span class="w"> </span>waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>elements<span class="w"> </span><span class="k">in</span><span class="w"> </span>queue..
+<span class="m">2023</span>-03-01<span class="w"> </span><span class="m">12</span>:19:26,874<span class="w"> </span>-<span class="w"> </span>Starting<span class="w"> </span>queue_task...
+<span class="m">2023</span>-03-01<span class="w"> </span><span class="m">12</span>:19:26,874<span class="w"> </span>-<span class="w"> </span>Notifying<span class="w"> </span>fibonacci_task<span class="w"> </span>threadsthat<span class="w"> </span>the<span class="w"> </span>queue<span class="w"> </span>is<span class="w"> </span>ready<span class="w"> </span>to<span class="w"> </span>consume..
+<span class="m">2023</span>-03-01<span class="w"> </span><span class="m">12</span>:19:26,874<span class="w"> </span>-<span class="w"> </span>Notifying<span class="w"> </span>fibonacci_task<span class="w"> </span>threadsthat<span class="w"> </span>the<span class="w"> </span>queue<span class="w"> </span>is<span class="w"> </span>ready<span class="w"> </span>to<span class="w"> </span>consume..
+<span class="m">2023</span>-03-01<span class="w"> </span><span class="m">12</span>:19:26,874<span class="w"> </span>-<span class="w"> </span>Notifying<span class="w"> </span>fibonacci_task<span class="w"> </span>threadsthat<span class="w"> </span>the<span class="w"> </span>queue<span class="w"> </span>is<span class="w"> </span>ready<span class="w"> </span>to<span class="w"> </span>consume..
+<span class="m">2023</span>-03-01<span class="w"> </span><span class="m">12</span>:19:26,874<span class="w"> </span>-<span class="w"> </span>Notifying<span class="w"> </span>fibonacci_task<span class="w"> </span>threadsthat<span class="w"> </span>the<span class="w"> </span>queue<span class="w"> </span>is<span class="w"> </span>ready<span class="w"> </span>to<span class="w"> </span>consume..
+<span class="m">2023</span>-03-01<span class="w"> </span><span class="m">12</span>:19:26,875<span class="w"> </span>-<span class="w"> </span><span class="o">[</span>Thread-1<span class="w"> </span><span class="o">(</span>fibonacci_task<span class="o">)]</span><span class="w"> </span>fibonacci<span class="w"> </span>of<span class="w"> </span>key<span class="w"> </span><span class="o">[</span><span class="m">3</span><span class="o">]</span><span class="w"> </span>with<span class="w"> </span>result<span class="w"> </span><span class="o">[</span><span class="m">2</span><span class="o">]</span>
+<span class="m">2023</span>-03-01<span class="w"> </span><span class="m">12</span>:19:26,875<span class="w"> </span>-<span class="w"> </span><span class="o">[</span>Thread-2<span class="w"> </span><span class="o">(</span>fibonacci_task<span class="o">)]</span><span class="w"> </span>fibonacci<span class="w"> </span>of<span class="w"> </span>key<span class="w"> </span><span class="o">[</span><span class="m">10</span><span class="o">]</span><span class="w"> </span>with<span class="w"> </span>result<span class="w"> </span><span class="o">[</span><span class="m">55</span><span class="o">]</span>
+<span class="m">2023</span>-03-01<span class="w"> </span><span class="m">12</span>:19:26,875<span class="w"> </span>-<span class="w"> </span><span class="o">[</span>Thread-4<span class="w"> </span><span class="o">(</span>fibonacci_task<span class="o">)]</span><span class="w"> </span>fibonacci<span class="w"> </span>of<span class="w"> </span>key<span class="w"> </span><span class="o">[</span><span class="m">5</span><span class="o">]</span><span class="w"> </span>with<span class="w"> </span>result<span class="w"> </span><span class="o">[</span><span class="m">5</span><span class="o">]</span>
+<span class="m">2023</span>-03-01<span class="w"> </span><span class="m">12</span>:19:26,875<span class="w"> </span>-<span class="w"> </span><span class="o">[</span>Thread-3<span class="w"> </span><span class="o">(</span>fibonacci_task<span class="o">)]</span><span class="w"> </span>fibonacci<span class="w"> </span>of<span class="w"> </span>key<span class="w"> </span><span class="o">[</span><span class="m">7</span><span class="o">]</span><span class="w"> </span>with<span class="w"> </span>result<span class="w"> </span><span class="o">[</span><span class="m">13</span><span class="o">]</span>
+</code></pre></div>
+<p>请注意，首先创建并初始化 <code>fibonacci_task</code> 线程，然后它们进入等待状态。 同时，创建 <code>queue_task</code> 并填充 <code>shared_queue</code>。 最后，<code>queue_task</code> 通知 <code>fibonacci_task</code> 线程它们可以执行它们的任务。</p>
+<p>请注意，<code>fibonacci_task</code> 线程的执行不遵循顺序逻辑，每次执行的顺序可能不同。 这就是使用线程的一个特点：<strong>非确定性</strong>(non-determinism)。</p>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2016年6月2日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 </small>
 </div>
 </article>

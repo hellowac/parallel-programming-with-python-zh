@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E8%A7%A3%E5%86%B3%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97%E5%A4%9A%E8%BE%93%E5%85%A5%E9%97%AE%E9%A2%98/" rel="prev"/>
+<link href="../using_threading_to_obtain_the_Fibonacci_series_term_with_multiple_inputs/" rel="prev"/>
 <link href="../%E6%80%BB%E7%BB%93/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
@@ -275,12 +275,12 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%BF%E7%A8%8B/">
+<a class="md-nav__link" href="../defining_threads/">
         什么是线程
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E4%BD%BF%E7%94%A8threading%E6%A8%A1%E5%9D%97%E8%A7%A3%E5%86%B3%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97%E5%A4%9A%E8%BE%93%E5%85%A5%E9%97%AE%E9%A2%98/">
+<a class="md-nav__link" href="../using_threading_to_obtain_the_Fibonacci_series_term_with_multiple_inputs/">
         使用threading模块来为多个输入同时计算Fibonacci序列
       </a>
 </li>
@@ -492,6 +492,7 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="concurrentfuturesweb">使用concurrent.futures模块爬取web信息</h1>
+<p>Crawling_the_Web_using_the_concurrent_futures_module</p>
 <p>下面的章节会实现一个并行的web爬虫.</p>
 <p>在实现时,我们会应道concurrent.futures模块中一个很有意思的类,叫做ThreadPoolExecutor 在上一章节的例子中,我们分析了parallel_fibonacci.py是如何实现并发的,它只是以最原始的方式来使用进程,在某一特定的时候需要我们手工来创建和初始化一个个线程. 然而在大型程序中还想这样手工管理线程就太困难了. 在开发大型程序时,我们常常要用到线程池机制. 线程池是一种用于在进程中管理预先创建的多个线程的一种数据结构. 使用线程池的目的是为了复用线程,这样就可以避免不断的创建线程所照成的资源浪费.</p>
 <p>基本上和前一章节一样, 我们将会设计一个算法,该算法分阶段地执行一些任务,并且这些任务也会相互影响. 下面,让我们分析一下这个并发网络爬虫的代码</p>
@@ -549,10 +550,10 @@
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2016年6月2日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月1日</span>
 </small>
 </div>
 </article>
