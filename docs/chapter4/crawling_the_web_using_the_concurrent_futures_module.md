@@ -1,5 +1,7 @@
 # 使用concurrent.futures模块爬取web信息
 
+Crawling_the_Web_using_the_concurrent_futures_module
+
 下面的章节会实现一个并行的web爬虫.
 
 在实现时,我们会应道concurrent.futures模块中一个很有意思的类,叫做ThreadPoolExecutor 在上一章节的例子中,我们分析了parallel\_fibonacci.py是如何实现并发的,它只是以最原始的方式来使用进程,在某一特定的时候需要我们手工来创建和初始化一个个线程. 然而在大型程序中还想这样手工管理线程就太困难了. 在开发大型程序时,我们常常要用到线程池机制. 线程池是一种用于在进程中管理预先创建的多个线程的一种数据结构. 使用线程池的目的是为了复用线程,这样就可以避免不断的创建线程所照成的资源浪费.

@@ -89,9 +89,9 @@ nav:
     - 小结: chapter3/总结.md
   - 第四章 使用threading和concurrent.futures模块:
     - chapter4/index.md
-    - 什么是线程: chapter4/什么是线程.md
-    - 使用threading模块来为多个输入同时计算Fibonacci序列: chapter4/使用threading模块解决斐波那契序列多输入问题.md
-    - 使用concurrent.futures模块爬取web信息: chapter4/使用concurrent_futures模块爬取web信息.md
+    - 什么是线程: chapter4/defining_threads.md
+    - 使用threading模块来为多个输入同时计算Fibonacci序列: chapter4/using_threading_to_obtain_the_Fibonacci_series_term_with_multiple_inputs.md
+    - 使用concurrent.futures模块爬取web信息: chapter4/crawling_the_web_using_the_concurrent_futures_module.md
     - 小结: chapter4/总结.md
   - 第五章 使用多进程和进程池:
     - chapter5/index.md
