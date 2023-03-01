@@ -95,10 +95,10 @@ nav:
     - 小结: chapter4/总结.md
   - 第五章 使用多进程和进程池:
     - chapter5/index.md
-    - 理解进程的概念: chapter5/理解进程的定义.md
-    - 理解多进程通信: chapter5/实现多进程间通信.md
-    - 使用多进程解决斐波那契数列多输入问题: chapter5/使用多进程解决斐波那契序列多输入问题.md
-    - 使用ProcessPoolExecutor模块设计网络爬虫: chapter5/使用进程池实现网络爬虫.md
+    - 理解进程的概念: chapter5/understanding_the_concept_of_a_process.md
+    - 理解多进程通信: chapter5/implementing_multiprocessing_communication.md
+    - 使用多进程解决斐波那契数列多输入问题: chapter5/using_multiprocessing_to_compute_fibonacci_series_terms_with_multiple_inputs.md
+    - 使用ProcessPoolExecutor模块设计网络爬虫: chapter5/crawling_the_web_using_processPoolExecutor.md
     - 小结: chapter5/总结.md
   - 第六章 使用并行 Python:
     - chapter6/index.md
