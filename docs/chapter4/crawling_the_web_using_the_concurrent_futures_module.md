@@ -151,13 +151,16 @@ def crawl_task(url):
         raise
     finally:
         return (url, links)
-    
-with ThreadPoolExecutor(max_workers=3) as group_link_threads:
-    for i in range(urls.qsize()):
-        group_link_threads.submit(group_urls_task, urls)
 
-with ThreadPoolExecutor(max_workers=3) as crawler_link_threads:
-    future_tasks = {
-        crawler_link_threads.submit(crawl_task, url): url  
-        for url in result_dict.keys()}
+
+if __name__ == "__main__":
+        
+    with ThreadPoolExecutor(max_workers=3) as group_link_threads:
+        for i in range(urls.qsize()):
+            group_link_threads.submit(group_urls_task, urls)
+
+    with ThreadPoolExecutor(max_workers=3) as crawler_link_threads:
+        future_tasks = {
+            crawler_link_threads.submit(crawl_task, url): url  
+            for url in result_dict.keys()}
 ```
