@@ -109,10 +109,10 @@ nav:
     - 小结: chapter6/总结.md
   - 第七章 使用Celery分发任务:
     - chapter7/index.md
-    - 理解 Celery: chapter7/理解Celery.md
-    - 理解 Celery 的架构: chapter7/理解Celery架构.md
-    - 建立环境: chapter7/建立环境.md
-    - 分派一个简单的任务: chapter7/分发简单任务.md
+    - 理解 Celery: chapter7/understanding_celery.md
+    - 理解 Celery 的架构: chapter7/understanding_celery_architecture.md
+    - 搭建环境: chapter7/setting_up_the_environment.md
+    - 分派一个简单的任务: chapter7/dispatching_a_simple_task.md
     - 使用 Celery 获取斐波那契数列项: chapter7/用Celery来获得斐波那契数列的项.md
     - 根据任务类型定义队列: chapter7/根据任务类型定义队列.md
     - 使用 Celery 制作分布式网络爬虫: chapter7/用Celery来构建一个分布式网络爬虫系统.md
