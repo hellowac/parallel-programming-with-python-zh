@@ -6,7 +6,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="../dispatching_a_simple_task/" rel="prev"/>
-<link href="../%E6%A0%B9%E6%8D%AE%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E9%98%9F%E5%88%97/" rel="next"/>
+<link href="../defining_queues_by_task_types/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
 <title>使用 Celery 获取斐波那契数列项 - python并发编程-中文版</title>
@@ -417,17 +417,34 @@
 </li>
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          使用 Celery 获取斐波那契数列项
+          <span class="md-nav__icon md-icon"></span>
+</label>
 <a class="md-nav__link md-nav__link--active" href="./">
         使用 Celery 获取斐波那契数列项
       </a>
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+    完整示例
+  </a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E6%A0%B9%E6%8D%AE%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E9%98%9F%E5%88%97/">
+<a class="md-nav__link" href="../defining_queues_by_task_types/">
         根据任务类型定义队列
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%94%A8Celery%E6%9D%A5%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%B3%BB%E7%BB%9F/">
+<a class="md-nav__link" href="../using_celery_to_make_a_distributed_web_crawler/">
         使用 Celery 制作分布式网络爬虫
       </a>
 </li>
@@ -485,6 +502,17 @@
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
 <nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+    完整示例
+  </a>
+</li>
+</ul>
 </nav>
 </div>
 </div>
@@ -492,25 +520,37 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="celery">使用 Celery 获取斐波那契数列项</h1>
-<p>让我们再一次计算多个输入的斐波那契数列的项，每个都用分布式的方法。现在的方法和之前的方法改变很小。
-我们将终止<strong>Celery</strong>的执行(Ctrl+C)并且在<code>tasks.py</code>模块(之前创建过)加入<code>fibo_task</code>任务。</p>
+<p>让我们再次去分配我们的多个输入，以计算第 <code>n</code> 个斐波那契项，每个项都以分布式方式计算。 计算 <code>Fibonacci</code> 的函数相对于前面的章节会有一些变化。 变化很小； 现在我们有了 <code>@app.task</code> 装饰器和返回消息中的一个小改动。</p>
+<p>在代理所在的服务器计算机中的 <code>tasks.py</code> 模块（之前创建）中，我们将停止执行 <code>Celery（Ctrl + C</code>）并添加 <code>fibo_task</code> 任务。 这是通过使用以下代码完成的：</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">task</span>
 <span class="k">def</span> <span class="nf">fibo_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
     <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
     <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
         <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-    <span class="n">message</span> <span class="o">=</span> <span class="s2">"The Fibonacci calculated with task id </span><span class="si">%s</span><span class="s2">"</span> \
-        <span class="s2">" was </span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">fibo_task</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">"The Fibonacci calculated with task id </span><span class="si">%s</span><span class="s2"> was </span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">fibo_task</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
 </code></pre></div>
-<p>通过\&lt;task.reaquest.id&gt;得到任务的ID，请求对象是<code>task</code>的对象，task对象提供了<code>task</code>执行的上下文。通过上下文可以得到task的ID等信息。</p>
+<p>通过<code>ask.reaquest.id</code>得到任务的ID，请求对象是<code>task</code>的对象，<code>task</code>对象提供了<code>task</code>执行的上下文。通过上下文可以得到<code>task</code>的ID等信息。</p>
 <p>在<code>tasks.py</code>模块加入了新的任务之后，再一次初始化<strong>Celery</strong>，结果如下图：</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-08.png"><img alt="1" src="../../imgs/7-08.png"/></a></p>
+<div class="highlight"><pre><span></span><code>- *** --- * --- .&gt; concurrency: 2 (prefork)
+-- ******* ---- .&gt; task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** -----
+ -------------- [queues]
+                .&gt; celery           exchange=celery(direct) key=celery
+
+
+[tasks]
+  . tasks.fibo_task
+  . tasks.sqrt_task
+
+[2023-03-06 17:05:34,402: INFO/MainProcess] Connected to redis://localhost:6379/0
+</code></pre></div>
 <p>现在我们把<code>fibo_task</code>任务装载到<strong>Celery server</strong>，我们将在客户端实现对该任务的调用。</p>
 <p>在<code>task_dispatcher.py</code>模块，我们会申明<code>input_list</code>，如下：</p>
 <div class="highlight"><pre><span></span><code><span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
 </code></pre></div>
 <p>和前面的做法一样，定义<code>manage_fibo_task</code>方法：</p>
+<p>正如我们在上一节创建的 <code>sqrt_task</code> 任务中所做的那样，我们将创建一个方法来组织我们的调用而不污染 <code>__main__</code> 块。 我们将此函数命名为 <code>manage_fibo_task</code>。 如以下实现：</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">manage_fibo_task</span><span class="p">(</span><span class="n">value_list</span><span class="p">):</span>
     <span class="n">async_result_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">send_task</span><span class="p">(</span><span class="s1">'tasks.fibo_task'</span><span class="p">,</span>
         <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">value_list</span><span class="p">}</span>
@@ -518,35 +558,125 @@
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">async_result_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Value [</span><span class="si">%d</span><span class="s2">] -&gt; </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">1</span><span class="p">]))</span>
 </code></pre></div>
-<p>在<code>manage_fibo_task</code>方法中，创建了一个叫做<code>async_result_dict</code>的字典，<code>key</code>是传入的要计算的值，<code>value</code>是<code>send_task</code>方法返回的<code>AyncResult</code>对象。通过这个方法，我们可以查看任务的结果和状态。</p>
-<p>最后，遍历字典得到输入值和输出结果。<code>AsyncResult</code>的<code>get</code>方法能够得到结果。</p>
+<p>在 <code>manage_fibo_task</code> 函数中，我们创建了一个名为 <code>async_result_dict</code> 的字典，填充相同的键值对。 <code>key</code> 是作为参数传递的项，用于获取 <code>Fibonacci</code> 的无数项，<code>value</code> 是从调用 <code>send_task</code> 方法返回的 <code>AsyncResult</code> 的实例。 通过这种方法，我们可以监控任务的状态和结果。</p>
+<p>最后，遍历字典得到输入值和输出结果并封装成字典。<code>AsyncResult</code>类的<code>get()</code>函数可以让我们获取处理结果。</p>
 <p><code>get()</code>方法会阻塞进程。一个好的方法是调用<code>ready()</code>方法来检查结果是否返回了。</p>
-<p>上述循环可以修改为如下:</p>
+<p>可能会注意到 <code>get()</code> 函数可能不会立即返回结果，因为处理仍在进行。 在客户端调用 <code>get()</code> 方法可以阻止调用之后的处理。 将调用结合到 <code>ready()</code> 方法是个好主意，这样可以检查是否准备好获取结果。</p>
+<p>因此，结果展示循环可以修改为如下代码:</p>
 <div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">async_result_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">ready</span><span class="p">():</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Value [</span><span class="si">%d</span><span class="s2">] -&gt; </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">1</span><span class="p">]))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Task [</span><span class="si">%s</span><span class="s2">] is not ready"</span> <span class="o">%</span> <span class="n">value</span><span class="o">.</span><span class="n">task_id</span><span class="p">)</span>
 </code></pre></div>
-<p>不同的任务会有不同的延迟时间，为了防止无限等待，可以用get(timeout=x)方法设置超时。</p>
-<p>最后，添加<code>manage_fibo_task</code>的调用，传入<code>input_list</code>。代码如下：</p>
+<p>Depending on the type of task to be executed, there may be a considerable delay in the result. Therefore, by calling get() without considering the return status, we can block the code running at the point where the get() function was called. To tackle this, we should define an argument called timeout in the get(timeout=x) method. So, by minimizing this blocking, we can prevent tasks from having problems in returning results, which would impact the running of the execution for an indefinite time.</p>
+<p>根据要执行的任务类型，结果可能会有相当长的延迟。 因此，通过调用 <code>get()</code> 而不考虑返回状态，我们可以阻止代码运行在 <code>get()</code> 函数被调用的地方。 为了解决这个问题，我们应该在 <code>get(timeout=x)</code> 方法中定义一个名为 <code>timeout</code> 的参数。 因此，通过最小化这种阻塞，我们可以防止任务在返回结果时出现问题，这会无限期地影响执行的运行。</p>
+<p>最后，我们添加了对 <code>manage_fibo_task</code> 函数的调用，作为参数传递给我们的 <code>input_list</code>。 代码如下：</p>
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
     <span class="c1">#manage_sqrt_task(4)</span>
     <span class="n">manage_fibo_task</span><span class="p">(</span><span class="n">input_list</span><span class="p">)</span>
 </code></pre></div>
-<p>当我们执行<code>task_dispatcher.py</code>后，输入如下：</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-09.png"><img alt="1" src="../../imgs/7-09.png"/></a></p>
+<p>当我们执行<code>task_dispatcher.py</code>中的代码时，可以在旁边看到如下输出服务器：</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$#</span><span class="w"> </span>python<span class="w"> </span>task_dispatcher.py
+<span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,902<span class="w"> </span>-<span class="w"> </span>Value<span class="w"> </span><span class="o">[</span><span class="m">4</span><span class="o">]</span><span class="w"> </span>-&gt;<span class="w"> </span>The<span class="w"> </span>Fibonacci<span class="w"> </span>calculated<span class="w"> </span>with<span class="w"> </span>task<span class="w"> </span>id<span class="w"> </span>03328f4d-8226-4a15-853d-8b8ab5833b72<span class="w"> </span>was<span class="w"> </span><span class="m">3</span>
+<span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,904<span class="w"> </span>-<span class="w"> </span>Value<span class="w"> </span><span class="o">[</span><span class="m">3</span><span class="o">]</span><span class="w"> </span>-&gt;<span class="w"> </span>The<span class="w"> </span>Fibonacci<span class="w"> </span>calculated<span class="w"> </span>with<span class="w"> </span>task<span class="w"> </span>id<span class="w"> </span>4ea527de-0a96-4c6c-ac25-8e4a01a0e919<span class="w"> </span>was<span class="w"> </span><span class="m">2</span>
+<span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,906<span class="w"> </span>-<span class="w"> </span>Task<span class="w"> </span><span class="o">[</span>448d8127-763c-4025-84a1-e05e9979841a<span class="o">]</span><span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>ready
+<span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,909<span class="w"> </span>-<span class="w"> </span>Task<span class="w"> </span><span class="o">[</span>f639a24f-cbf5-403d-b243-4c5c54f5b77a<span class="o">]</span><span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>ready
+<span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,909<span class="w"> </span>-<span class="w"> </span>Task<span class="w"> </span><span class="o">[</span>4e2999a7-bae8-454c-9f70-8b513dd0844e<span class="o">]</span><span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>ready
+</code></pre></div>
 <p>在客户端有如下输出：</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-10.png"><img alt="1" src="../../imgs/7-10.png"/></a></p>
+<div class="highlight"><pre><span></span><code>--<span class="w"> </span>*******<span class="w"> </span>----<span class="w"> </span>.&gt;<span class="w"> </span>task<span class="w"> </span>events:<span class="w"> </span>OFF<span class="w"> </span><span class="o">(</span><span class="nb">enable</span><span class="w"> </span>-E<span class="w"> </span>to<span class="w"> </span>monitor<span class="w"> </span>tasks<span class="w"> </span><span class="k">in</span><span class="w"> </span>this<span class="w"> </span>worker<span class="o">)</span>
+---<span class="w"> </span>*****<span class="w"> </span>-----
+<span class="w"> </span>--------------<span class="w"> </span><span class="o">[</span>queues<span class="o">]</span>
+<span class="w">                </span>.&gt;<span class="w"> </span>celery<span class="w">           </span><span class="nv">exchange</span><span class="o">=</span>celery<span class="o">(</span>direct<span class="o">)</span><span class="w"> </span><span class="nv">key</span><span class="o">=</span>celery
+
+
+<span class="o">[</span>tasks<span class="o">]</span>
+<span class="w">  </span>.<span class="w"> </span>tasks.fibo_task
+<span class="w">  </span>.<span class="w"> </span>tasks.sqrt_task
+
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:35,572:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>Connected<span class="w"> </span>to<span class="w"> </span>redis://localhost:6379/0
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:35,578:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>mingle:<span class="w"> </span>searching<span class="w"> </span><span class="k">for</span><span class="w"> </span>neighbors
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:36,599:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>mingle:<span class="w"> </span>all<span class="w"> </span>alone
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:36,616:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>celery@ch1.nauu.com<span class="w"> </span>ready.
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,859:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>Task<span class="w"> </span>tasks.fibo_task<span class="o">[</span>03328f4d-8226-4a15-853d-8b8ab5833b72<span class="o">]</span><span class="w"> </span>received
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,877:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>Task<span class="w"> </span>tasks.fibo_task<span class="o">[</span>4ea527de-0a96-4c6c-ac25-8e4a01a0e919<span class="o">]</span><span class="w"> </span>received
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,884:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>Task<span class="w"> </span>tasks.fibo_task<span class="o">[</span>448d8127-763c-4025-84a1-e05e9979841a<span class="o">]</span><span class="w"> </span>received
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,890:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>Task<span class="w"> </span>tasks.fibo_task<span class="o">[</span>f639a24f-cbf5-403d-b243-4c5c54f5b77a<span class="o">]</span><span class="w"> </span>received
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,896:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>Task<span class="w"> </span>tasks.fibo_task<span class="o">[</span>4e2999a7-bae8-454c-9f70-8b513dd0844e<span class="o">]</span><span class="w"> </span>received
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,898:<span class="w"> </span>INFO/ForkPoolWorker-2<span class="o">]</span><span class="w"> </span>Task<span class="w"> </span>tasks.fibo_task<span class="o">[</span>03328f4d-8226-4a15-853d-8b8ab5833b72<span class="o">]</span><span class="w"> </span>succeeded<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.03570139221847057s:<span class="w"> </span><span class="o">(</span><span class="m">4</span>,<span class="w"> </span><span class="s1">'The Fibonacci calculated with task id 03328f4d-8226-4a15-853d-8b8ab5833b72 was 3'</span><span class="o">)</span>
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,903:<span class="w"> </span>INFO/ForkPoolWorker-1<span class="o">]</span><span class="w"> </span>Task<span class="w"> </span>tasks.fibo_task<span class="o">[</span>4ea527de-0a96-4c6c-ac25-8e4a01a0e919<span class="o">]</span><span class="w"> </span>succeeded<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.02462736703455448s:<span class="w"> </span><span class="o">(</span><span class="m">3</span>,<span class="w"> </span><span class="s1">'The Fibonacci calculated with task id 4ea527de-0a96-4c6c-ac25-8e4a01a0e919 was 2'</span><span class="o">)</span>
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,920:<span class="w"> </span>INFO/ForkPoolWorker-2<span class="o">]</span><span class="w"> </span>Task<span class="w"> </span>tasks.fibo_task<span class="o">[</span>448d8127-763c-4025-84a1-e05e9979841a<span class="o">]</span><span class="w"> </span>succeeded<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.014719393104314804s:<span class="w"> </span><span class="o">(</span><span class="m">8</span>,<span class="w"> </span><span class="s1">'The Fibonacci calculated with task id 448d8127-763c-4025-84a1-e05e9979841a was 21'</span><span class="o">)</span>
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,928:<span class="w"> </span>INFO/ForkPoolWorker-2<span class="o">]</span><span class="w"> </span>Task<span class="w"> </span>tasks.fibo_task<span class="o">[</span>4e2999a7-bae8-454c-9f70-8b513dd0844e<span class="o">]</span><span class="w"> </span>succeeded<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.0018890555948019028s:<span class="w"> </span><span class="o">(</span><span class="m">10</span>,<span class="w"> </span><span class="s1">'The Fibonacci calculated with task id 4e2999a7-bae8-454c-9f70-8b513dd0844e was 55'</span><span class="o">)</span>
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">17</span>:20:38,931:<span class="w"> </span>INFO/ForkPoolWorker-1<span class="o">]</span><span class="w"> </span>Task<span class="w"> </span>tasks.fibo_task<span class="o">[</span>f639a24f-cbf5-403d-b243-4c5c54f5b77a<span class="o">]</span><span class="w"> </span>succeeded<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.012269522994756699s:<span class="w"> </span><span class="o">(</span><span class="m">6</span>,<span class="w"> </span><span class="s1">'The Fibonacci calculated with task id f639a24f-cbf5-403d-b243-4c5c54f5b77a was 8'</span><span class="o">)</span>
+</code></pre></div>
+<h2 id="_1">完整示例</h2>
+<p><code>tasks.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">celery</span> <span class="kn">import</span> <span class="n">Celery</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s1">'tasks'</span><span class="p">,</span> <span class="n">broker</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">)</span>
+<span class="c1"># app.config.CELERY_RESULT_BACKEND = 'redis://192.168.99.89:6379/0'</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">task</span>
+<span class="k">def</span> <span class="nf">sqrt_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">task</span>
+<span class="k">def</span> <span class="nf">fibo_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">"The Fibonacci calculated with task id </span><span class="si">%s</span><span class="s2"> was </span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">fibo_task</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+</code></pre></div>
+<p><code>tasks_dispatcher.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">celery</span> <span class="kn">import</span> <span class="n">Celery</span>
+<span class="kn">from</span> <span class="nn">celery.result</span> <span class="kn">import</span> <span class="n">AsyncResult</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">'</span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="n">ch</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s1">'tasks'</span><span class="p">,</span> <span class="n">broker</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">manage_sqrt_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">send_task</span><span class="p">(</span><span class="s1">'tasks.sqrt_task'</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">value</span><span class="p">,))</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+
+
+<span class="k">def</span> <span class="nf">manage_fibo_task</span><span class="p">(</span><span class="n">value_list</span><span class="p">):</span>
+    <span class="n">async_result_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">AsyncResult</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">send_task</span><span class="p">(</span><span class="s1">'tasks.fibo_task'</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">value_list</span><span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">async_result_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">ready</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Value [</span><span class="si">%d</span><span class="s2">] -&gt; </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Task [</span><span class="si">%s</span><span class="s2">] is not ready"</span> <span class="o">%</span> <span class="n">value</span><span class="o">.</span><span class="n">task_id</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+    <span class="c1"># print(manage_sqrt_task(4))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">manage_fibo_task</span><span class="p">(</span><span class="n">input_list</span><span class="p">))</span>
+</code></pre></div>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月6日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月6日</span>
 </small>
 </div>
 </article>

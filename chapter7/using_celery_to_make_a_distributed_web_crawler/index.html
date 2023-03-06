@@ -5,11 +5,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../%E7%94%A8Celery%E6%9D%A5%E8%8E%B7%E5%BE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%9A%84%E9%A1%B9/" rel="prev"/>
-<link href="../%E7%94%A8Celery%E6%9D%A5%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%B3%BB%E7%BB%9F/" rel="next"/>
+<link href="../defining_queues_by_task_types/" rel="prev"/>
+<link href="../%E6%80%BB%E7%BB%93/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
-<title>根据任务类型定义队列 - python并发编程-中文版</title>
+<title>使用 Celery 制作分布式网络爬虫 - python并发编程-中文版</title>
 <link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -33,7 +33,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#_1">
+<a class="md-skip" href="#celery">
           跳转至
         </a>
 </div>
@@ -57,7 +57,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              根据任务类型定义队列
+              使用 Celery 制作分布式网络爬虫
             
           </span>
 </div>
@@ -416,20 +416,37 @@
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%94%A8Celery%E6%9D%A5%E8%8E%B7%E5%BE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%9A%84%E9%A1%B9/">
+<a class="md-nav__link" href="../using_celery_to_obtain_a_fibonacci_series_term/">
         使用 Celery 获取斐波那契数列项
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../defining_queues_by_task_types/">
+        根据任务类型定义队列
       </a>
 </li>
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          使用 Celery 制作分布式网络爬虫
+          <span class="md-nav__icon md-icon"></span>
+</label>
 <a class="md-nav__link md-nav__link--active" href="./">
-        根据任务类型定义队列
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%94%A8Celery%E6%9D%A5%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%B3%BB%E7%BB%9F/">
         使用 Celery 制作分布式网络爬虫
       </a>
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+    完整案例
+  </a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../%E6%80%BB%E7%BB%93/">
@@ -485,49 +502,172 @@
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
 <nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+    完整案例
+  </a>
+</li>
+</ul>
 </nav>
 </div>
 </div>
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="_1">根据任务类型定义队列</h1>
-<p>计算斐波那契数列的任务已经实现并且运行。所有任务都被发送到默认的Celery队列。然而，有方法路由任务到不同的队列。让我们重构服务器端的架构来实现路由任务。我们将根据任务类型定义队列。</p>
-<p>在服务器端启动<strong>Celery server</strong>时，我们将建立三种不同的队列，它们将被<code>workers</code>消费。斐波那契数列任务有<code>fibo_queue</code>，平方根任务有<code>sqrt_queue</code>，网络爬虫任务有 <code>webcrawler_queue</code>。然而，划分队列有什么好处呢。以下列举一些：</p>
-<ul>
-<li>相同类型的任务划分为一组，使得监控更加简单</li>
-<li>定义<code>worker</code>从一个队列取任务，性能更佳</li>
-<li>可在性能更好的机器上建立任务更重的队列</li>
-</ul>
-<div class="admonition info">
-<p>前面几点本书不会解释，但我们可以通过初始化 Celery 服务器甚至在网络中分配具有专用队列的代理来实现负载平衡。 我建议您使用 Celery 尝试这种集群风格。</p>
-</div>
-<p>为了再server上建立队列，我们只需用如下命令初始化Celery：</p>
-<div class="highlight"><pre><span></span><code><span class="nv">$celery</span><span class="w"> </span>–A<span class="w"> </span>tasks<span class="w"> </span>–Q<span class="w"> </span>sqrt_queue,fibo_queue,webcrawler_queue<span class="w"> </span>worker<span class="w"> </span>--loglevel<span class="o">=</span>info
+<h1 id="celery">用Celery来构建一个分布式网络爬虫系统</h1>
+<p>现在我们将用<code>Celery</code>构建网络爬虫。我们已经有了<code>webcrawler_queue</code>，负责<code>hcrawler</code>任务。然而，在服务器端，我们将在<code>tasks.py</code>模块创建<code>crawl_task</code>任务。</p>
+<p>首先，导入<code>re</code>(正则表达式)和<code>requests</code>(HTTP lib)模块，代码如下：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">requests</span>
 </code></pre></div>
-<p>下图是在服务端截图：</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-11.png"><img alt="1" src="../../imgs/7-11.png"/></a></p>
-<p>在进行下一个例子之前，我们路由现有的任务到队列中。在服务端，在<code>task_dispatcher.py</code>模块中，我们将修改<code>send_task</code>调用来将任务发送到不同的队列。修改如下：</p>
-<div class="highlight"><pre><span></span><code><span class="n">app</span><span class="o">.</span><span class="n">send_task</span><span class="p">(</span><span class="s1">'tasks.sqrt_task'</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">value</span><span class="p">,),</span>
-        <span class="n">queue</span><span class="o">=</span><span class="s1">'sqrt_queue'</span><span class="p">,</span> <span class="n">routing_key</span><span class="o">=</span><span class="s1">'sqrt_queue'</span><span class="p">)</span>
+<p>然后，定义正则表达式，和之前的章节一样；</p>
+<div class="highlight"><pre><span></span><code><span class="n">hTML_link_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">'&lt;a\s(?:.*?\s)*?href=[</span><span class="se">\'</span><span class="s1">"][.*?](</span><span class="se">\'</span><span class="s1">").*?&gt;'</span><span class="p">)</span>
 </code></pre></div>
-<p>然后，修改fibo_task调用，如下：</p>
-<div class="highlight"><pre><span></span><code><span class="n">app</span><span class="o">.</span><span class="n">send_task</span><span class="p">(</span><span class="s1">'tasks.fibo_task'</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,),</span> <span class="n">queue</span><span class="o">=</span><span class="s1">'fibo_queue'</span><span class="p">,</span>
-        <span class="n">routing_key</span><span class="o">=</span><span class="s1">'fibo_queue'</span><span class="p">)</span>
+<p>然后，替换<code>crawl_task</code>方法，添加<code>@app.task</code>装饰器，修改返回信息，如下：</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">task</span>
+<span class="k">def</span> <span class="nf">crawl_task</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">request_data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="n">html_link_regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">request_data</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">"The task </span><span class="si">%s</span><span class="s2"> found the following links </span><span class="si">%s</span><span class="s2">.."</span> <span class="o">%</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">links</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">message</span>
 </code></pre></div>
-<div class="admonition info">
-<p>如果有兴趣监控队列、统计任务数量或者其他，请参考Celery文档 <a href="http://celery.readthedocs.org/en/latest/userguide/monitoring.html" target="_blank">http://celery.readthedocs.org/en/latest/userguide/monitoring.html</a>。</p>
-<p>在任何情况用<strong>Redis</strong>，<code>redis-cli</code>都可以作为一个工具。队列、任务、workders都可以被监控，详见 <a href="http://celery.readthedocs.org/en/latest/userguide/monitoring.html#workers" target="_blank">http://celery.readthedocs.org/en/latest/userguide/monitoring.html#workers</a>.</p>
-</div>
+<p><code>links</code>列表不一定要和下图匹配：</p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-12.png"><img alt="1" src="../../imgs/7-12.png"/></a></p>
+<p>然后让我们再次向上滚动 <code>Celery</code> 并查看。 此时，随着我们的新任务加载，是时候在客户端的 <code>task_dispatcher.py</code> 模块中实现名为 <code>crawl_task</code> 的任务了。</p>
+<p>首先，我们需要列出数据的输入<code>url_list</code>。代码如下：</p>
+<div class="highlight"><pre><span></span><code><span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'http://www.baidu.com'</span><span class="p">,</span>
+    <span class="s1">'http://cn.bing.com'</span><span class="p">,</span>
+    <span class="s1">'http://www.qq.com'</span><span class="p">,</span>
+    <span class="s1">'http://www.github.com'</span><span class="p">,</span>
+    <span class="p">]</span>
+</code></pre></div>
+<p>创建<code>manage_crawl_task</code>方法。</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">manage_crawl_task</span><span class="p">(</span><span class="n">url_list</span><span class="p">):</span>
+    <span class="n">async_result_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">url</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">send_task</span><span class="p">(</span><span class="s1">'tasks.crawl_task'</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">url</span><span class="p">,),</span> <span class="n">queue</span><span class="o">=</span><span class="s1">'webcrawler_queue'</span><span class="p">,</span>
+        <span class="n">routing_key</span><span class="o">=</span><span class="s1">'webcrawler_queue'</span><span class="p">)</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">url_list</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">async_result_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">ready</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2"> -&gt; </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"The task [</span><span class="si">%s</span><span class="s2">] is not ready"</span> <span class="o">%</span> <span class="n">value</span><span class="o">.</span><span class="n">task_id</span><span class="p">)</span>
+</code></pre></div>
+<p>和之前创建的<code>manage_fibo_task</code>方法一样，<code>async_result_dict</code>字典包含当前URL和<code>AsyncResult</code>结果。然后我们检查任务的状态获取任务结果。</p>
+<p>现在我们在<code>__main__</code>中调用该方法：</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="c1">#manage_sqrt_task(4)</span>
+    <span class="c1">#manage_fibo_task(input_list)</span>
+    <span class="n">manage_crawl_task</span><span class="p">(</span><span class="n">url_list</span><span class="p">)</span>
+</code></pre></div>
+<p>运行<code>task_dispatcher.py</code>代码，在服务器端有如下输出：</p>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-13.png"><img alt="1" src="../../imgs/7-13.png"/></a></p>
+<p>最后，客户端的输出如下：</p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-14.png"><img alt="1" src="../../imgs/7-14.png"/></a></p>
+<p><strong>Celery</strong>是一个强大的工具，在本章我们只是用到了基本的东西。更多的内容建议自己在真实的项目中动手去尝试。</p>
+<h2 id="_1">完整案例</h2>
+<p><code>tasks.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">celery</span> <span class="kn">import</span> <span class="n">Celery</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s1">'tasks'</span><span class="p">,</span> <span class="n">broker</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">)</span>
+<span class="c1"># app.config.CELERY_RESULT_BACKEND = 'redis://192.168.99.89:6379/0'</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">task</span>
+<span class="k">def</span> <span class="nf">sqrt_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">task</span>
+<span class="k">def</span> <span class="nf">fibo_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">"The Fibonacci calculated with task id </span><span class="si">%s</span><span class="s2"> was </span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">fibo_task</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+<span class="n">html_link_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">'&lt;a\s(?:.*?\s)*?href=[</span><span class="se">\'</span><span class="s1">"][.*?](</span><span class="se">\'</span><span class="s1">").*?&gt;'</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">task</span>
+<span class="k">def</span> <span class="nf">crawl_task</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">request_data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">links</span> <span class="o">=</span> <span class="n">html_link_regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">request_data</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">"The task </span><span class="si">%s</span><span class="s2"> found the following links </span><span class="si">%s</span><span class="s2">.."</span> <span class="o">%</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">links</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">message</span>
+</code></pre></div>
+<p><code>tasks_dispatcher.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">celery</span> <span class="kn">import</span> <span class="n">Celery</span>
+<span class="kn">from</span> <span class="nn">celery.result</span> <span class="kn">import</span> <span class="n">AsyncResult</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">'</span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="n">ch</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s1">'tasks'</span><span class="p">,</span> <span class="n">broker</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">manage_sqrt_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">send_task</span><span class="p">(</span><span class="s1">'tasks.sqrt_task'</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">value</span><span class="p">,),</span> <span class="n">queue</span><span class="o">=</span><span class="s1">'sqrt_queue'</span><span class="p">,</span> <span class="n">routing_key</span><span class="o">=</span><span class="s1">'sqrt_queue'</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+
+
+<span class="k">def</span> <span class="nf">manage_fibo_task</span><span class="p">(</span><span class="n">value_list</span><span class="p">):</span>
+    <span class="n">async_result_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">AsyncResult</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">send_task</span><span class="p">(</span><span class="s1">'tasks.fibo_task'</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,),</span> <span class="n">queue</span><span class="o">=</span><span class="s1">'fibo_queue'</span><span class="p">,</span> <span class="n">routing_key</span><span class="o">=</span><span class="s1">'fibo_queue'</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">value_list</span><span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">async_result_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">ready</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Value [</span><span class="si">%d</span><span class="s2">] -&gt; </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Task [</span><span class="si">%s</span><span class="s2">] is not ready"</span> <span class="o">%</span> <span class="n">value</span><span class="o">.</span><span class="n">task_id</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">manage_crawl_task</span><span class="p">(</span><span class="n">url_list</span><span class="p">):</span>
+    <span class="n">async_result_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AsyncResult</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">url</span><span class="p">:</span> <span class="n">app</span><span class="o">.</span><span class="n">send_task</span><span class="p">(</span><span class="s1">'tasks.crawl_task'</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">url</span><span class="p">,),</span> <span class="n">queue</span><span class="o">=</span><span class="s1">'webcrawler_queue'</span><span class="p">,</span><span class="n">routing_key</span><span class="o">=</span><span class="s1">'webcrawler_queue'</span><span class="p">)</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">url_list</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">async_result_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">ready</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2"> -&gt; </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"The task [</span><span class="si">%s</span><span class="s2">] is not ready"</span> <span class="o">%</span> <span class="n">value</span><span class="o">.</span><span class="n">task_id</span><span class="p">)</span>
+
+<span class="n">url_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'http://www.baidu.com'</span><span class="p">,</span>
+    <span class="s1">'http://cn.bing.com'</span><span class="p">,</span>
+    <span class="s1">'http://www.qq.com'</span><span class="p">,</span>
+    <span class="s1">'http://www.github.com'</span><span class="p">,</span>
+    <span class="s1">'http://br.search.yahoo.com'</span>
+<span class="p">]</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+    <span class="c1"># print(manage_sqrt_task(4))</span>
+    <span class="c1"># print(manage_fibo_task(input_list))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">manage_crawl_task</span><span class="p">(</span><span class="n">url_list</span><span class="p">))</span>
+</code></pre></div>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月6日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月6日</span>
 </small>
 </div>
 </article>
