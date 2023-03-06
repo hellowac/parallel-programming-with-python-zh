@@ -113,9 +113,9 @@ nav:
     - 理解 Celery 的架构: chapter7/understanding_celery_architecture.md
     - 搭建环境: chapter7/setting_up_the_environment.md
     - 分派一个简单的任务: chapter7/dispatching_a_simple_task.md
-    - 使用 Celery 获取斐波那契数列项: chapter7/用Celery来获得斐波那契数列的项.md
-    - 根据任务类型定义队列: chapter7/根据任务类型定义队列.md
-    - 使用 Celery 制作分布式网络爬虫: chapter7/用Celery来构建一个分布式网络爬虫系统.md
+    - 使用 Celery 获取斐波那契数列项: chapter7/using_celery_to_obtain_a_fibonacci_series_term.md
+    - 根据任务类型定义队列: chapter7/defining_queues_by_task_types.md
+    - 使用 Celery 制作分布式网络爬虫: chapter7/using_celery_to_make_a_distributed_web_crawler.md
     - 小结: chapter7/总结.md
   - 第八章 异步编程:
     - chapter8/index.md
