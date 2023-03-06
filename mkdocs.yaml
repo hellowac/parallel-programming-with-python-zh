@@ -104,8 +104,8 @@ nav:
     - chapter6/index.md
     - 理解进程间通信: chapter6/understanding_interprocess_communication.md
     - 了解Parallel Python(PP): chapter6/discovering_pp.md 
-    - 在SMP架构上使用PP计算斐波那契序列: chapter6/在SMP架构上使用pp模块计算斐波那契序列.md
-    - 使用PP创建分布式的网络爬虫: chapter6/使用pp模块创建分布式网络爬虫.md
+    - 在SMP架构上使用PP计算斐波那契序列: chapter6/using_pp_to_calculate_the_fibonacci_series_term_on_smp_architecture.md
+    - 使用PP创建分布式的网络爬虫: chapter6/using_pp_to_make_a_distributed_web_crawler.md
     - 小结: chapter6/总结.md
   - 第七章 使用Celery分发任务:
     - chapter7/index.md

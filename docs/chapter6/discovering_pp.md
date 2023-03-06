@@ -16,7 +16,7 @@ PP模块有两种方式来执行并行代码. 第一种方式基于SMP架构,即
 在PP的API中有一个名为Server的类,使用该类可以实现在本地和远程的进程间封装和分派任务. Server的构造函数(\__init\__)中有几个参数比较重要:
 
 - **ncpus**: 该参数用于指定执行任务的工作进程数量. 若没有指定该参数,则会自动根据机器上处理器/核心的数量来创建工作进程的总数,以优化资源的使用。
-- **ppservers**: 该参数是一个元组,该元组的元素为并行Python执行服务器(PPES)的名称或IP地址. 一个PPES由连入网络的机器组成. 且该机器通过`ppsever.py`共组运行并等待待执行的任务. 其他参数的说明请参阅<http://www.parallelpython.com/content/view/15/30/>
+- **ppservers**: 该参数是一个元组,该元组的元素为**并行Python执行服务器**(Parallel Python Execution Servers - PPES)的名称或IP地址. 一个PPES由连入网络的机器组成. 且该机器通过`ppsever.py`共组运行并等待待执行的任务. 其他参数的说明请参阅<http://www.parallelpython.com/content/view/15/30/>
 
     `Server`类的实例拥有很多方法,其中`submit`方法允许我们分配任务到各个工作进程. `submit`函数具有如下签名:
 
