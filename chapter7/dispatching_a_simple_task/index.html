@@ -5,12 +5,12 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../discovering_pp/" rel="prev"/>
-<link href="../%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E5%88%9B%E5%BB%BA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/" rel="next"/>
+<link href="../setting_up_the_environment/" rel="prev"/>
+<link href="../%E7%94%A8Celery%E6%9D%A5%E8%8E%B7%E5%BE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%9A%84%E9%A1%B9/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
-<title>在SMP架构上使用PP计算斐波那契序列 - python并发编程-中文版</title>
-<link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
+<title>分派一个简单的任务 - python并发编程-中文版</title>
+<link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -33,7 +33,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#smppp">
+<a class="md-skip" href="#_1">
           跳转至
         </a>
 </div>
@@ -57,7 +57,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              在SMP架构上使用PP计算斐波那契序列
+              分派一个简单的任务
             
           </span>
 </div>
@@ -339,100 +339,117 @@
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--active md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../">第六章 使用并行 Python</a>
+<a href="../../chapter6/">第六章 使用并行 Python</a>
 <label for="__nav_7">
 <span class="md-nav__icon md-icon"></span>
 </label>
 </div>
-<nav aria-expanded="true" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_7">
 <span class="md-nav__icon md-icon"></span>
           第六章 使用并行 Python
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../understanding_interprocess_communication/">
+<a class="md-nav__link" href="../../chapter6/understanding_interprocess_communication/">
         理解进程间通信
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../discovering_pp/">
+<a class="md-nav__link" href="../../chapter6/discovering_pp/">
         了解Parallel Python(PP)
       </a>
 </li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<a class="md-nav__link md-nav__link--active" href="./">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../chapter6/using_pp_to_calculate_the_fibonacci_series_term_on_smp_architecture/">
         在SMP架构上使用PP计算斐波那契序列
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E5%88%9B%E5%BB%BA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/">
+<a class="md-nav__link" href="../../chapter6/using_pp_to_make_a_distributed_web_crawler/">
         使用PP创建分布式的网络爬虫
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E6%80%BB%E7%BB%93/">
+<a class="md-nav__link" href="../../chapter6/%E6%80%BB%E7%BB%93/">
         小结
       </a>
 </li>
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter7/">第七章 使用Celery分发任务</a>
+<a href="../">第七章 使用Celery分发任务</a>
 <label for="__nav_8">
 <span class="md-nav__icon md-icon"></span>
 </label>
 </div>
-<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="true" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_8">
 <span class="md-nav__icon md-icon"></span>
           第七章 使用Celery分发任务
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E7%90%86%E8%A7%A3Celery/">
+<a class="md-nav__link" href="../understanding_celery/">
         理解 Celery
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E7%90%86%E8%A7%A3Celery%E6%9E%B6%E6%9E%84/">
+<a class="md-nav__link" href="../understanding_celery_architecture/">
         理解 Celery 的架构
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E5%BB%BA%E7%AB%8B%E7%8E%AF%E5%A2%83/">
-        建立环境
+<a class="md-nav__link" href="../setting_up_the_environment/">
+        搭建环境
       </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E5%88%86%E5%8F%91%E7%AE%80%E5%8D%95%E4%BB%BB%E5%8A%A1/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          分派一个简单的任务
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
         分派一个简单的任务
       </a>
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+    完整案例
+  </a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E7%94%A8Celery%E6%9D%A5%E8%8E%B7%E5%BE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%9A%84%E9%A1%B9/">
+<a class="md-nav__link" href="../%E7%94%A8Celery%E6%9D%A5%E8%8E%B7%E5%BE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%9A%84%E9%A1%B9/">
         使用 Celery 获取斐波那契数列项
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E6%A0%B9%E6%8D%AE%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E9%98%9F%E5%88%97/">
+<a class="md-nav__link" href="../%E6%A0%B9%E6%8D%AE%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E9%98%9F%E5%88%97/">
         根据任务类型定义队列
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E7%94%A8Celery%E6%9D%A5%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%B3%BB%E7%BB%9F/">
+<a class="md-nav__link" href="../%E7%94%A8Celery%E6%9D%A5%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%B3%BB%E7%BB%9F/">
         使用 Celery 制作分布式网络爬虫
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E6%80%BB%E7%BB%93/">
+<a class="md-nav__link" href="../%E6%80%BB%E7%BB%93/">
         小结
       </a>
 </li>
@@ -485,65 +502,164 @@
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
 <nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_2">
+    完整案例
+  </a>
+</li>
+</ul>
 </nav>
 </div>
 </div>
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="smppp">在SMP架构上使用pp模块计算斐波那契序列</h1>
-<p>是时候开始行动了！ 让我们解决涉及在 SMP 架构中使用 PP 的多个输入的斐波那契数列的案例研究。 我正在使用配备双核处理器和四个线程的笔记本电脑。</p>
-<p>我们将为这个实现只导入两个模块，<code>os</code> 和 <code>pp.os</code> 模块将仅用于获取正在执行的进程的 <code>PID</code>。 我们将有一个名为 <code>input_list</code> 的列表，其中包含要计算的值和一个用于对结果进行分组的字典，我们将其称为 <code>result_dict</code>。 然后，我们转到代码块如下：</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">pp</span>
-<span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
-<span class="n">result_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<h1 id="_1">分发简单任务</h1>
+<p>在之前，我们已经建立好环境。下面测试一下环境，发送一个计算平方根的任务。</p>
+<p>定义任务模块<code>tasks.py</code>。在开始，导入必须的模块。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">celery</span> <span class="kn">import</span> <span class="n">Celery</span>
 </code></pre></div>
-<p>然后，我们定义一个名为 <code>fibo_task</code> 的函数，它将由并行进程执行。 它将是我们通过 <code>Server</code> 类的提交方法传递的 <code>func</code> 参数。 该函数与前几章相比没有重大变化，除了现在通过使用元组封装参数中接收的值以及包含 <code>PID</code> 和计算的 <code>Fibonacci</code> 项的消息来完成返回。 看看下面的完整函数：</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">fibo_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>    
-    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>     
-    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>         
-        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>     
-        <span class="n">message</span> <span class="o">=</span> <span class="s2">"the fibonacci calculated by pid </span><span class="si">%d</span><span class="s2"> was </span><span class="si">%d</span><span class="s2">"</span> \         
-        <span class="o">%</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">a</span><span class="p">)</span>     
+<p>然后，创建<code>Celery</code>实例，代表客户端应用：</p>
+<div class="highlight"><pre><span></span><code><span class="n">app</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s1">'tasks'</span><span class="p">,</span> <span class="n">broker</span><span class="o">=</span><span class="s1">'redis://192.168.25.21:6379/0'</span><span class="p">)</span>
+</code></pre></div>
+<p>在初始化时我们传入了模块的名称和<code>broker</code>的地址。</p>
+<p>然后，启动<code>result backend</code>，如下：</p>
+<div class="highlight"><pre><span></span><code><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">CELERY_RESULT_BACKEND</span> <span class="o">=</span> <span class="s1">'redis://192.168.25.21:6379/0'</span>
 
-    <span class="k">return</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+<span class="c1"># 较新的版本(v5.2.7)直接填充在celery app的初始化参数中.</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s1">'tasks'</span><span class="p">,</span> <span class="n">broker</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">)</span>
 </code></pre></div>
-<p>下一步是定义我们的回调函数，我们将其称为 <code>aggregate_results</code>。 一旦 <code>fibo_task</code> 函数返回其执行结果，就会调用回调函数。 它的实现非常简单，只显示一条状态消息，随后在 <code>result_dict</code> 中生成一个输入，其中包含传递给 <code>fibo_dict</code> 函数的值作为键，结果是计算斐波那契项的过程返回的消息。 以下代码是<code>aggregate_results</code>函数的完整实现：</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">aggregate_results</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>    
-    <span class="nb">print</span> <span class="s2">"Computing results with PID [</span><span class="si">%d</span><span class="s2">]"</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span>
-    <span class="n">result_dict</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<p>用<code>@app.tack</code>装饰器定义任务：</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">task</span>
+<span class="k">def</span> <span class="nf">sqrt_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 </code></pre></div>
-<p>现在，我们有两个函数要定义。 我们必须创建一个实例用于分派任务的服务器类。 以下代码行创建一个服务器实例：</p>
-<div class="highlight"><pre><span></span><code><span class="n">job_server</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Server</span><span class="p">()</span>
+<p>到此，我们完成了<code>tasks.py</code>模块的定义，我们需要初始化服务端的<code>workers</code>。我们创建了一个单独的目录叫做<code>8397_07_broker</code>。拷贝<code>tasks.py</code>模块到这个目录，运行如下命令：</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$celery</span><span class="w"> </span>–A<span class="w"> </span>tasks<span class="w"> </span>worker<span class="w"> </span>–-loglevel<span class="o">=</span>INFO
 </code></pre></div>
-<p>在前面的示例中，我们使用标准值作为参数。 在下一节中，我们将使用一些可用的参数。</p>
-<p>现在我们有了 <code>Server</code> 类的一个实例，让我们迭代 <code>input_list</code> 的每个值，通过提交调用分派 <code>fibo_task</code> 函数，将需要导入的模块作为参数传递给 <code>args</code> 元组中的输入值，以便函数 正确执行并且回调注册 <code>aggregate_results</code>。 参考以下代码块：</p>
-<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">:</span>    
-    <span class="n">job_server</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">fibo_task</span><span class="p">,</span> <span class="p">(</span><span class="n">item</span><span class="p">,),</span> <span class="n">modules</span><span class="o">=</span><span class="p">(</span><span class="s1">'os'</span><span class="p">,),</span>          
-        <span class="n">callback</span><span class="o">=</span><span class="n">aggregate_results</span><span class="p">)</span>
+<p>上述命令初始化了<strong>Clery Server</strong>，<code>—A</code>代表<code>Celery</code>应用。下图是初始化的部分截图</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$#</span><span class="w"> </span>celery<span class="w"> </span>-A<span class="w"> </span>tasks<span class="w"> </span>worker<span class="w">  </span>--loglevel<span class="o">=</span>INFO
+/opt/celery_env/lib/python3.9/site-packages/celery/platforms.py:840:<span class="w"> </span>SecurityWarning:<span class="w"> </span>You<span class="err">'</span>re<span class="w"> </span>running<span class="w"> </span>the<span class="w"> </span>worker<span class="w"> </span>with<span class="w"> </span>superuser<span class="w"> </span>privileges:<span class="w"> </span>this<span class="w"> </span>is
+absolutely<span class="w"> </span>not<span class="w"> </span>recommended!
+
+Please<span class="w"> </span>specify<span class="w"> </span>a<span class="w"> </span>different<span class="w"> </span>user<span class="w"> </span>using<span class="w"> </span>the<span class="w"> </span>--uid<span class="w"> </span>option.
+
+User<span class="w"> </span>information:<span class="w"> </span><span class="nv">uid</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">euid</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">gid</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">egid</span><span class="o">=</span><span class="m">0</span>
+
+<span class="w">  </span>warnings.warn<span class="o">(</span>SecurityWarning<span class="o">(</span>ROOT_DISCOURAGED.format<span class="o">(</span>
+
+<span class="w"> </span>--------------<span class="w"> </span>celery@ch1.nauu.com<span class="w"> </span>v5.2.7<span class="w"> </span><span class="o">(</span>dawn-chorus<span class="o">)</span>
+---<span class="w"> </span>*****<span class="w"> </span>-----
+--<span class="w"> </span>*******<span class="w"> </span>----<span class="w"> </span>Linux-3.10.0-957.el7.x86_64-x86_64-with-glibc2.17<span class="w"> </span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">16</span>:12:10
+-<span class="w"> </span>***<span class="w"> </span>---<span class="w"> </span>*<span class="w"> </span>---
+-<span class="w"> </span>**<span class="w"> </span>----------<span class="w"> </span><span class="o">[</span>config<span class="o">]</span>
+-<span class="w"> </span>**<span class="w"> </span>----------<span class="w"> </span>.&gt;<span class="w"> </span>app:<span class="w">         </span>tasks:0x7fe5cbea9b80
+-<span class="w"> </span>**<span class="w"> </span>----------<span class="w"> </span>.&gt;<span class="w"> </span>transport:<span class="w">   </span>redis://localhost:6379/0
+-<span class="w"> </span>**<span class="w"> </span>----------<span class="w"> </span>.&gt;<span class="w"> </span>results:<span class="w">     </span>redis://localhost/0
+-<span class="w"> </span>***<span class="w"> </span>---<span class="w"> </span>*<span class="w"> </span>---<span class="w"> </span>.&gt;<span class="w"> </span>concurrency:<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">(</span>prefork<span class="o">)</span>
+--<span class="w"> </span>*******<span class="w"> </span>----<span class="w"> </span>.&gt;<span class="w"> </span>task<span class="w"> </span>events:<span class="w"> </span>OFF<span class="w"> </span><span class="o">(</span><span class="nb">enable</span><span class="w"> </span>-E<span class="w"> </span>to<span class="w"> </span>monitor<span class="w"> </span>tasks<span class="w"> </span><span class="k">in</span><span class="w"> </span>this<span class="w"> </span>worker<span class="o">)</span>
+---<span class="w"> </span>*****<span class="w"> </span>-----
+<span class="w"> </span>--------------<span class="w"> </span><span class="o">[</span>queues<span class="o">]</span>
+<span class="w">                </span>.&gt;<span class="w"> </span>celery<span class="w">           </span><span class="nv">exchange</span><span class="o">=</span>celery<span class="o">(</span>direct<span class="o">)</span><span class="w"> </span><span class="nv">key</span><span class="o">=</span>celery
+
+
+<span class="o">[</span>tasks<span class="o">]</span>
+<span class="w">  </span>.<span class="w"> </span>tasks.square_root
+
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">16</span>:12:10,866:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>Connected<span class="w"> </span>to<span class="w"> </span>redis://localhost:6379/0
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">16</span>:12:10,871:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>mingle:<span class="w"> </span>searching<span class="w"> </span><span class="k">for</span><span class="w"> </span>neighbors
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">16</span>:12:11,897:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>mingle:<span class="w"> </span>all<span class="w"> </span>alone
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">16</span>:12:11,929:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>celery@ch1.nauu.com<span class="w"> </span>ready.
 </code></pre></div>
-<p>最后，我们必须等到所有派发的任务结束。 因此，我们可以使用<code>Server</code>类的<code>wait</code>方法，如下：</p>
-<div class="highlight"><pre><span></span><code><span class="n">job_server</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-</code></pre></div>
+<p>现在，<strong>Celery Server</strong>等待接收任务并且发送给<code>workers</code>。</p>
+<p>下一步就是在客户端创建应用调用<code>tasks</code>。</p>
 <div class="admonition info">
-<p>除了使用回调函数之外，还有另一种方法可以获得已执行函数的返回值。 <code>submit</code> 方法返回一个对象类型，<code>pp._Task</code>，当执行结束时，它包含了执行的结果。</p>
+<p>上述步骤不能忽略，因为下面会用在之前创建的东西。</p>
 </div>
-<p>最后，我们将通过字典迭代打印条目的结果，如下所示：</p>
-<div class="highlight"><pre><span></span><code><span class="nb">print</span> <span class="s2">"Main process PID [</span><span class="si">%d</span><span class="s2">]"</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span> 
-<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">result_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>    
-    <span class="nb">print</span> <span class="s2">"For input </span><span class="si">%d</span><span class="s2">, </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+<p>在客户端机器，我们有<strong>celery_env</strong>虚拟环境，现在创建一个<code>task_dispatcher.py</code>模块很简单，如下步骤；</p>
+<ol>
+<li>
+<p>导入logging模块来显示程序执行信息，导入Celery模块：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">celery</span> <span class="kn">import</span> <span class="n">Celery</span>
 </code></pre></div>
-<p>以下屏幕截图说明了程序的输出：</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/6-01.png"><img alt="1" src="../../imgs/6-01.png"/></a></p>
+</li>
+<li>
+<p>下一步是创建Celery实例，和服务端一样：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#logger configuration...</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s1">'tasks'</span><span class="p">,</span> <span class="n">broker</span><span class="o">=</span><span class="s1">'redis://192.168.25.21:6379/0'</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">CELERY_RESULT_BACKEND</span> <span class="o">=</span> <span class="s1">'redis://192.168.25.21:6397/0'</span>
+</code></pre></div>
+</li>
+</ol>
+<p>由于我们在接下的内容中要复用这个模块来实现任务的调用，下面我们创建一个方法来封装<code>sqrt_task(value)</code>的发送，我们将创建<code>manage_sqrt_task(value)</code>方法：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">manage_sqrt_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">send_task</span><span class="p">(</span><span class="s1">'tasks.sqrt_task'</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">value</span><span class="p">,))</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+</code></pre></div>
+<p>从上述代码我们发现客户端应用不需要知道服务端的实现。通过<strong>Celery</strong>类中的<code>send_task</code>方法，我们传入<code>module.task</code>格式的字符串和以元组的方式传入参数就可以调用一个任务。最后，我们看一看<code>log</code>中的结果。
+在<code>__main__</code>中，我们调用了<code>manage_sqrt_task(value)</code>方法：</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">manage_sqrt_task</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</code></pre></div>
+<p>下面的截图是执行<code>task_dispatcher.py</code>文件的结果：</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">16</span>:18:45,481:<span class="w"> </span>INFO/MainProcess<span class="o">]</span><span class="w"> </span>Task<span class="w"> </span>tasks.sqrt_task<span class="o">[</span>3ecab729-f1cb-4f29-bb47-b713b2e563ed<span class="o">]</span><span class="w"> </span>received
+<span class="o">[</span><span class="m">2023</span>-03-06<span class="w"> </span><span class="m">16</span>:18:45,500:<span class="w"> </span>INFO/ForkPoolWorker-2<span class="o">]</span><span class="w"> </span>Task<span class="w"> </span>tasks.sqrt_task<span class="o">[</span>3ecab729-f1cb-4f29-bb47-b713b2e563ed<span class="o">]</span><span class="w"> </span>succeeded<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.015412827953696251s:<span class="w"> </span><span class="m">2</span>.0
+</code></pre></div>
+<p>在客户端，通过<code>get()</code>方法得到结果，这是通过<code>send_task()</code>返回的<code>AsyncResult</code>实例中的重要特征。结果如下图：</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$#</span><span class="w"> </span>python<span class="w"> </span>task_dispatcher.py
+<span class="m">2023</span>-03-06<span class="w"> </span><span class="m">16</span>:26:05,841<span class="w"> </span>-<span class="w"> </span><span class="m">2</span>.0
+</code></pre></div>
+<h2 id="_2">完整案例</h2>
+<p><code>tasks.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">celery</span> <span class="kn">import</span> <span class="n">Celery</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s1">'tasks'</span><span class="p">,</span> <span class="n">broker</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">)</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">task</span>
+<span class="k">def</span> <span class="nf">sqrt_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div>
+<p><code>task_dispatcher.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">celery</span> <span class="kn">import</span> <span class="n">Celery</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">'</span><span class="si">%(asctime)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="n">ch</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">ch</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s1">'tasks'</span><span class="p">,</span> <span class="n">broker</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">'redis://localhost/0'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">manage_sqrt_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">send_task</span><span class="p">(</span><span class="s1">'tasks.sqrt_task'</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">value</span><span class="p">,))</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">manage_sqrt_task</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+</code></pre></div>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月6日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月6日</span>
 </small>
 </div>
 </article>

@@ -5,12 +5,12 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../" rel="prev"/>
-<link href="../%E7%90%86%E8%A7%A3Celery%E6%9E%B6%E6%9E%84/" rel="next"/>
+<link href="../discovering_pp/" rel="prev"/>
+<link href="../using_pp_to_make_a_distributed_web_crawler/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
-<title>理解 Celery - python并发编程-中文版</title>
-<link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
+<title>在SMP架构上使用PP计算斐波那契序列 - python并发编程-中文版</title>
+<link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -33,7 +33,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#celery">
+<a class="md-skip" href="#smppp">
           跳转至
         </a>
 </div>
@@ -57,7 +57,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              理解 Celery
+              在SMP架构上使用PP计算斐波那契序列
             
           </span>
 </div>
@@ -339,70 +339,38 @@
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter6/">第六章 使用并行 Python</a>
+<a href="../">第六章 使用并行 Python</a>
 <label for="__nav_7">
 <span class="md-nav__icon md-icon"></span>
 </label>
 </div>
-<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="true" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_7">
 <span class="md-nav__icon md-icon"></span>
           第六章 使用并行 Python
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/understanding_interprocess_communication/">
+<a class="md-nav__link" href="../understanding_interprocess_communication/">
         理解进程间通信
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/discovering_pp/">
+<a class="md-nav__link" href="../discovering_pp/">
         了解Parallel Python(PP)
       </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/%E5%9C%A8SMP%E6%9E%B6%E6%9E%84%E4%B8%8A%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E8%AE%A1%E7%AE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97/">
-        在SMP架构上使用PP计算斐波那契序列
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E5%88%9B%E5%BB%BA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/">
-        使用PP创建分布式的网络爬虫
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/%E6%80%BB%E7%BB%93/">
-        小结
-      </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--active md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
-<div class="md-nav__link md-nav__link--index">
-<a href="../">第七章 使用Celery分发任务</a>
-<label for="__nav_8">
-<span class="md-nav__icon md-icon"></span>
-</label>
-</div>
-<nav aria-expanded="true" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_8">
-<span class="md-nav__icon md-icon"></span>
-          第七章 使用Celery分发任务
-        </label>
-<ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
 <label class="md-nav__link md-nav__link--active" for="__toc">
-          理解 Celery
+          在SMP架构上使用PP计算斐波那契序列
           <span class="md-nav__icon md-icon"></span>
 </label>
 <a class="md-nav__link md-nav__link--active" href="./">
-        理解 Celery
+        在SMP架构上使用PP计算斐波那契序列
       </a>
 <nav aria-label="目录" class="md-nav md-nav--secondary">
 <label class="md-nav__title" for="__toc">
@@ -411,45 +379,77 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#celery_1">
-    为什么使用Celery
+<a class="md-nav__link" href="#_1">
+    完整示例
   </a>
 </li>
 </ul>
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%90%86%E8%A7%A3Celery%E6%9E%B6%E6%9E%84/">
-        理解 Celery 的架构
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../%E5%BB%BA%E7%AB%8B%E7%8E%AF%E5%A2%83/">
-        建立环境
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../%E5%88%86%E5%8F%91%E7%AE%80%E5%8D%95%E4%BB%BB%E5%8A%A1/">
-        分派一个简单的任务
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%94%A8Celery%E6%9D%A5%E8%8E%B7%E5%BE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%9A%84%E9%A1%B9/">
-        使用 Celery 获取斐波那契数列项
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../%E6%A0%B9%E6%8D%AE%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E9%98%9F%E5%88%97/">
-        根据任务类型定义队列
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%94%A8Celery%E6%9D%A5%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%B3%BB%E7%BB%9F/">
-        使用 Celery 制作分布式网络爬虫
+<a class="md-nav__link" href="../using_pp_to_make_a_distributed_web_crawler/">
+        使用PP创建分布式的网络爬虫
       </a>
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="../%E6%80%BB%E7%BB%93/">
+        小结
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<div class="md-nav__link md-nav__link--index">
+<a href="../../chapter7/">第七章 使用Celery分发任务</a>
+<label for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+</label>
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+          第七章 使用Celery分发任务
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../chapter7/understanding_celery/">
+        理解 Celery
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../chapter7/understanding_celery_architecture/">
+        理解 Celery 的架构
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../chapter7/setting_up_the_environment/">
+        搭建环境
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../chapter7/dispatching_a_simple_task/">
+        分派一个简单的任务
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../chapter7/%E7%94%A8Celery%E6%9D%A5%E8%8E%B7%E5%BE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%9A%84%E9%A1%B9/">
+        使用 Celery 获取斐波那契数列项
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../chapter7/%E6%A0%B9%E6%8D%AE%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E9%98%9F%E5%88%97/">
+        根据任务类型定义队列
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../chapter7/%E7%94%A8Celery%E6%9D%A5%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%B3%BB%E7%BB%9F/">
+        使用 Celery 制作分布式网络爬虫
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../chapter7/%E6%80%BB%E7%BB%93/">
         小结
       </a>
 </li>
@@ -508,8 +508,8 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#celery_1">
-    为什么使用Celery
+<a class="md-nav__link" href="#_1">
+    完整示例
   </a>
 </li>
 </ul>
@@ -519,28 +519,105 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="celery">理解Celery</h1>
-<p>Celery是一个框架，该框架提供机制来简化构建分布式系统的过程。Celery框架通过在同一个网络内的机器之间交换信息来分发任务。任务(task)在Celery中是一个关键的概念，任何形式的job在分发之前都必须封装成任务。</p>
-<h2 id="celery_1">为什么使用Celery</h2>
-<p>Celery有如下优点：</p>
-<ul>
-<li>分发任务是透明的</li>
-<li>在并发worker启动时，对其改变很小</li>
-<li>支持同步、异步、周期和计划任务</li>
-<li>如果出现了错误，会重新执行任务</li>
-</ul>
-<blockquote>
-<p>很多开发者都认为同步任务和实时任务是一样的，实际上它们是完全不同的。对于实时任务，它有一个时间窗口，任务执行必须在<code>Deadline</code>之前完成。如果经过分析，任务在时间窗口内完成不了，那么它将被终止或者暂停直到下次能够完成，而同步任务是当任务执行完后才返回结果。</p>
-</blockquote>
+<h1 id="smppp">在SMP架构上使用pp模块计算斐波那契序列</h1>
+<p>是时候开始行动了！ 让我们解决涉及在 SMP 架构中使用 PP 的多个输入的斐波那契数列的案例研究。 我正在使用配备双核处理器和四个线程的笔记本电脑。</p>
+<p>我们将为这个实现只导入两个模块，<code>os</code> 和 <code>pp</code>。<code>os</code> 模块将仅用于获取正在执行的进程的 <code>PID</code>。 我们将有一个名为 <code>input_list</code> 的列表，其中包含要计算的值和一个用于对结果进行分组的字典，我们将其称为 <code>result_dict</code>。 然后，我们转到代码块如下：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">pp</span>
+
+<span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="n">result_dict</span> <span class="o">=</span> <span class="p">{}</span>
+</code></pre></div>
+<p>然后，我们定义一个名为 <code>fibo_task</code> 的函数，它将由<strong>并行进程</strong>执行。 它将是我们通过 <code>Server</code> 类的提交方法传递的 <code>func</code> 参数。 该函数与前几章相比没有重大变化，除了现在通过使用元组封装参数中接收的值以及包含 <code>PID</code> 和计算的 <code>Fibonacci</code> 项的消息来完成返回。 看看下面的完整函数：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">fibo_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>    
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>     
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>         
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>     
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">"the fibonacci calculated by pid </span><span class="si">%d</span><span class="s2"> was </span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">a</span><span class="p">)</span>     
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+</code></pre></div>
+<p>下一步是定义我们的回调函数，我们将其称为 <code>aggregate_results</code>。 一旦 <code>fibo_task</code> 函数返回其执行结果，就会调用回调函数。 它的实现非常简单，只显示一条状态消息，随后在 <code>result_dict</code> 中生成一个输入，其中包含传递给 <code>fibo_dict</code> 函数的值作为键，结果是计算斐波那契项的过程返回的消息。 以下代码是<code>aggregate_results</code>函数的完整实现：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">aggregate_results</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>    
+    <span class="nb">print</span> <span class="s2">"Computing results with PID [</span><span class="si">%d</span><span class="s2">]"</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span>
+
+    <span class="n">result_dict</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+<p>现在，我们有两个函数要定义。 我们必须创建一个 <code>Server</code> 类的实例来分派任务。 以下代码行创建一个服务器实例：</p>
+<div class="highlight"><pre><span></span><code><span class="n">job_server</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Server</span><span class="p">()</span>
+</code></pre></div>
+<p>在前面的示例中，我们使用标准值作为参数。 在下一节中，我们将使用一些可用的参数。</p>
+<p>现在我们有了 <code>Server</code> 类的一个实例，让我们迭代 <code>input_list</code> 的每个值，通过提交调用分派 <code>fibo_task</code> 函数，将需要导入的模块作为参数传递给 <code>args</code> 元组中的输入值，以便函数 正确执行并且回调注册 <code>aggregate_results</code>。 参考以下代码块：</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">:</span>    
+    <span class="n">job_server</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">fibo_task</span><span class="p">,</span> <span class="p">(</span><span class="n">item</span><span class="p">,),</span> <span class="n">modules</span><span class="o">=</span><span class="p">(</span><span class="s1">'os'</span><span class="p">,),</span>          
+        <span class="n">callback</span><span class="o">=</span><span class="n">aggregate_results</span><span class="p">)</span>
+</code></pre></div>
+<p>最后，我们必须等到所有派发的任务结束。 因此，我们可以使用<code>Server</code>类的<code>wait</code>方法，如下：</p>
+<div class="highlight"><pre><span></span><code><span class="n">job_server</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</code></pre></div>
+<div class="admonition info">
+<p>除了使用回调函数之外，还有另一种方法可以获得已执行函数的返回值。 <code>submit</code> 方法返回一个对象类型，<code>pp._Task</code>，当执行结束时，它包含了执行的结果。</p>
+</div>
+<p>最后，我们将通过字典迭代打印条目的结果，如下所示：</p>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span> <span class="s2">"Main process PID [</span><span class="si">%d</span><span class="s2">]"</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span> 
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">result_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>    
+    <span class="nb">print</span> <span class="s2">"For input </span><span class="si">%d</span><span class="s2">, </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</code></pre></div>
+<p>以下屏幕截图说明了程序的输出：</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>feibonacci_pp_smp.py<span class="w"> </span>
+Computing<span class="w"> </span>results<span class="w"> </span>with<span class="w"> </span>PID<span class="w"> </span><span class="o">[</span><span class="m">21058</span><span class="o">]</span>
+Computing<span class="w"> </span>results<span class="w"> </span>with<span class="w"> </span>PID<span class="w"> </span><span class="o">[</span><span class="m">21058</span><span class="o">]</span>
+Computing<span class="w"> </span>results<span class="w"> </span>with<span class="w"> </span>PID<span class="w"> </span><span class="o">[</span><span class="m">21058</span><span class="o">]</span>
+Computing<span class="w"> </span>results<span class="w"> </span>with<span class="w"> </span>PID<span class="w"> </span><span class="o">[</span><span class="m">21058</span><span class="o">]</span>
+Computing<span class="w"> </span>results<span class="w"> </span>with<span class="w"> </span>PID<span class="w"> </span><span class="o">[</span><span class="m">21058</span><span class="o">]</span>
+Main<span class="w"> </span>process<span class="w"> </span>PID<span class="w"> </span><span class="o">[</span><span class="m">21058</span><span class="o">]</span>
+For<span class="w"> </span>input<span class="w"> </span><span class="m">4</span>,<span class="w"> </span>the<span class="w"> </span>fibonacci<span class="w"> </span>calculated<span class="w"> </span>by<span class="w"> </span>pid<span class="w"> </span><span class="m">21059</span><span class="w"> </span>was<span class="w"> </span><span class="m">3</span>
+For<span class="w"> </span>input<span class="w"> </span><span class="m">3</span>,<span class="w"> </span>the<span class="w"> </span>fibonacci<span class="w"> </span>calculated<span class="w"> </span>by<span class="w"> </span>pid<span class="w"> </span><span class="m">21060</span><span class="w"> </span>was<span class="w"> </span><span class="m">2</span>
+For<span class="w"> </span>input<span class="w"> </span><span class="m">6</span>,<span class="w"> </span>the<span class="w"> </span>fibonacci<span class="w"> </span>calculated<span class="w"> </span>by<span class="w"> </span>pid<span class="w"> </span><span class="m">21062</span><span class="w"> </span>was<span class="w"> </span><span class="m">8</span>
+For<span class="w"> </span>input<span class="w"> </span><span class="m">8</span>,<span class="w"> </span>the<span class="w"> </span>fibonacci<span class="w"> </span>calculated<span class="w"> </span>by<span class="w"> </span>pid<span class="w"> </span><span class="m">21061</span><span class="w"> </span>was<span class="w"> </span><span class="m">21</span>
+For<span class="w"> </span>input<span class="w"> </span><span class="m">10</span>,<span class="w"> </span>the<span class="w"> </span>fibonacci<span class="w"> </span>calculated<span class="w"> </span>by<span class="w"> </span>pid<span class="w"> </span><span class="m">21065</span><span class="w"> </span>was<span class="w"> </span><span class="m">55</span>
+</code></pre></div>
+<h2 id="_1">完整示例</h2>
+<p>译者注: <code>feibonacci_pp_smp.py</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">pp</span>
+
+<span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="n">result_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">def</span> <span class="nf">fibo_task</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>    
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>     
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>         
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>     
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">"the fibonacci calculated by pid </span><span class="si">%d</span><span class="s2"> was </span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">a</span><span class="p">)</span>     
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">aggregate_results</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Computing results with PID [</span><span class="si">%d</span><span class="s2">]"</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">())</span>
+
+    <span class="n">result_dict</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">job_server</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Server</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">:</span>    
+    <span class="n">job_server</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">fibo_task</span><span class="p">,</span> <span class="p">(</span><span class="n">item</span><span class="p">,),</span> <span class="n">modules</span><span class="o">=</span><span class="p">(</span><span class="s1">'os'</span><span class="p">,),</span>       <span class="c1"># 这里增加新的模块需要添加进来。        </span>
+        <span class="n">callback</span><span class="o">=</span><span class="n">aggregate_results</span><span class="p">)</span>
+
+<span class="n">job_server</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Main process PID [</span><span class="si">%d</span><span class="s2">]"</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">result_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"For input </span><span class="si">%d</span><span class="s2">, </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+</code></pre></div>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月6日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2015年4月22日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
 </small>
 </div>
 </article>

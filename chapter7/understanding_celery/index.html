@@ -5,12 +5,12 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../%E7%90%86%E8%A7%A3Celery/" rel="prev"/>
-<link href="../%E5%BB%BA%E7%AB%8B%E7%8E%AF%E5%A2%83/" rel="next"/>
+<link href="../" rel="prev"/>
+<link href="../understanding_celery_architecture/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
-<title>理解 Celery 的架构 - python并发编程-中文版</title>
-<link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
+<title>理解 Celery - python并发编程-中文版</title>
+<link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -57,7 +57,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              理解 Celery 的架构
+              理解 Celery
             
           </span>
 </div>
@@ -364,12 +364,12 @@
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/%E5%9C%A8SMP%E6%9E%B6%E6%9E%84%E4%B8%8A%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E8%AE%A1%E7%AE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97/">
+<a class="md-nav__link" href="../../chapter6/using_pp_to_calculate_the_fibonacci_series_term_on_smp_architecture/">
         在SMP架构上使用PP计算斐波那契序列
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E5%88%9B%E5%BB%BA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/">
+<a class="md-nav__link" href="../../chapter6/using_pp_to_make_a_distributed_web_crawler/">
         使用PP创建分布式的网络爬虫
       </a>
 </li>
@@ -395,19 +395,14 @@
           第七章 使用Celery分发任务
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%90%86%E8%A7%A3Celery/">
-        理解 Celery
-      </a>
-</li>
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
 <label class="md-nav__link md-nav__link--active" for="__toc">
-          理解 Celery 的架构
+          理解 Celery
           <span class="md-nav__icon md-icon"></span>
 </label>
 <a class="md-nav__link md-nav__link--active" href="./">
-        理解 Celery 的架构
+        理解 Celery
       </a>
 <nav aria-label="目录" class="md-nav md-nav--secondary">
 <label class="md-nav__title" for="__toc">
@@ -416,35 +411,25 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#_1">
-    处理任务
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#broker">
-    消息转发(broker)
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#workers">
-    理解workers
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#result-backends">
-    理解result backends
+<a class="md-nav__link" href="#celery_1">
+    为什么使用Celery
   </a>
 </li>
 </ul>
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E5%BB%BA%E7%AB%8B%E7%8E%AF%E5%A2%83/">
-        建立环境
+<a class="md-nav__link" href="../understanding_celery_architecture/">
+        理解 Celery 的架构
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E5%88%86%E5%8F%91%E7%AE%80%E5%8D%95%E4%BB%BB%E5%8A%A1/">
+<a class="md-nav__link" href="../setting_up_the_environment/">
+        搭建环境
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../dispatching_a_simple_task/">
         分派一个简单的任务
       </a>
 </li>
@@ -523,23 +508,8 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#_1">
-    处理任务
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#broker">
-    消息转发(broker)
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#workers">
-    理解workers
-  </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#result-backends">
-    理解result backends
+<a class="md-nav__link" href="#celery_1">
+    为什么使用Celery
   </a>
 </li>
 </ul>
@@ -549,58 +519,29 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="celery">理解Celery架构</h1>
-<p>Celery架构基于可插拔组件和用<em>message transport(broker)</em>实现的消息交换机制。具体的如下图所示：</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-01.png"><img alt="1" src="../../imgs/7-01.png"/></a></p>
-<p>现在，让我们详细的介绍Celery的每个组件。</p>
-<h2 id="_1">处理任务</h2>
-<p>在上图中的<em>client</em>组件，有创建和分派任务到brokers的方法。</p>
-<p>分析如下示例代码来演示通过使用<code>@app.task</code>装饰器来定义一个任务，它可以被一个<strong>Celery</strong>应用的实例访问，下面代码展示了一个简单的<code>Hello World app</code>：</p>
-<div class="highlight"><pre><span></span><code> <span class="nd">@app</span><span class="o">.</span><span class="n">task</span>
- <span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
-  <span class="k">return</span> <span class="s2">"Hello I'm a celery task"</span>
-</code></pre></div>
-<div class="admonition info">
-<p>任何可以被调用的方法或对象都可以成为任务 (Any callable can be a task.)</p>
-</div>
-<p>正如我们之前所说，有各种类型的任务：同步、异步、周期和计划任务。当我们调用任务，它返回类型AsyncResult的实例。AsyncResult对象中可以查看任务状态，当任务结束后可以查看返回结果。然而，为了利用这个机制，另一个叫做<em>result backend</em>的组件必须启动，这将在本章的后面讲解。为了分派任务，我们可以用下面这些方法：</p>
+<h1 id="celery">理解Celery</h1>
+<p><strong>Celery</strong> 是一个框架，该框架提供机制来简化构建分布式系统的过程。 Celery 框架通过在作为网络互连的机器或本地网络之间交换消息来使用<strong>工作单元</strong>（tasks）分布的概念。 任务是 <strong>Celery</strong> 中的关键概念； 我们必须分发的任何类型的工作都必须事先封装在任务中。</p>
+<h2 id="celery_1">为什么使用Celery</h2>
+<p>它以透明的方式在分布在 Internet 上的工作人员或本地工作人员之间分配任务</p>
+<p>Celery有如下优点：</p>
 <ul>
-<li><code>delay(arg, kwarg=value)</code> : 它会调用<code>apply_aync</code>方法。</li>
-<li><code>apply_async((arg,), {'kwarg': value})</code> : 该方法可以为任务设置很多参数，一些参数如下。</li>
-<li><code>countdown</code> : 默认任务是立即执行，该参数设置经过<code>countdown</code>秒之后执行。</li>
-<li><code>expires</code> : 代表经过多长时间终止。</li>
-<li><code>retry</code> : 如果连接或者发送任务失败，该参数可是重试。</li>
-<li><code>queue</code> : 任务队列。</li>
-<li><code>serializer</code> : 数据格式，其他还有json、yaml等等</li>
-<li><code>link</code> : 连接一个或多个即将执行的任务。</li>
-<li><code>link_error</code> : 连接一个或多个执行失败的任务。</li>
-<li><code>apply((arg,), {'kwarg': value})</code> : 在本地进程以同步的方式执行任务，因而阻塞直到结果就绪。</li>
+<li>它以透明的方式在网络上分布的worker或本地网络之间分配任务</li>
+<li>它通过设置（进程、线程、Gevent、Eventlet）以一种简单的方式改变了worker的并发性</li>
+<li>支持同步、异步、周期、定时任务</li>
+<li>它会在出现错误时重新执行任务</li>
 </ul>
 <div class="admonition info">
-<p>Celery 提供了查看任务状态的机制，这在跟踪进程的真实状态非常有用。更多的关于内建任务状态的资料请查看<a href="http://celery.readthedocs.org/en/latest/reference/celery.states.html">http://celery.readthedocs.org/en/latest/reference/celery.states.html</a></p>
+<p>很多开发者都认为<strong>同步任务</strong>(synchronous tasks)和<strong>实时任务</strong>(real-time tasks)是一样的，实际上它们是完全不同的。对于<strong>实时任务</strong>，它有一个时间窗口，任务执行必须在<code>Deadline</code>之前完成。如果经过分析，任务在时间窗口内完成不了，那么它将被终止或者暂停直到下次能够完成，而<strong>同步任务</strong>是当任务执行完后才返回结果。</p>
 </div>
-<h2 id="broker">消息转发(broker)</h2>
-<p><code>broker</code>是<strong>Celery</strong>中的核心组件，通过<code>broker</code>可以发送和接受消息，来完成和<code>workers</code>的通信。<strong>Celery</strong>支持大量的<code>brokers</code>。然而，对于某些<code>broker</code>，不是所有的<strong>Celery</strong>机制都实现了。实现功能最全的是<strong>RabbitMQ</strong>和<strong>Redis</strong>。在本书中，我们将采用<strong>Redis</strong>作为<code>broker</code>。<code>broker</code>提供在不同客户端应用之间通信的方法，客户端应用发送任务，<code>workers</code>执行任务。可以有多台带有<code>broker</code>的机器等待接收消息，然后发送消息给<code>workers</code>。</p>
-<h2 id="workers">理解workers</h2>
-<p><code>Workers</code>负责执行接收到的任务。<strong>Celery</strong>提供了一系列的机制，我们可以选择最合适的方式来控制<code>workers</code>的行为。这些机制如下：</p>
-<ul>
-<li><strong>并发模式</strong>(Concurrency mode)：例如进程、线程、协程(Eventlet)和Gevent</li>
-<li><strong>远程控制</strong>(Remote control)：利用该机制，可以通过高优先级队列发送消息到某个特定的worker来改变行为，包括runtime。</li>
-<li><strong>撤销任务</strong>(Revoking tasks)：利用该机制，可以指挥一个或多个workers来忽略一个或多个任务。</li>
-</ul>
-<p>更多的特性可以在运行时设定或者改变。比如，<strong>worker</strong>在某一段时间执行的任务数，<strong>worker</strong>在哪个队列消费等等。关于<strong>worker</strong>更多的信息可以参考  <a href="http://docs.celeryproject.org/en/latest/userguide/workers.html#remote-control" target="_blank">http://docs.celeryproject.org/en/latest/userguide/workers.html#remote-control</a></p>
-<h2 id="result-backends">理解result backends</h2>
-<p><strong>Result backend</strong>组件存储任务的状态和任务返回给客户端应用的结果。<strong>Celery</strong>支持的<strong>result backend</strong>之中，比较出彩的有 <strong>RabbitMQ</strong>, <strong>Redis</strong>, <strong>MongoDB</strong>, <strong>Memcached</strong>。每个<strong>result backend</strong>都有各自的优缺点，详见  <a href="http://docs.celeryproject.org/en/latest/userguide/tasks.html#task-result-backends" target="_blank">http://docs.celeryproject.org/en/latest/userguide/tasks.html#task-result-backends</a></p>
-<p>现在，我们对<strong>Celery</strong>架构有了一个大概的认识。下面我们建立一个开发环境来实现一些例子。</p>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月6日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月6日</span>
 </small>
 </div>
 </article>

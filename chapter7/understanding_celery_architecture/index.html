@@ -5,12 +5,12 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../%E5%9C%A8SMP%E6%9E%B6%E6%9E%84%E4%B8%8A%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E8%AE%A1%E7%AE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97/" rel="prev"/>
-<link href="../%E6%80%BB%E7%BB%93/" rel="next"/>
+<link href="../understanding_celery/" rel="prev"/>
+<link href="../setting_up_the_environment/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
-<title>使用PP创建分布式的网络爬虫 - python并发编程-中文版</title>
-<link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
+<title>理解 Celery 的架构 - python并发编程-中文版</title>
+<link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -33,7 +33,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#pp">
+<a class="md-skip" href="#celery">
           跳转至
         </a>
 </div>
@@ -57,7 +57,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              使用PP创建分布式的网络爬虫
+              理解 Celery 的架构
             
           </span>
 </div>
@@ -339,100 +339,132 @@
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--active md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../">第六章 使用并行 Python</a>
+<a href="../../chapter6/">第六章 使用并行 Python</a>
 <label for="__nav_7">
 <span class="md-nav__icon md-icon"></span>
 </label>
 </div>
-<nav aria-expanded="true" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_7">
 <span class="md-nav__icon md-icon"></span>
           第六章 使用并行 Python
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../understanding_interprocess_communication/">
+<a class="md-nav__link" href="../../chapter6/understanding_interprocess_communication/">
         理解进程间通信
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../discovering_pp/">
+<a class="md-nav__link" href="../../chapter6/discovering_pp/">
         了解Parallel Python(PP)
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E5%9C%A8SMP%E6%9E%B6%E6%9E%84%E4%B8%8A%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E8%AE%A1%E7%AE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97/">
+<a class="md-nav__link" href="../../chapter6/using_pp_to_calculate_the_fibonacci_series_term_on_smp_architecture/">
         在SMP架构上使用PP计算斐波那契序列
       </a>
 </li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<a class="md-nav__link md-nav__link--active" href="./">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../chapter6/using_pp_to_make_a_distributed_web_crawler/">
         使用PP创建分布式的网络爬虫
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E6%80%BB%E7%BB%93/">
+<a class="md-nav__link" href="../../chapter6/%E6%80%BB%E7%BB%93/">
         小结
       </a>
 </li>
 </ul>
 </nav>
 </li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
 <div class="md-nav__link md-nav__link--index">
-<a href="../../chapter7/">第七章 使用Celery分发任务</a>
+<a href="../">第七章 使用Celery分发任务</a>
 <label for="__nav_8">
 <span class="md-nav__icon md-icon"></span>
 </label>
 </div>
-<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<nav aria-expanded="true" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="__nav_8">
 <span class="md-nav__icon md-icon"></span>
           第七章 使用Celery分发任务
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E7%90%86%E8%A7%A3Celery/">
+<a class="md-nav__link" href="../understanding_celery/">
         理解 Celery
       </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E7%90%86%E8%A7%A3Celery%E6%9E%B6%E6%9E%84/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          理解 Celery 的架构
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
         理解 Celery 的架构
       </a>
+<nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+    处理任务
+  </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E5%BB%BA%E7%AB%8B%E7%8E%AF%E5%A2%83/">
-        建立环境
+<a class="md-nav__link" href="#broker">
+    理解消息转发(broker)
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#workers">
+    理解workers
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#result-backends">
+    理解result backends
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../setting_up_the_environment/">
+        搭建环境
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E5%88%86%E5%8F%91%E7%AE%80%E5%8D%95%E4%BB%BB%E5%8A%A1/">
+<a class="md-nav__link" href="../dispatching_a_simple_task/">
         分派一个简单的任务
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E7%94%A8Celery%E6%9D%A5%E8%8E%B7%E5%BE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%9A%84%E9%A1%B9/">
+<a class="md-nav__link" href="../%E7%94%A8Celery%E6%9D%A5%E8%8E%B7%E5%BE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%9A%84%E9%A1%B9/">
         使用 Celery 获取斐波那契数列项
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E6%A0%B9%E6%8D%AE%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E9%98%9F%E5%88%97/">
+<a class="md-nav__link" href="../%E6%A0%B9%E6%8D%AE%E4%BB%BB%E5%8A%A1%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E9%98%9F%E5%88%97/">
         根据任务类型定义队列
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E7%94%A8Celery%E6%9D%A5%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%B3%BB%E7%BB%9F/">
+<a class="md-nav__link" href="../%E7%94%A8Celery%E6%9D%A5%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E7%B3%BB%E7%BB%9F/">
         使用 Celery 制作分布式网络爬虫
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter7/%E6%80%BB%E7%BB%93/">
+<a class="md-nav__link" href="../%E6%80%BB%E7%BB%93/">
         小结
       </a>
 </li>
@@ -485,97 +517,90 @@
 <div class="md-sidebar__scrollwrap">
 <div class="md-sidebar__inner">
 <nav aria-label="目录" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#_1">
+    处理任务
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#broker">
+    理解消息转发(broker)
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#workers">
+    理解workers
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#result-backends">
+    理解result backends
+  </a>
+</li>
+</ul>
 </nav>
 </div>
 </div>
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="pp">使用PP创建分布式网络爬虫</h1>
-<p>目前我们已经使用pp组件在本机上实现多进程并发，接下来我们将在分布式环境下使用pp组件，分布式硬件环境如下：</p>
+<h1 id="celery">理解Celery架构</h1>
+<p>Celery架构基于<strong>可插拔组件</strong>(pluggable components)和根据选择的<strong>消息传输</strong>（代理）(message transport(broker))协议实现的消息交换机制。下图说明了这一点：</p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-01.png"><img alt="1" src="../../imgs/7-01.png"/></a></p>
+<p>现在，让我们详细的介绍Celery的每个组件。</p>
+<h2 id="_1">处理任务</h2>
+<p>在上图中的<em>client</em>组件，有创建和分派任务到brokers的方法。</p>
+<p>分析如下示例代码来演示通过使用<code>@app.task</code>装饰器来定义一个任务，它可以被一个<strong>Celery</strong>应用的实例访问，下面代码展示了一个简单的<code>Hello World app</code>：</p>
+<div class="highlight"><pre><span></span><code> <span class="nd">@app</span><span class="o">.</span><span class="n">task</span>
+ <span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+  <span class="k">return</span> <span class="s2">"Hello I'm a celery task"</span>
+</code></pre></div>
+<div class="admonition info">
+<p>任何可执行的方法或对象都可以成为任务 (Any callable can be a task.)</p>
+</div>
+<p>正如我们前面提到的，有几种类型的任务：<code>同步</code>、<code>异步</code>、<code>定期</code>和<code>计划</code>。 当我们执行任务调用时，它会返回一个 <code>AsyncResult</code> 类型的实例。 <code>AsyncResult</code> 对象是一个对象，它允许检查任务状态、它的结束，并且很明显，它在存在时返回。 但是，要使用此机制，另一个组件（结果后端）必须处于活动状态。 这将在本章中进一步解释。 要分派任务，我们应该使用任务的以下一些方法：</p>
 <ul>
-<li>Iceman-Thinkpad-X220: Ubuntu 13.10</li>
-<li>Iceman-Q47OC-500P4C： Ubuntu 12.04 LTS</li>
-<li>Asgard-desktop: Elementary OS</li>
+<li><code>delay(arg, kwarg=value)</code> : 这是调用 <code>apply_async</code> 方法的快捷方式。</li>
+<li><code>apply_async((arg,), {'kwarg': value})</code> : 这允许为任务的执行设置一系列有趣的参数。 其中一些如下：</li>
+<li><code>countdown</code> : 默认任务是立即执行，该参数设置经过<code>countdown</code>秒之后执行。</li>
+<li><code>expires</code> : 代表经过多长时间终止。</li>
+<li><code>retry</code> : 此参数决定在连接或发送任务失败的情况下，是否必须重新发送。</li>
+<li><code>queue</code> : 该任务所处的任务队列。</li>
+<li><code>serializer</code> : 这表示磁盘中任务序列化的数据格式，一些示例包括 json、yaml 等。</li>
+<li><code>link</code> : 如果发送的任务成功执行，这将链接一个或多个要执行的任务。</li>
+<li><code>link_error</code> : 这将在任务执行失败的情况下链接一个或多个要执行的任务。</li>
+<li><code>apply((arg,), {'kwarg': value})</code> : 这会以同步方式在本地进程中执行任务，从而阻塞直到结果准备就绪为止。</li>
 </ul>
-<p>我们将在如上列举的三台机器上测试pp组件在分布式环境下的使用。对此，我们实现了分布式网络爬虫。<code>web_crawler_pp_cluster.py</code>方法中，将<code>input_list</code>列举的URL分发到本地以及远端进程执行，<code>web_crawler_pp_cluster.py</code>中的回调函数将组织这些URL以及以及通过它们找到的前三个连接(URL)。</p>
-<p>让我们分析代码，一步步理解怎样实现上述功能。首先<code>import</code>使用到的库以及定义数据结构。然后定义<code>input_list</code>列表用于存放入口<code>URL</code>和<code>result_dict</code>存放爬取结果。代码如下所示：</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">re</span><span class="o">,</span> <span class="nn">requests</span><span class="o">,</span> 
-
-<span class="nn">ppurl_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'http://www.google.com/'</span><span class="p">,</span><span class="s1">'http://gizmodo.uol.com.br/'</span><span class="p">,</span> 
-              <span class="s1">'https://github.com/'</span><span class="p">,</span> <span class="s1">'http://br.search.yahoo.com/'</span><span class="p">,</span>    
-              <span class="s1">'http://www.python.org/'</span><span class="p">,</span><span class="s1">'http://www.python.org/psf/'</span><span class="p">]</span>
-
-<span class="n">result_dict</span> <span class="o">=</span> <span class="p">{}</span>
-</code></pre></div>
-<p>接下来分析<code>aggregate_results</code>方法，该方法还是作为回调函数，相对于前一小结的<code>aggreate_results</code>方法，改变不多。返回<code>meesage</code>的格式的发生了变化，<code>aggregate_resullt</code>方法的传入参数变成<code>tuple</code>，分别保存执行该方法的<code>PID</code>号，<code>hostname</code>和找到的前三个<code>URL</code>。代码如下：</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">aggregate_results</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>    
-    <span class="nb">print</span> <span class="s2">"Computing results in main process PID [</span><span class="si">%d</span><span class="s2">]"</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span>    
-    <span class="n">message</span> <span class="o">=</span> <span class="s2">"PID </span><span class="si">%d</span><span class="s2"> in hostname [</span><span class="si">%s</span><span class="s2">] the following links were "</span>\        
-    <span class="s2">"found: </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>    <span class="n">result_dict</span><span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">message</span>
-</code></pre></div>
-<p>接下来定义<code>crawl_task</code>方法，作为<code>Server</code>类方法。和之前章节的<code>crawl_task</code>方法功能类似，依据传入的<code>RUL</code>获取网页上的其他链接(<code>RUL</code>),唯一的不同是返回值是<code>tuple</code>，代码如下：</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">crawl_task</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>    
-    <span class="n">html_link_regex</span> <span class="o">=</span> \
-        <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">'&lt;a\s(?:.*?\s)*?href=[</span><span class="se">\'</span><span class="s1">"](.*?)[</span><span class="se">\'</span><span class="s1">"].*?&gt;'</span><span class="p">)</span>
-    <span class="n">request_data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>    
-
-    <span class="n">links</span> <span class="o">=</span> <span class="n">html_link_regex</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">request_data</span><span class="o">.</span><span class="n">text</span><span class="p">)[:</span><span class="mi">3</span><span class="p">]</span>    
-    <span class="k">return</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">links</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">uname</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
-</code></pre></div>
-<p>在<code>main</code>方法和<code>callback</code>方法定义之后，我们需要初始化<code>Server</code>类实例，以至于能够在分布式环境下执行网络爬虫任务。我们注意到<code>pp.Server</code>类有三个参数，第一个参数是执行<code>Server</code>类方法的<code>IP</code>或<code>hostname</code>，我们的例子中，除了本机之外，还需要定义另外两台机器的<code>IP</code>和<code>hostname</code>，定义如下所示：</p>
-<div class="highlight"><pre><span></span><code><span class="n">ppservers</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"192.168.25.21"</span><span class="p">,</span> <span class="s2">"192.168.25.9"</span><span class="p">)</span>
-</code></pre></div>
 <div class="admonition info">
-<p>如果您不想通知并希望自动发现可用于接收任务的机器，请在 ppservers 元组中使用 * 字符串。</p>
+<p>Celery 还提供了伴随任务状态的机制，这对于跟踪和映射处理的真实状态非常有用。 有关内置任务状态的更多信息，请访问<a href="http://celery.readthedocs.org/en/latest/reference/celery.states.html" target="_blank">http://celery.readthedocs.org/en/latest/reference/celery.states.html</a></p>
 </div>
-<p><code>pp.Server</code>类的初始化如下：</p>
-<div class="highlight"><pre><span></span><code><span class="n">job_dispatcher</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="n">Server</span><span class="p">(</span><span class="n">ncpus</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ppservers</span><span class="o">=</span><span class="n">ppservers</span><span class="p">,</span> <span class="n">socket_timeout</span><span class="o">=</span><span class="mi">60000</span><span class="p">)</span>
-</code></pre></div>
-<p>我们注意到初始化有三个参数，第一个参数不同的是被赋值为1，使得pp组件创建一个本地进程，如果需要的话，把其他任务转发到远端机器上执行。第二个参数是之前定义的<code>ppservers</code>。第三个参数定义<code>socket</code>连接超时时间，通常为了测试目的，我们把<code>timeout</code>时间设置很长，防止因为网络超时而导致<code>socket</code>连接终止。</p>
-<p><code>Server</code>类创建之后，我们将遍历<code>url_list</code>，并提交<code>crawl_task</code>方法。</p>
-<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">url_list</span><span class="p">:</span>    
-    <span class="n">job_dispatcher</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">crawl_task</span><span class="p">,</span> <span class="p">(</span><span class="n">url</span><span class="p">,),</span>        
-        <span class="n">modules</span><span class="o">=</span><span class="p">(</span><span class="s1">'os'</span><span class="p">,</span> <span class="s1">'re'</span><span class="p">,</span> <span class="s1">'requests'</span><span class="p">,),</span>            
-        <span class="n">callback</span><span class="o">=</span><span class="n">aggregate_results</span><span class="p">)</span>
-</code></pre></div>
-<p>与之前计算斐波那契数列的示例相比，重要的变化是发送执行所需的模块。</p>
-<div class="admonition info">
-<p>你一定在想为什么元组模块中没有传PP模块。 很简单; PP 执行环境已经为我们做了这个导入。 毕竟，它需要在远程节点中执行此操作。</p>
-</div>
-<p>为了完成我们的并行和分布式网络爬虫，我们必须等到执行结束才能显示它们的输出。 请注意，最后，<code>Server</code> 类的 <code>print_stats</code> 方法中有一个新元素，它显示了一些有趣的执行统计信息，如下所示：</p>
-<div class="highlight"><pre><span></span><code><span class="n">job_dispatcher</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-
-<span class="nb">print</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">Main process PID [</span><span class="si">%d</span><span class="s2">]</span><span class="se">\n</span><span class="s2">"</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span> 
-<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">result_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span> <span class="s2">"** For url </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="se">\n</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>    
-    <span class="n">job_dispatcher</span><span class="o">.</span><span class="n">print_stats</span><span class="p">()</span>
-</code></pre></div>
-<p>在执行程序之前，我们需要在远程机器上初始化 <code>ppserver.py</code> 实用程序； <code>ppserver.py –a –d</code> 是这里使用的命令，其中 <code>–a</code> 是自动发现的选项，允许未指定 <code>IP</code> 地址的客户端找到服务器。 另一个参数是 <code>-d</code>，它通过日志显示有关服务器活动如何执行的信息。</p>
-<p>接下来我们定义输出格式：</p>
-<ol>
-<li>首先，下面的屏幕显示main节点的执行信息，包括执行和分发远端任务。
-    <a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/6-02.png"><img alt="1" src="../../imgs/6-02.png"/></a></li>
-<li>然后，执行<code>ppserver.py</code>脚本，执行任务信息如下屏幕内容所示。</li>
-<li>在之前屏幕中，我们打印了有趣的统计信息，包括在远端机器上执行的任务数量，每个人物执行的时间和每个远端机器上的任务总数。截图上反应的另外一个信息是，我们应该限制<code>callback</code>函数任务量，因为<code>callback</code>函数都是在<code>main</code>节点上执行，这可能会成为成为整个系统的瓶颈，当然也取决于不同的应用场景。</li>
-<li>
-<p>下面的截图是的<code>debug</code>模式下<code>ppserver.py</code>脚本在<code>iceman-Q470C-500P4C</code>机器上的的执行日志。</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/6-03.png"><img alt="1" src="../../imgs/6-03.png"/></a></p>
-</li>
-<li>
-<p>下面截图是<code>debug</code>模式下<code>ppserver.py</code>脚本在<code>asgard-desktop</code>机器上的执行日志。
-    <a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/6-04.png"><img alt="1" src="../../imgs/6-04.png"/></a></p>
-</li>
-</ol>
+<h2 id="broker">理解消息转发(broker)</h2>
+<p><code>broker</code>绝对是 <strong>Celery</strong> 中的关键组成部分。 通过它，我们可以发送和接收消息并与<code>worker</code>沟通。 <strong>Celery</strong> 支持大量的代理。 然而，对于其中一些，并不是所有的 <code>Celery</code> 机制都得到了实现。 就功能而言最完整的是 <code>RabbitMQ</code> 和 <code>Redis</code>。 在本书中，我们将使用 <code>Redis</code> 作为<code>broker</code>和结果后端。 <code>broker</code>的功能是在发送任务的客户端应用程序和执行任务的工作线程之间提供一种通信方式。 这是通过使用任务队列完成的。 我们可以有几台带有代理的网络机器等待接收消息以供<code>workers</code>使用。</p>
+<h2 id="workers">理解workers</h2>
+<p><code>Workers</code>负责执行接收到的任务。<strong>Celery</strong>提供了一系列的机制，我们可以选择最合适的方式来控制<code>workers</code>的行为。这些机制如下：</p>
+<ul>
+<li><strong>并发模式</strong>(Concurrency mode)：例如<strong>进程</strong>、<strong>线程</strong>、<strong>协程</strong>(Eventlet)和<strong>Gevent</strong>。</li>
+<li><strong>远程控制</strong>(Remote control)：使用这种机制，可以通过高优先级队列发送消息到某个特定的<code>worker</code>来改变行为，包括在<strong>运行时</strong>(runtime)。</li>
+<li><strong>撤销任务</strong>(Revoking tasks)：使用这种机制，我们可以指示一个或多个<code>worker</code>忽略一个或多个任务的执行。</li>
+</ul>
+<p>如果需要，可以在运行时设置甚至更改更多功能。 比如<code>worker</code>在一段时间内执行的任务数，<code>worker</code>从哪个<code>queue</code>中消耗的时间最多等等。 有关<code>worker</code>的更多信息，请访问<a href="http://docs.celeryproject.org/en/latest/userguide/workers.html#remote-control" target="_blank">http://docs.celeryproject.org/en/latest/userguide/workers.html#remote-control</a></p>
+<h2 id="result-backends">理解result backends</h2>
+<p><strong>结果后端</strong>(result backend)组件的作用是存储返回给客户端应用程序的任务的状态和结果。 从 <code>Celery</code> 支持的结果后端，比较出彩的有 <code>RabbitMQ</code>、<code>Redis</code>、<code>MongoDB</code>、<code>Memcached</code> 等。 前面列出的每个<strong>结果后端</strong>(result backend)都有优点和缺点。 有关详细信息，请参阅 <a href="http://docs.celeryproject.org/en/latest/userguide/tasks.html#task-result-backends" target="_blank">http://docs.celeryproject.org/en/latest/userguide/tasks.html#task-result-backends</a>。</p>
+<p>现在，我们对 <code>Celery</code> 架构及其组件有了一个大致的了解。 因此，让我们建立一个开发环境来实现一些例子。</p>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月6日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月6日</span>
 </small>
 </div>
 </article>

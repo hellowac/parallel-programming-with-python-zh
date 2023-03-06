@@ -5,12 +5,12 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../%E7%90%86%E8%A7%A3Celery%E6%9E%B6%E6%9E%84/" rel="prev"/>
-<link href="../%E5%88%86%E5%8F%91%E7%AE%80%E5%8D%95%E4%BB%BB%E5%8A%A1/" rel="next"/>
+<link href="../understanding_celery_architecture/" rel="prev"/>
+<link href="../dispatching_a_simple_task/" rel="next"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
-<title>建立环境 - python并发编程-中文版</title>
-<link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.13" name="generator"/>
+<title>搭建环境 - python并发编程-中文版</title>
+<link href="../../assets/stylesheets/main.ffa9267a.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -57,7 +57,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              建立环境
+              搭建环境
             
           </span>
 </div>
@@ -364,12 +364,12 @@
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/%E5%9C%A8SMP%E6%9E%B6%E6%9E%84%E4%B8%8A%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E8%AE%A1%E7%AE%97%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%BA%8F%E5%88%97/">
+<a class="md-nav__link" href="../../chapter6/using_pp_to_calculate_the_fibonacci_series_term_on_smp_architecture/">
         在SMP架构上使用PP计算斐波那契序列
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../../chapter6/%E4%BD%BF%E7%94%A8pp%E6%A8%A1%E5%9D%97%E5%88%9B%E5%BB%BA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/">
+<a class="md-nav__link" href="../../chapter6/using_pp_to_make_a_distributed_web_crawler/">
         使用PP创建分布式的网络爬虫
       </a>
 </li>
@@ -396,23 +396,23 @@
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%90%86%E8%A7%A3Celery/">
+<a class="md-nav__link" href="../understanding_celery/">
         理解 Celery
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E7%90%86%E8%A7%A3Celery%E6%9E%B6%E6%9E%84/">
+<a class="md-nav__link" href="../understanding_celery_architecture/">
         理解 Celery 的架构
       </a>
 </li>
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
 <label class="md-nav__link md-nav__link--active" for="__toc">
-          建立环境
+          搭建环境
           <span class="md-nav__icon md-icon"></span>
 </label>
 <a class="md-nav__link md-nav__link--active" href="./">
-        建立环境
+        搭建环境
       </a>
 <nav aria-label="目录" class="md-nav md-nav--secondary">
 <label class="md-nav__title" for="__toc">
@@ -434,7 +434,7 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="../%E5%88%86%E5%8F%91%E7%AE%80%E5%8D%95%E4%BB%BB%E5%8A%A1/">
+<a class="md-nav__link" href="../dispatching_a_simple_task/">
         分派一个简单的任务
       </a>
 </li>
@@ -530,47 +530,87 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="_1">建立环境</h1>
-<p>在本章，我们将使用两台linux机器。第一台主机名foshan，作为客户端，执行app Celery分发的任务。另一台机器主机名Phoenix，作为broker、result backend和任务队列。</p>
+<p>在本节中，我们将在 <code>Linux</code> 中设置两台机器。 第一个，主机名 <code>foshan</code>，将执行客户端角色，应用程序 <code>Celery</code> 将在其中调度要执行的任务。 另一台主机名为 <code>Phoenix</code> 的机器将执行<strong>代理</strong>（broker）、<strong>结果后端</strong>（result backend）和worker使用的队列的角色。</p>
 <h2 id="_2">配置客户端机器</h2>
-<p>首先配置客户端机器。在这台机器上，用pyvenv建立Python3.3的虚拟环境。用pyvenv的目的是隔离每个项目的开发环境。执行以下命令能够创建虚拟环境：</p>
+<p>让我们开始设置客户端机器。 在这台机器上，我们将使用 <code>pyvenv</code> 工具设置一个 <code>Python 3.3</code> 的虚拟环境。 <code>pyvenv</code> 的目标是不使用额外的模块污染操作系统中存在的 <code>Python</code>，而是将每个项目所需的开发环境分开。 我们将执行以下命令来创建我们的虚拟环境：</p>
 <div class="highlight"><pre><span></span><code><span class="nv">$pyvenv</span><span class="w"> </span>celery_env
 </code></pre></div>
-<p>上述命令在当前路径创建一个名为celery_env的文件夹，里面包含所有Python开发环境必须的结构。下图是该目录所包含的内容：</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-02.png"><img alt="1" src="../../imgs/7-02.png"/></a></p>
-<p>在创建了虚拟环境之后，我们就可以开始工作并安装需要使用的包。然而，首先我们得激活这个环境，执行以下命名：</p>
-<div class="highlight"><pre><span></span><code><span class="nv">$source</span><span class="w"> </span>bin/activate
+<p>上述命令在当前路径创建一个名为<code>celery_env</code>的文件夹，里面包含所有Python开发环境必须的结构。下图是该目录所包含的内容：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 这里使用的最新的python venv模块</span>
+<span class="nv">$#</span><span class="w"> </span>./Python-3.9.14/python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>celery_env
+<span class="nv">$#</span><span class="w"> </span>ls<span class="w"> </span>celery_env/
+bin<span class="w">  </span>include<span class="w">  </span>lib<span class="w">  </span>lib64<span class="w">  </span>pyvenv.cfg
 </code></pre></div>
-<p>当命令行提示符改变了，例如在左边出现celery_env，就说明激活完成。所有你安装的包都只在这个目录下有效，而不是在整个系统中有效。</p>
+<p>在创建了虚拟环境之后，我们就可以开始工作并安装需要使用的包。然而，首先我们得激活这个环境，执行以下命名：</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$#</span><span class="w"> </span><span class="nb">source</span><span class="w"> </span>celery_env/bin/activate
+</code></pre></div>
+<p>当命令行提示符改变了，例如在左边出现<code>celery_env</code>，就说明激活完成。所有你安装的包都只在这个目录下有效，而不是在整个系统中有效。</p>
+<div class="highlight"><pre><span></span><code><span class="o">(</span>celery_env<span class="o">)</span><span class="w"> </span><span class="nv">$#</span><span class="w"> </span>ls<span class="w"> </span>celery_env/
+bin<span class="w">  </span>include<span class="w">  </span>lib<span class="w">  </span>lib64<span class="w">  </span>pyvenv.cfg
+</code></pre></div>
 <div class="admonition info">
 <p>用<code>--system-site-packages</code>标识可以创建能够访问系统<code>site-packages</code>的虚拟环境，但是不推荐使用。</p>
 </div>
-<p>现在，我们有一个虚拟环境，假设已经安装好了setuptools或者pip。下面为客户端安装必须的包，如下命令：</p>
+<p>现在，我们有一个虚拟环境，假设已经安装好了<code>setuptools</code>或者<code>pip</code>。下面为客户端安装必须的包，如下命令：</p>
 <div class="highlight"><pre><span></span><code><span class="nv">$pip</span><span class="w"> </span>install<span class="w"> </span>celery
 </code></pre></div>
 <p>下图是已经安装好的framework v3.1.9，将在本书中使用该版本。</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-03.png"><img alt="1" src="../../imgs/7-03.png"/></a></p>
-<p>现在我们要在Celery中安装支持的Redis，这样客户端就可以通过broker传输消息了。用如下命令：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 由于当前(2023)python2已不再支持，顾这里安装的最新版本v5.2.7</span>
+<span class="o">(</span>celery_env<span class="o">)</span><span class="w"> </span><span class="nv">$#</span><span class="w"> </span>python
+Python<span class="w"> </span><span class="m">3</span>.9.14<span class="w"> </span><span class="o">(</span>main,<span class="w"> </span>Sep<span class="w"> </span><span class="m">19</span><span class="w"> </span><span class="m">2022</span>,<span class="w"> </span><span class="m">12</span>:04:09<span class="o">)</span>
+<span class="o">[</span>GCC<span class="w"> </span><span class="m">4</span>.8.5<span class="w"> </span><span class="m">20150623</span><span class="w"> </span><span class="o">(</span>Red<span class="w"> </span>Hat<span class="w"> </span><span class="m">4</span>.8.5-44<span class="o">)]</span><span class="w"> </span>on<span class="w"> </span>linux
+Type<span class="w"> </span><span class="s2">"help"</span>,<span class="w"> </span><span class="s2">"copyright"</span>,<span class="w"> </span><span class="s2">"credits"</span><span class="w"> </span>or<span class="w"> </span><span class="s2">"license"</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>more<span class="w"> </span>information.
+&gt;&gt;&gt;<span class="w"> </span>import<span class="w"> </span>celery
+&gt;&gt;&gt;<span class="w"> </span>celery.VERSION
+version_info_t<span class="o">(</span><span class="nv">major</span><span class="o">=</span><span class="m">5</span>,<span class="w"> </span><span class="nv">minor</span><span class="o">=</span><span class="m">2</span>,<span class="w"> </span><span class="nv">micro</span><span class="o">=</span><span class="m">7</span>,<span class="w"> </span><span class="nv">releaselevel</span><span class="o">=</span><span class="s1">''</span>,<span class="w"> </span><span class="nv">serial</span><span class="o">=</span><span class="s1">''</span><span class="o">)</span>
+&gt;&gt;&gt;
+</code></pre></div>
+<p>现在我们要在<strong>Celery</strong>中安装支持的<strong>Redis</strong>，这样客户端就可以通过<code>broker</code>传输消息了。用如下命令：</p>
 <div class="highlight"><pre><span></span><code><span class="nv">$pip</span><span class="w"> </span>install<span class="w"> </span>celery<span class="o">[</span>redis<span class="o">]</span>
 </code></pre></div>
 <p>现在我们的客户端环境配置好了，在开始编码之前，我们必须配置好服务器端的环境。</p>
 <h2 id="_3">配置服务器</h2>
-<p>为了配置服务器，我们首先安装Redis，Redis将作为broker和result backend。使用如下命令：</p>
+<p>为了配置服务器，我们首先安装<strong>Redis</strong>，<strong>Redis</strong>将作为<code>broker</code>和<code>result backend</code>。使用如下命令：</p>
 <div class="highlight"><pre><span></span><code><span class="nv">$sudo</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>redis-server
 </code></pre></div>
 <p>启动Redis：</p>
 <div class="highlight"><pre><span></span><code><span class="nv">$redis</span>-server
 </code></pre></div>
 <p>如果成功，会出现类似下图中的输出</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../../imgs/7-04.png"><img alt="1" src="../../imgs/7-04.png"/></a></p>
+<div class="highlight"><pre><span></span><code>2905:C 06 Mar 15:53:46.571 * supervised by systemd, will signal readiness
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 3.2.12 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 2905
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           http://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+2905:M 06 Mar 15:53:46.574 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+2905:M 06 Mar 15:53:46.574 # Server started, Redis version 3.2.12
+2905:M 06 Mar 15:53:46.574 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+2905:M 06 Mar 15:53:46.574 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+2905:M 06 Mar 15:53:46.574 * The server is now ready to accept connections on port 6379
+</code></pre></div>
 <hr/>
 <div class="md-source-file">
 <small>
     
       最后更新:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年2月27日</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月6日</span>
 <br/>
         创建日期:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2015年4月22日</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2023年3月6日</span>
 </small>
 </div>
 </article>
